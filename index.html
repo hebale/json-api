@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>json-server</title>
+    <!-- <script type="module" src="/src/assets/script.js"></script> -->
+  </head>
+  <body>
+    <main id="app">
+      <h2>json-server</h2>
+      <form>
+        <input type="text" />
+        <input type="text" />
+        <select name="method">
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>
+          <option value="PATCH">PATCH</option>
+          <option value="DELETE">DELETE</option>
+        </select>
+      </form>
+
+      <div>
+        <button onclick="getJson()">GET JSON</button>
+        <button onclick="postJson()">POST JSON</button>
+        <button onclick="patchJson()">PATCH JSON</button>
+        <button onclick="deleteJson()">DELETE JSON</button>
+      </div>
+    </main>
+  </body>
+</html>
