@@ -6,7 +6,7 @@ import { Container } from "@mui/material";
 
 const App = () => {
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Header />
       <Body />
     </Container>

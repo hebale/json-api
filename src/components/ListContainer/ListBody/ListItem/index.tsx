@@ -5,6 +5,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -37,10 +38,18 @@ const datas = [
   },
 ];
 
+const onUpdateData = (type: string, params) => {
+  console.log(type, params);
+};
+
 const ListItem = ({ path, methods, delay, status, data }) => {
   const [expand, setExpand] = useState(true);
   const toggleAcordion = () => {
     setExpand((prev) => !prev);
+  };
+
+  const onCopyClipboard = (path: string) => {
+    navigator.clipboard.writeText(path);
   };
 
   return (
@@ -52,7 +61,10 @@ const ListItem = ({ path, methods, delay, status, data }) => {
           </IconButton>
         }
         sx={{
-          p: 1,
+          py: 1,
+          ".Mui-expanded": {
+            m: 0,
+          },
           ".MuiAccordionSummary-contentGutters": {
             m: 0,
             justifyContent: "space-between",
@@ -74,21 +86,35 @@ const ListItem = ({ path, methods, delay, status, data }) => {
           }}
         >
           {path}
-          <IconButton sx={{ p: 0, color: "#fff" }} onClick={toggleAcordion}>
-            <CopyAllIcon />
-          </IconButton>
+          <Tooltip title="Copy" placement="top" arrow>
+            <IconButton
+              sx={{ p: 0, color: "#fff" }}
+              onClick={() => onCopyClipboard(path)}
+            >
+              <CopyAllIcon />
+            </IconButton>
+          </Tooltip>
         </Stack>
         <Stack flexDirection="row">
-          <IconButton onClick={toggleAcordion}>
-            <DownloadIcon />
-          </IconButton>
-          <IconButton onClick={toggleAcordion}>
-            <UploadIcon />
-          </IconButton>
+          <Tooltip title="JSON download" placement="top" arrow>
+            <IconButton onClick={toggleAcordion}>
+              <DownloadIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="JSON upload" placement="top" arrow>
+            <IconButton onClick={toggleAcordion}>
+              <UploadIcon />
+            </IconButton>
+          </Tooltip>
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
-        <ResponseController {...{ methods }} {...{ delay }} {...{ status }} />
+        <ResponseController
+          methods={methods}
+          delay={delay}
+          status={status}
+          onUpdateData={onUpdateData}
+        />
         <CodeEditor {...{ data }} />
       </AccordionDetails>
     </Accordion>

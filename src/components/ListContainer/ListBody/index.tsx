@@ -1,7 +1,15 @@
 import React from "react";
 import ListItem from "./ListItem";
 
-const datas = [
+type DataType = {
+  path: string;
+  methods: string[];
+  delay: number[];
+  status: number[];
+  data: string;
+};
+
+const datas: DataType[] = [
   {
     path: "/user",
     methods: ["POST", "GET"],

@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import {
   Stack,
-  Chip,
   FormControl,
   InputLabel,
   OutlinedInput,
   Select,
   MenuItem,
+  Button,
   Typography,
 } from "@mui/material";
+import CodeIcon from "@mui/icons-material/Code";
+
+type InputEventFnType = (
+  event: React.ChangeEvent<HTMLInputElement>,
+  index: number
+) => void;
 
 const methodColor = {
   POST: "#49cc90",
@@ -17,19 +23,24 @@ const methodColor = {
   DELETE: "#f93e3e",
 };
 
-const ResponseController = ({ methods, delay, status }) => {
-  const [resDelay, setResDelay] = useState(delay);
-  const [resStatus, setResStatus] = useState(status);
+const inputStyle = {
+  m: 1,
+  width: "80px",
+  height: "30px",
+  background: "#fff",
+};
 
-  const onChangeDelay = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => console.log(e.target.value);
+const ResponseController = ({ methods, delay, status, onUpdateData }) => {
+  const onChangeDelay: InputEventFnType = (event, index) => {
+    onUpdateData("delay", [
+      ...delay.slice(0, index),
+      +event.target.value,
+      ...delay.slice(index + 1),
+    ]);
+  };
 
-  const onChnageStatus = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => console.log(e.target.value);
+  const onChnageStatus: InputEventFnType = (event, index) =>
+    console.log(event.target.value);
 
   return methods.map((method: string, index: number) => (
     <Stack
@@ -38,38 +49,39 @@ const ResponseController = ({ methods, delay, status }) => {
       justifyContent="space-between"
       alignItems="center"
       sx={{
-        py: 1,
-        ...(index > 0 && { borderTop: "1px solid #eee" }),
+        p: 1,
+        px: 2,
+        ...(index > 0 && { borderTop: "1px solid #ddd" }),
+        background: "#fafafa",
       }}
     >
-      {/* <Chip
-        label={method}
-        variant="outlined"
-        size="small"
+      <Typography
         sx={{
-          p: 1,
-          borderRadius: "3px",
-          fontSize: "12px",
+          fontSize: "14px",
           fontWeight: 600,
-          color: "#fff",
-          borderColor: methodColor[method],
-          background: methodColor[method],
         }}
-      /> */}
-      <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
+      >
         {method}
       </Typography>
-      <Stack flexDirection="row">
-        <FormControl
-          variant="outlined"
+      <Stack flexDirection="row" alignItems="center">
+        <Button
+          variant="contained"
           size="small"
-          sx={{ m: 1, width: "80px", height: "30px" }}
+          // startIcon={<CodeIcon />}
+          sx={{
+            mr: 2,
+            height: "30px",
+            fontSize: "12px",
+          }}
         >
+          exec
+        </Button>
+        <FormControl variant="outlined" size="small" sx={{ ...inputStyle }}>
           <InputLabel>delay</InputLabel>
           <OutlinedInput
             type="number"
             label="delay"
-            value={resDelay[index]}
+            value={delay[index]}
             onChange={(event) => onChangeDelay(event, index)}
             inputProps={{
               min: 0,
@@ -80,16 +92,12 @@ const ResponseController = ({ methods, delay, status }) => {
             }}
           />
         </FormControl>
-        <FormControl
-          variant="outlined"
-          size="small"
-          sx={{ m: 1, width: "80px", height: "30px" }}
-        >
+        <FormControl variant="outlined" size="small" sx={{ ...inputStyle }}>
           <InputLabel>status</InputLabel>
           <Select
             label="status"
             size="small"
-            value={resStatus[index]}
+            value={status[index]}
             onChange={(event) => onChnageStatus(event, index)}
             sx={{ height: "30px" }}
           >
