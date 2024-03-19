@@ -1,5 +1,5 @@
 import React from "react";
-import ListItem from "./ListItem";
+import ApiListItem from "../ApiListItem";
 
 type DataType = {
   path: string;
@@ -30,8 +30,8 @@ const datas: DataType[] = [
   },
 ];
 
-const BodyContents = () => {
-  return datas.map((data) => <ListItem key={data.path} {...data} />);
+const ApiListGroup = () => {
+  return datas.map((data) => <ApiListItem key={data.path} {...data} />);
 };
 
-export default BodyContents;
+export default ApiListGroup;

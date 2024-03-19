@@ -9,7 +9,7 @@ const { ModuleFederationPlugin } = require("webpack").container;
 dotenv.config({ path: path.join(__dirname, "../..", ".env") });
 
 module.exports = {
-  entry: "./src/index.jsx",
+  entry: "./src/index.tsx",
   output: {
     filename: "./assets/script.min.js",
     path: path.join(__dirname, "./public"),

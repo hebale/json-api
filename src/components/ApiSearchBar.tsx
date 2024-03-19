@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import {
-  FormControl,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
+import { FormControl, OutlinedInput, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-const SearchBar = () => {
+const ApiSearchBar = () => {
   const [searchText, setSearchText] = useState("");
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -45,4 +40,4 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar;
+export default ApiSearchBar;

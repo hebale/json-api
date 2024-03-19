@@ -1,12 +1,12 @@
 import React from "react";
 
 import { Box } from "@mui/material";
-import ListContainer from "~/components/ListContainer";
+import ApiListGroup from "~/components/ApiListGroup";
 
 const Body = () => {
   return (
     <Box sx={{ mt: 3 }}>
-      <ListContainer />
+      <ApiListGroup />
     </Box>
   );
 };

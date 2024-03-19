@@ -1,5 +1,3 @@
-import CodeEditor from "../../public/editor.js";
-
 const data = {
   method: "POST",
   name: "/user",

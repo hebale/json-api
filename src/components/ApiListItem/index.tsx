@@ -42,7 +42,7 @@ const onUpdateData = (type: string, params) => {
   console.log(type, params);
 };
 
-const ListItem = ({ path, methods, delay, status, data }) => {
+const ApiListItem = ({ path, methods, delay, status, data }) => {
   const [expand, setExpand] = useState(true);
   const toggleAcordion = () => {
     setExpand((prev) => !prev);
@@ -82,7 +82,7 @@ const ListItem = ({ path, methods, delay, status, data }) => {
             fontSize: "16px",
             fontWeight: 500,
             color: "#fff",
-            backgroundColor: "#444",
+            backgroundColor: "#1e1e1e",
           }}
         >
           {path}
@@ -121,4 +121,4 @@ const ListItem = ({ path, methods, delay, status, data }) => {
   );
 };
 
-export default ListItem;
+export default ApiListItem;
