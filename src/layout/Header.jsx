@@ -6,7 +6,7 @@ import SearchBar from "~/components/SearchBar";
 const Header = () => {
   return (
     <Stack component="header">
-      <h2>Json-Server</h2>
+      <h2>Json Sever</h2>
       <SearchBar />
     </Stack>
   );

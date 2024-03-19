@@ -3,6 +3,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
 
 dotenv.config({ path: path.join(__dirname, "../..", ".env") });
@@ -61,5 +62,6 @@ module.exports = {
         formApp: "formApp@http://localhost:8083/remoteEntry.js",
       },
     }),
+    // new MonacoWebpackPlugin(),
   ],
 };

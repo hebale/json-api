@@ -1,17 +1,13 @@
 import React from "react";
 
-import { Stack } from "@mui/material";
-import ApiInfo from "~/components/ApiInfo";
+import { Box } from "@mui/material";
+import ListContainer from "~/components/ListContainer";
 
 const Body = () => {
   return (
-    <Stack sx={{ mt: 3 }}>
-      <ApiInfo
-        apiName={"/user"}
-        method={"POST"}
-        description={"사용자 정보 확인 API"}
-      ></ApiInfo>
-    </Stack>
+    <Box sx={{ mt: 3 }}>
+      <ListContainer />
+    </Box>
   );
 };
 
