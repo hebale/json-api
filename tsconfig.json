@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "outDir": "./public/",
+    "typeRoots": ["./node_modules/@types"],
+    "strict": true,
+    "target": "es5",
+    "module": "ES2015",
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "noImplicitThis": true,
+    "moduleResolution": "node",
+    "paths": {
+      "@Components*": ["./src/components*"],
+      "@Contexts*": ["./src/contexts*"],
+      "@Layout*": ["./src/layout*"],
+      "@Hooks*": ["./src/hooks*"],
+      "@Assets*": ["./src/assets*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

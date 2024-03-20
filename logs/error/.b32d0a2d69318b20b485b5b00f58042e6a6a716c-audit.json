@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "C:\\Users\\admin\\Desktop\\json-api\\logs\\error\\.b32d0a2d69318b20b485b5b00f58042e6a6a716c-audit.json",
+    "files": [
+        {
+            "date": 1710913634656,
+            "name": "C:\\Users\\admin\\Desktop\\json-api\\logs\\error\\2024-03-20.error.log",
+            "hash": "2db3461c8e0ded12b6b50e1f4411fee7b03bc13786e925959647d10362105d26"
+        }
+    ],
+    "hashType": "sha256"
+}

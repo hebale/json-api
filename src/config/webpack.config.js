@@ -1,23 +1,26 @@
 const webpack = require("webpack");
 const path = require("path");
-const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-// const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
-const { ModuleFederationPlugin } = require("webpack").container;
-
-dotenv.config({ path: path.join(__dirname, "../..", ".env") });
+// const CopyPligin = require("copy-webpack-plugin");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
+  mode: "development",
   entry: "./src/index.tsx",
   output: {
     filename: "./assets/script.min.js",
-    path: path.join(__dirname, "./public"),
+    path: path.join(process.cwd(), "./public"),
   },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx", ".scss"],
     alias: {
-      "~": path.join(__dirname, "./src"),
+      "@Components": path.resolve(__dirname, "../components"),
+      "@Contexts": path.resolve(__dirname, "../contexts"),
+      "@Layout": path.resolve(__dirname, "../layout"),
+      "@Hooks": path.resolve(__dirname, "../hooks"),
+      "@Assets": path.resolve(__dirname, "../Assets"),
     },
   },
   module: {
@@ -44,24 +47,26 @@ module.exports = {
       },
     ],
   },
-  devServer: {
-    host: "localhost",
-    port: 8080,
-    historyApiFallback: true,
-  },
   plugins: [
     new webpack.DefinePlugin({
       "process.env": JSON.stringify(process.env),
     }),
-    new HtmlWebpackPlugin({ template: "./index.html" }),
-    new MiniCssExtractPlugin({ filename: "./assets/style.min.css" }),
-    new ModuleFederationPlugin({
-      name: "mainApp",
-      remotes: {
-        listApp: "listApp@http://localhost:8082/remoteEntry.js",
-        formApp: "formApp@http://localhost:8083/remoteEntry.js",
-      },
+    new HtmlWebpackPlugin({
+      template: path.resolve(process.cwd(), "./index.html"),
+      minify: false,
     }),
-    // new MonacoWebpackPlugin(),
+    new MiniCssExtractPlugin({ filename: "./assets/style.min.css" }),
+    // new CopyPligin({
+    //   patterns: [
+    //     { from: "./src/server", to: "./server" },
+    //     { from: "./src/server.js", to: "./" },
+    //   ],
+    // }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: "static",
+      reportFilename: "bundle-repost.html",
+      openAnalyzer: false,
+      excludeAssets: [/node_modules/],
+    }),
   ],
 };

@@ -9,7 +9,6 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import CodeIcon from "@mui/icons-material/Code";
 
 type InputEventFnType = (
   event: React.ChangeEvent<HTMLInputElement>,
@@ -67,7 +66,6 @@ const ResponseController = ({ methods, delay, status, onUpdateData }) => {
         <Button
           variant="contained"
           size="small"
-          // startIcon={<CodeIcon />}
           sx={{
             mr: 2,
             height: "30px",

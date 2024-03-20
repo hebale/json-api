@@ -1,12 +1,11 @@
-import React from "react";
 import { Stack } from "@mui/material";
 
-import ApiSearchBar from "~/components/ApiSearchBar";
+import ApiSearchBar from "@Components/ApiSearchBar";
 
 const Header = () => {
   return (
     <Stack component="header">
-      <h2>Json Sever</h2>
+      <h2>{/*Json Sever */}</h2>
       <ApiSearchBar />
     </Stack>
   );

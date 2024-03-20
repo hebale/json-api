@@ -1,7 +1,6 @@
-import React from "react";
-
 import { Box } from "@mui/material";
-import ApiListGroup from "~/components/ApiListGroup";
+
+import ApiListGroup from "@Components/ApiListGroup";
 
 const Body = () => {
   return (
