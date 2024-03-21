@@ -1,4 +1,5 @@
 const jsonService = require("./jsonService.cjs");
+const errorService = require("./errorService.cjs");
 
 const Service = ({ app }) => {
   app
@@ -10,8 +11,8 @@ const Service = ({ app }) => {
       process.exit(1);
     });
 
-  // json curd
   jsonService({ app });
+  errorService({ app });
 };
 
 module.exports = Service;
