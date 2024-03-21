@@ -9,7 +9,9 @@ const hasDb = (path) => {
   }
 };
 
-module.exports = (app) => {
+const jsonService = ({ app }) => {
+  app.get("/create/");
+
   app.get("/api/db", (req, res) => {
     try {
       const readPath = path.resolve(
@@ -86,3 +88,5 @@ module.exports = (app) => {
     }
   });
 };
+
+module.exports = jsonService;

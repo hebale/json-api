@@ -18,11 +18,7 @@ const onServer = () => {
   app
     .listen(port, () => {
       Logger.info(`>>>>>>>>>>
-        >>>>>>>>>>
-        >>>>>>>>>>
         Server listening on port:${process.env.DEV_SERVER_PORT}
-        >>>>>>>>>>
-        >>>>>>>>>>
         >>>>>>>>>>
       `);
 
