@@ -10,27 +10,24 @@ const hasDir = (path) => {
   }
 };
 
-try {
-} catch (err) {}
+const root = path.resolve(process.cwd(), "./src/json");
 
 const getBasePath = (_path) =>
   path.resolve(process.cwd(), `./src/json${_path}`);
 
 const jsonService = ({ app }) => {
-
-  app.get('/api/v1/all-jsons', async (req, res) => {
+  app.get("/api/v1/all-jsons", async (req, res) => {
     try {
       const files = await glob(`${process.cwd()}/src/json/**/*.json`);
-
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   });
 
   app.post("/api/v1/regist", (req, res) => {
     try {
-      const { path, data } = req.body;
-      const basePath = getBasePath(path);
+      const { name, data } = req.body;
+      const basePath = getBasePath(name);
 
       if (!hasDir(basePath)) {
         fs.mkdirSync(basePath, { recursive: true });
@@ -47,31 +44,51 @@ const jsonService = ({ app }) => {
     }
   });
   //
+  app.get("/api/v1/download", (req, res) => {
+    try {
+      const { name } = req.query;
+      res.sendFile(`${root}${name}\\index.json`);
+    } catch (err) {
+      res.send({
+        code: "000",
+        message: "file download error!",
+      });
+    }
+  });
   //
   //
-  app.use("/api/v1/jsons", async (req, res) => {
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  app.use("/api/v1/jsons", (req, res) => {
     try {
       const { query, method, headers, body } = req;
 
       switch (method) {
         case "GET":
-          // const { path } = body;
-          const files = (await glob(`${process.cwd()}/src/json/**/*.json`))
-            .map(file => );
+          const jsonFilesPath = glob
+            .sync(`${root}/**/*.json`)
+            .map((filePath) => path.normalize(`../../${filePath.toString()}`));
 
-          // const files = fs
+          // const jsonFilesPath = fs
           //   .readdirSync(`${process.cwd()}/src/json/`)
           //   .filter((allFilesPaths) => allFilesPaths.match(/\.json$/) !== null);
 
-          console.log(files);
+          console.log(jsonFilesPath);
 
           res.send({
             code: 200,
             message: "successed",
-            data: JSON.stringify(files),
+            data: JSON.parse(jsonFilesPath),
           });
       }
     } catch (err) {
+      console.log(err);
+
       res.send({
         code: 500,
         message: "server error",

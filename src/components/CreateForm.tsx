@@ -6,7 +6,7 @@ import {
   InputLabel,
 } from "@mui/material";
 
-import CodeEditor from "@Components/CodeEditor";
+import CodeEditor from "~/components/CodeEditor";
 
 const CreateForm = () => {
   return (

@@ -14,7 +14,7 @@ const Loader = ({ app }) => {
       credentials: true,
     })
   );
-  app.use(middleware(compiler, {}));
+  app.use(middleware(compiler));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(express.static(path.join(__dirname, "../public")));
