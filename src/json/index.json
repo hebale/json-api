@@ -1,5 +1,5 @@
 {
-  "name": "/user/info",
+  "name": "/",
   "headers": {
     "Content-Type": "application/json"
   },

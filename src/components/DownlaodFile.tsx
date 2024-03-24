@@ -3,7 +3,7 @@ import { IconButton, Tooltip } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 
 import type { IconButtonProps } from "@mui/material";
-import type { DownloadFileProps } from "~/types/components";
+import type { DownloadFileProps } from "~/types/features";
 
 const DownloadFile = ({
   url,
