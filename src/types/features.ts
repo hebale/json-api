@@ -1,4 +1,8 @@
-import type { ButtonProps, DialogProps as MuiDialogProps } from "@mui/material";
+import type {
+  TooltipProps,
+  ButtonProps,
+  DialogProps as MuiDialogProps,
+} from "@mui/material";
 
 export type DownloadFileProps = {
   url: string;
@@ -55,4 +59,23 @@ export type DropFile = {
 export type DropBoxProps = {
   allow: string[];
   onDrop: (file: DropFile | null) => void;
+};
+
+/**
+ * CopyButton
+ */
+export type CopyButtonProps = {
+  text: string | null;
+  tooltip: Omit<TooltipProps, "children">;
+  iconButtonStyle?: { [key: string]: string | number };
+  onCopied?: (text: string) => void;
+};
+
+/**
+ * DownloadButton
+ */
+export type DownloadButtonProps = {
+  url: string;
+  fileName: string;
+  tooltip: Omit<TooltipProps, "children">;
 };

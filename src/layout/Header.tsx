@@ -15,10 +15,6 @@ const Header = () => {
       sx={{ py: 4 }}
     >
       <ApiSearchBar />
-      <DownlaodFile
-        url="http://localhost:8080/api/v1/download?name=/data/test"
-        // fileName=""
-      />
       <CreateApiDialog title={"API 생성"} />
     </Stack>
   );

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { Stack, IconButton, Tooltip } from "@mui/material";
+import React from "react";
+import { Stack } from "@mui/material";
 
-import DownloadIcon from "@mui/icons-material/Download";
-import UploadIcon from "@mui/icons-material/Upload";
-import CopyAllIcon from "@mui/icons-material/CopyAll";
+import CopyButton from "~/features/CopyButton";
+import DownloadButton from "~/features/DownloadButton";
+
+import useAlert from "~/hooks/useAlert";
 
 const nameStyle = {
   width: "70%",
@@ -13,38 +14,49 @@ const nameStyle = {
   fontSize: "16px",
   fontWeight: 500,
   color: "#fff",
-  backgroundColor: "#1e1e1e",
+  backgroundColor: "#303030",
 };
 
-const Summary = ({ name, onToggleAccordion }) => {
-  const onCopyClipboard = (path: string) => {
-    navigator.clipboard.writeText(path);
-  };
+type SummaryProps = {
+  name: string;
+};
+
+const Summary = ({ name }: SummaryProps) => {
+  const { openAlert } = useAlert();
 
   return (
     <>
       <Stack direction="row" justifyContent="space-between" sx={nameStyle}>
         {name}
-        <Tooltip title="Copy" placement="top" arrow>
-          <IconButton
-            sx={{ p: 0, color: "#fff" }}
-            onClick={() => onCopyClipboard(name)}
-          >
-            <CopyAllIcon />
-          </IconButton>
-        </Tooltip>
+        <CopyButton
+          text={name}
+          iconButtonStyle={{
+            p: 0,
+            color: "inherit",
+          }}
+          tooltip={{
+            title: "Copy",
+            placement: "top",
+            arrow: true,
+          }}
+          onCopied={() =>
+            openAlert({
+              type: "info",
+              message: "클립보드에 복사 되었습니다.",
+            })
+          }
+        />
       </Stack>
       <Stack flexDirection="row">
-        <Tooltip title="JSON download" placement="top" arrow>
-          <IconButton onClick={onToggleAccordion}>
-            <DownloadIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="JSON upload" placement="top" arrow>
-          <IconButton onClick={onToggleAccordion}>
-            <UploadIcon />
-          </IconButton>
-        </Tooltip>
+        <DownloadButton
+          url={`/api/v1/download?name=${name}`}
+          fileName={`api_${new Date().getTime()}`}
+          tooltip={{
+            title: "JSON download",
+            placement: "top",
+            arrow: true,
+          }}
+        />
       </Stack>
     </>
   );

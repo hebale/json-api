@@ -10,6 +10,7 @@ type MonacoProps = {
   language?: string;
   height?: number;
   value: string;
+  boxStyle?: { [key: string]: string | number };
   onChange: (value?: string) => void;
 };
 
@@ -28,6 +29,7 @@ const Monaco = ({
   language = "json",
   height,
   value,
+  boxStyle,
   onChange,
 }: MonacoProps) => {
   const editorRef = useRef<null | editor.IStandaloneCodeEditor>(null);
@@ -48,6 +50,7 @@ const Monaco = ({
         borderRadius: "4px",
         overflow: "hidden",
         background: "#1e1e1e",
+        ...boxStyle,
       }}
     >
       <Editor

@@ -10,7 +10,6 @@ const Body = () => {
   useEffect(() => {
     (async () => {
       const { data } = await getAllJsons();
-
       if (data) setDatas(data);
     })();
   }, []);
@@ -18,10 +17,11 @@ const Body = () => {
   return (
     <Box>
       {datas &&
-        datas.map((data) => {
-          return <></>;
-          <ApiListItem {...data} />;
-        })}
+        datas.map((data) => (
+          <React.Fragment key={data.name}>
+            <ApiListItem {...data} />
+          </React.Fragment>
+        ))}
     </Box>
   );
 };

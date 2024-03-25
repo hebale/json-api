@@ -57,6 +57,8 @@ class Http {
   };
 
   post = async ({ path, body }: HttpProps) => {
+    console.log(body);
+
     try {
       const response = await fetch(`${path ?? ""}`, {
         method: "POST",
@@ -88,7 +90,39 @@ class Http {
     }
   };
   pull = async ({ path, body }: HttpProps) => {};
-  patch = async ({ path, body }: HttpProps) => {};
+  patch = async ({ path, body }: HttpProps) => {
+    try {
+      const response = await fetch(`${path ?? ""}`, {
+        method: "PATCH",
+        headers: this.headers,
+        body: JSON.stringify(body),
+      });
+
+      console.log(JSON.stringify(body, null, 2));
+
+      if (!response.ok) {
+        const { ok, status, statusText } = response;
+        throw { ok, status, message: statusText };
+      }
+
+      const data = await (() => {
+        if (
+          !this.headers ||
+          this.headers["Content-Type"].indexOf("json") > -1
+        ) {
+          return response.json();
+        }
+        return response;
+      })();
+
+      return data;
+    } catch (err) {
+      let message = "Unknown Error!";
+      if (err instanceof Error) message = err.message;
+
+      // console.error(err);
+    }
+  };
   delete = async ({ path, body }: HttpProps) => {};
 }
 

@@ -1,17 +1,18 @@
 import React from "react";
 import { IconButton, Tooltip } from "@mui/material";
+
 import DownloadIcon from "@mui/icons-material/Download";
 
-import type { IconButtonProps } from "@mui/material";
-import type { DownloadFileProps } from "~/types/features";
+import type { DownloadButtonProps } from "~/types/features";
 
-const DownloadFile = ({
+const DownloadButton = ({
   url,
-  fileName = `api_json_${new Date().getTime()}`,
-  ...rest
-}: DownloadFileProps & IconButtonProps) => {
+  tooltip,
+  fileName = `file_${new Date().getTime()}`,
+}: DownloadButtonProps) => {
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
     const link = document.createElement("a");
 
     link.href = url;
@@ -25,12 +26,12 @@ const DownloadFile = ({
   };
 
   return (
-    <Tooltip title="JSON download" placement="top" arrow>
-      <IconButton onClick={onClick} {...rest}>
+    <Tooltip {...tooltip}>
+      <IconButton onClick={onClick}>
         <DownloadIcon />
       </IconButton>
     </Tooltip>
   );
 };
 
-export default DownloadFile;
+export default DownloadButton;

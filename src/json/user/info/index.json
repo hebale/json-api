@@ -17,14 +17,30 @@
   ],
   "data": [
     {
-      "name": "윤종규",
-      "age": 35,
-      "gender": "남"
+      "active": "1",
+      "ad_via_link": "https://discover.buysellads.com/carbon?utm_source=affiliates-carbon\u0026utm_medium=ad_via_link\u0026utm_campaign=in_unit\u0026utm_term=carbon",
+      "asset:smallImage": "214e19ab24dfe618f5372f2a8430b9872569ed23",
+      "bannerid": "486824",
+      "creativeid": "557538",
+      "description": "Get 10 Free Images From Adobe Stock. Start Now.",
+      "evenodd": "0",
+      "external_id": "185168",
+      "height": "0",
+      "i": "0",
+      "identifier": "bcaba3302e93ca389042f1cbfa5f0a75",
+      "longimp": "T4QYNTDCTTTTTTDVIKDNKTTTTTT46RYVKYTTTTTTYDSTT7ETTTTTT",
+      "longlink": "TCQYNTDCTTTTTTDVIKDNKTTTTTT46RYVKYTTTTTTYDSTT7ETTTTTT23NQ3LUPKS4GQENVBPVKQZCLA7UKJWW4RBFPRWE",
+      "num_slots": "1",
+      "rendering": "carbon",
+      "smallImage": "https://srv.carbonads.net/static/30242/214e19ab24dfe618f5372f2a8430b9872569ed23",
+      "statimp": "//srv.buysellads.com/ads/imp/x/GTND427JC67I4KQUCY7LYKQUC6YI527WCWSDEZ3JCAYI453ICTAD453KC6BIE27WCVSIPK7ICWAI42QYCVADEKJNHEYI5KQJCK7ILKJECTNCLSZE5QLUCASQ2RUT",
+      "statlink": "//srv.buysellads.com/ads/click/x/GTND427JC67I4KQUCY7LYKQUC6YI527WCWSDEZ3JCAYI453ICTAD453KC6BIE27WCVSIPK7ICWAI42QYCVADEKJNHEYI5KQJCK7ILKJECTNCYBZ52K",
+      "statview": "//srv.buysellads.com/ads/viewable/x/GTND427JC67I4KQUCY7LYKQUC6YI527WCWSDEZ3JCAYI453ICTAD453KC6BIE27WCVSIPK7ICWAI42QYCVADEKJNHEYI5KQJCK7ILKJECTNFKBZH5REN6SDH",
+      "timestamp": "1711341722",
+      "width": "0",
+      "zoneid": "32083",
+      "zonekey": "CK7DT53I"
     },
-    {
-      "name": "전보미",
-      "age": 32,
-      "gender": "여"
-    }
+    {}
   ]
 }

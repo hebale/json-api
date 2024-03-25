@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import {
-  Stack,
   Accordion,
   AccordionSummary,
   AccordionDetails,
   IconButton,
-  Tooltip,
 } from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import ResponseController from "./ResponseController";
-
 import Summary from "./Summary";
+import Methods from "./Methods";
+import Editor from "./Editor";
+
+import type { ApiListItemProps } from "~/types/components";
 
 const SummaryStyle = {
   py: 1,
@@ -29,36 +29,40 @@ const onUpdateData = (type: string, params) => {
   console.log(type, params);
 };
 
-const ApiListItem = ({ name, headers, methods, data }) => {
+const ApiListItem = ({
+  name,
+  headers,
+  methods,
+  data,
+}: Partial<ApiListItemProps>) => {
   const [expand, setExpand] = useState(true);
-  const toggleAcordion = () => {
+  const onToggleExpand = () => {
     setExpand((prev) => !prev);
   };
 
-  const onCopyClipboard = (path: string) => {
-    navigator.clipboard.writeText(path);
+  const converter = (value) => {
+    if (typeof value === "string") {
+      return value;
+    }
+
+    return JSON.stringify(value);
   };
 
   return (
     <Accordion expanded={expand} sx={{ border: "1px solid #eee" }}>
       <AccordionSummary
         expandIcon={
-          <IconButton onClick={toggleAcordion}>
+          <IconButton onClick={onToggleExpand}>
             <ExpandMoreIcon />
           </IconButton>
         }
         sx={{ ...SummaryStyle }}
       >
-        <Summary />
+        <Summary name={name} />
       </AccordionSummary>
-
       <AccordionDetails>
-        <ResponseController
-          methods={methods}
-          delay={delay}
-          status={status}
-          onUpdateData={onUpdateData}
-        />
+        <Methods headers={headers} methods={methods} />
+        <Editor name={name} value={converter(data)} height={260} />
       </AccordionDetails>
     </Accordion>
   );
