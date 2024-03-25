@@ -61,7 +61,7 @@ const ApiListItem = ({
         <Summary name={name} />
       </AccordionSummary>
       <AccordionDetails>
-        <Methods headers={headers} methods={methods} />
+        <Methods name={name} headers={headers} methods={methods} />
         <Editor name={name} value={converter(data)} height={260} />
       </AccordionDetails>
     </Accordion>

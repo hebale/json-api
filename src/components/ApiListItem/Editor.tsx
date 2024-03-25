@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Stack, ButtonGroup, Tooltip, IconButton } from "@mui/material";
+import {
+  Box,
+  Stack,
+  ButtonGroup,
+  Tooltip,
+  IconButton,
+  InputLabel,
+} from "@mui/material";
 
 import RefreshIcon from "@mui/icons-material/Refresh";
 import SaveIcon from "@mui/icons-material/Save";
@@ -10,6 +17,8 @@ import Monaco from "~/features/Monaco";
 import useAlert from "~/hooks/useAlert";
 import { updateJsonData } from "~/api";
 
+import type { editor } from "monaco-editor";
+
 type EditorProps = {
   name?: string;
   value: string;
@@ -18,6 +27,9 @@ type EditorProps = {
 
 const Editor = ({ name, value, height }: EditorProps) => {
   const [code, setCode] = useState<string | null>(value ?? null);
+  const [validate, setValidate] = useState<
+    Pick<editor.IMarker, "endColumn" | "endLineNumber" | "message">[]
+  >([]);
   const [isChanged, setIsChanged] = useState(false);
 
   const { openAlert } = useAlert();
@@ -27,23 +39,42 @@ const Editor = ({ name, value, height }: EditorProps) => {
   }, [code]);
 
   const onSaveCode = async () => {
+    if (validate.length) {
+      return openAlert({
+        type: "error",
+        message: validate
+          .map(
+            ({ endLineNumber, endColumn, message }) =>
+              `${endLineNumber}:${endColumn} ${message}`
+          )
+          .join("\n"),
+      });
+    }
+
     const response = await updateJsonData({ name, data: code });
 
     response
-      ? openAlert({ type: "success", message: "data가 업데이트 되었습니다." })
+      ? openAlert({ type: "success", message: "저장 되었습니다" })
       : openAlert({
           type: "error",
           message: "오류가 발생했습니다. 다시 시도해 주세요.",
         });
   };
 
+  const onValidateCode = (makers: editor.IMarker[]) => {
+    setValidate(makers);
+  };
+
   return (
-    <>
+    <Box sx={{ mt: 4 }}>
+      <InputLabel sx={{ fontSize: "14px" /* color: "#1976d2" */ }} shrink>
+        Response Data
+      </InputLabel>
       <Stack
         flexDirection="row"
         justifyContent="flex-end"
         alignItems="center"
-        sx={{ mt: 4, borderRadius: "4px 4px 0 0", background: "#1e1e1e" }}
+        sx={{ borderRadius: "4px 4px 0 0", background: "#1e1e1e" }}
       >
         <ButtonGroup
           variant="outlined"
@@ -87,8 +118,9 @@ const Editor = ({ name, value, height }: EditorProps) => {
           borderTopRightRadius: 0,
         }}
         onChange={(data) => setCode(data ?? "")}
+        onValidate={(makers) => onValidateCode(makers)}
       />
-    </>
+    </Box>
   );
 };
 

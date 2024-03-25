@@ -1,1 +1,24 @@
-{"name":"/","headers":{"Content-Type":"application/json"},"methods":[{"method":"POST","delay":0,"status":404},{"method":"GET","delay":0,"status":200}],"data":"{\r\n  \"변경테스트\": true,\r\n  \"date\": \"2024-03-25\",\r\n  \"detail\": \"변경되었습니다.\"\r\n}"}
+{
+  "name": "/",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "methods": [
+    {
+      "method": "POST",
+      "delay": 300,
+      "status": 403
+    },
+    {
+      "method": "GET",
+      "delay": 100,
+      "status": 200
+    }
+  ],
+  "data": {
+    "변경테스트": true,
+    "date": "2024-03-25",
+    "detail": "변경되었습니다ㅇㄹㅇㄴㄹㄴㅇ",
+    "test": false
+  }
+}

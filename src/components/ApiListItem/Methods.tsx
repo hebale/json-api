@@ -12,6 +12,9 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 
+import { updateJsonMethod } from "~/api";
+
+import useAlert from "~/hooks/useAlert";
 import type { ApiListItem } from "~/types/components";
 
 type FormData = {
@@ -20,19 +23,47 @@ type FormData = {
 };
 
 const Methods = ({
+  name,
   headers,
   methods,
-}: Omit<ApiListItem, "name" | "data">): JSX.Element[] => {
+}: Omit<ApiListItem, "data">): JSX.Element[] => {
   const [formData, setFormData] = useState<FormData | null>(null);
+  const { openAlert } = useAlert();
 
-  const onChangeDelay = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-    }));
+  const onChangeDelay = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    method: string
+  ) => {
+    const response = await updateJsonMethod({
+      name,
+      method,
+      delay: Number(e.target.value),
+    });
+
+    !response &&
+      openAlert({
+        type: "error",
+        message: "오류가 발생했습니다. 다시 시도해 주세요.",
+      });
   };
 
-  const onChangeStatus = (e: SelectChangeEvent<HTMLSelectElement>) => {
-    setFormData((prev) => ({ ...prev, status: e.target.value }));
+  const onChangeStatus = async (
+    e: SelectChangeEvent<HTMLSelectElement>,
+    method: string
+  ) => {
+    console.log(method);
+
+    const response = await updateJsonMethod({
+      name,
+      method,
+      status: e.target.value,
+    });
+
+    !response &&
+      openAlert({
+        type: "error",
+        message: "오류가 발생했습니다. 다시 시도해 주세요.",
+      });
   };
 
   return methods.map(({ method, delay, status }, index) => (
@@ -77,7 +108,7 @@ const Methods = ({
                 step: 100,
               }}
               sx={{ height: "30px" }}
-              onChange={onChangeDelay}
+              onChange={(e) => onChangeDelay(e, method)}
             />
           </FormControl>
           <FormControl variant="outlined" size="small">
@@ -86,7 +117,7 @@ const Methods = ({
               label="status"
               defaultValue={status}
               sx={{ height: "30px" }}
-              onChange={onChangeStatus}
+              onChange={(e) => onChangeStatus(e, method)}
             >
               <MenuItem value={200}>200</MenuItem>
               <MenuItem value={401}>401</MenuItem>

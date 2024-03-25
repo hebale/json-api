@@ -11,7 +11,8 @@ type MonacoProps = {
   height?: number;
   value: string;
   boxStyle?: { [key: string]: string | number };
-  onChange: (value?: string) => void;
+  onChange?: (value?: string) => void;
+  onValidate?: (value: editor.IMarker[]) => void;
 };
 
 const options = {
@@ -31,6 +32,7 @@ const Monaco = ({
   value,
   boxStyle,
   onChange,
+  onValidate,
 }: MonacoProps) => {
   const editorRef = useRef<null | editor.IStandaloneCodeEditor>(null);
   const monaco = useMonaco();
@@ -40,7 +42,7 @@ const Monaco = ({
   };
 
   const onChangeCode = () => {
-    onChange(editorRef.current?.getValue());
+    onChange && onChange(editorRef.current?.getValue());
   };
 
   return (
@@ -54,11 +56,12 @@ const Monaco = ({
       }}
     >
       <Editor
+        loading={<CircularProgress thickness={5} />}
         defaultLanguage={language}
         value={value}
         onMount={onMount}
         onChange={onChangeCode}
-        loading={<CircularProgress thickness={5} />}
+        onValidate={onValidate}
         {...options}
         {...(height && { height: height - 32 })}
       />

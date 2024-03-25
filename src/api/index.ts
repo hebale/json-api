@@ -15,10 +15,21 @@ export const getAllJsons = async () => {
   if (response?.code === 200) return response;
 };
 
-export const updateJsonData = async ({ name, data }) => {
+export const updateJsonData = async (params) => {
   const response = await http.patch({
     path: "/api/v1/update-data",
-    body: { name, data },
+    body: params,
+  });
+
+  if (response?.code === 200) return response;
+};
+
+export const updateJsonMethod = async (params) => {
+  console.log(params);
+
+  const response = await http.patch({
+    path: "/api/v1/update-method",
+    body: params,
   });
 
   if (response?.code === 200) return response;
