@@ -21,6 +21,8 @@ import Monaco from "~/features/Monaco";
 import DropBox from "~/features/DropBox";
 import { inputFileReader } from "~/utils";
 
+import schema from "~/schema";
+
 import type { DropFile } from "~/types/features";
 
 const formGroupStyle = {
@@ -141,6 +143,7 @@ const TabContent = () => {
                   <Monaco
                     value={uploadData.data as string}
                     height={260}
+                    {...schema}
                     onChange={(data) => console.log(data)}
                   />
                 ) : (

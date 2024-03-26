@@ -74,7 +74,7 @@ const Editor = ({ name, value, height }: EditorProps) => {
         flexDirection="row"
         justifyContent="flex-end"
         alignItems="center"
-        sx={{ borderRadius: "4px 4px 0 0", background: "#1e1e1e" }}
+        sx={{ zIndex: -1, borderRadius: "4px 4px 0 0", background: "#1e1e1e" }}
       >
         <ButtonGroup
           variant="outlined"

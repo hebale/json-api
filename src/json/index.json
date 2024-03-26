@@ -6,19 +6,19 @@
   "methods": [
     {
       "method": "POST",
-      "delay": 300,
-      "status": 403
+      "delay": 100,
+      "status": 500
     },
     {
       "method": "GET",
-      "delay": 100,
+      "delay": 600,
       "status": 200
     }
   ],
   "data": {
     "변경테스트": true,
     "date": "2024-03-25",
-    "detail": "변경되었습니다ㅇㄹㅇㄴㄹㄴㅇ",
-    "test": false
+    "detail": "변경되었습니다",
+    "test": true
   }
 }

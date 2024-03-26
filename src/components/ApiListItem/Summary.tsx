@@ -1,5 +1,6 @@
 import React from "react";
 import { Stack } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 import CopyButton from "~/features/CopyButton";
 import DownloadButton from "~/features/DownloadButton";
@@ -48,7 +49,8 @@ const Summary = ({ name }: SummaryProps) => {
         />
       </Stack>
       <Stack flexDirection="row">
-        <DownloadButton
+        <SettingsIcon />
+        {/* <DownloadButton
           url={`/api/v1/download?name=${name}`}
           fileName={`api_${new Date().getTime()}`}
           tooltip={{
@@ -56,7 +58,7 @@ const Summary = ({ name }: SummaryProps) => {
             placement: "top",
             arrow: true,
           }}
-        />
+        /> */}
       </Stack>
     </>
   );
