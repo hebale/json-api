@@ -22,7 +22,7 @@ export type DialogProps = {
 
 export type ActionProps = ButtonProps & {
   text: string;
-  onAction: (cb: () => void) => void;
+  onAction: (cb: () => void, datas: any) => void;
 };
 
 export type DialogDispatchAction = {

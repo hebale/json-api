@@ -4,7 +4,7 @@ const api = require("./api.cjs");
 
 const service = ({ app }) => {
   app
-    .get("/", (req, res) => {
+    .get("/", (_, res) => {
       res.type("html");
       res.sendFile(path.resolve(__dirname, "../index.html"));
     })

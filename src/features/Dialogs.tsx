@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, createContext } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -16,9 +16,14 @@ import {
 
 import type { ActionProps } from "~/types/features";
 
+export const DialogContentContext = createContext<React.Dispatch<any> | null>(
+  null
+);
+
 const Dialogs = () => {
   const dialogs = useContext(DialogStatusContext);
   const { close } = useContext(DialogDispatchContext);
+  const [contents, setContents] = useState<any>();
 
   return (
     <>
@@ -54,7 +59,11 @@ const Dialogs = () => {
             >
               <CloseIcon />
             </IconButton>
-            <DialogContent>{content}</DialogContent>
+            <DialogContent>
+              <DialogContentContext.Provider value={setContents}>
+                {content}
+              </DialogContentContext.Provider>
+            </DialogContent>
             {actions.length && (
               <DialogActions sx={{ py: 2 }}>
                 {actions.map((action, index) => {
@@ -63,7 +72,7 @@ const Dialogs = () => {
                   return (
                     <Button
                       key={`${text}_${index}`}
-                      onClick={() => onAction(onCloseDialog)}
+                      onClick={() => onAction(onCloseDialog, contents)}
                       {...rest}
                     >
                       {text}

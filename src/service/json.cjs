@@ -17,18 +17,26 @@ const getBasePath = (_path) =>
 
 const jsonService = ({ app }) => {
   /**
-   * api json 데이터
+   * GET
    */
   app.get("/api/v1/all-jsons", async (_, res) => {
     try {
       const jsonFilesPath = glob.sync(`${root}/**/*.json`);
       const allJson = [];
 
-      jsonFilesPath.forEach((path) => {
-        const response = fs.readFileSync(`${process.cwd()}\\${path}`, {
-          encoding: "utf-8",
-          flag: "r",
-        });
+      jsonFilesPath.forEach((filePath) => {
+        console.log(
+          process.cwd(),
+          filePath,
+          path.resolve(process.cwd(), filePath)
+        );
+        const response = fs.readFileSync(
+          path.resolve(process.cwd(), filePath),
+          {
+            encoding: "utf-8",
+            flag: "r",
+          }
+        );
         const data = JSON.parse(response);
 
         allJson.push(data);
@@ -36,7 +44,7 @@ const jsonService = ({ app }) => {
 
       res.send({
         code: 200,
-        message: "successed",
+        message: "Ok",
         data: allJson,
       });
     } catch (err) {
@@ -44,15 +52,45 @@ const jsonService = ({ app }) => {
 
       res.status(500).send({
         code: 500,
-        message: "server error",
+        message: "Internal Server Error",
         err,
       });
     }
   });
 
-  /**
-   * json 파일 다운로드
-   */
+  app.get("/api/v1/json", async (req, res) => {
+    try {
+      const query = req.query;
+
+      console.log(
+        process.cwd(),
+        `${query.path}/index.json`,
+        path.join(process.cwd(), `${query.path}/index.json`)
+      );
+
+      const response = fs.readFileSync(
+        path.resolve(process.cwd(), `src/json${query.path}/index.json`),
+        {
+          encoding: "utf-8",
+          flag: "r",
+        }
+      );
+      const data = JSON.parse(response);
+
+      res.send({
+        code: 200,
+        message: "Ok",
+        data,
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: "Internal Server Error",
+        err,
+      });
+    }
+  });
+
   app.get("/api/v1/download", (req, res) => {
     try {
       const { path } = req.query;
@@ -60,13 +98,15 @@ const jsonService = ({ app }) => {
       res.sendFile(`${root}${path}\\index.json`);
     } catch (err) {
       res.send({
-        code: "000",
-        message: "json file download failed!",
+        code: 500,
+        message: "Internal Server Error",
       });
     }
   });
 
-  // json 데이터 등록
+  /**
+   * POST
+   */
   app.post("/api/v1/regist", (req, res) => {
     try {
       const { path, response } = req.body;
@@ -80,7 +120,7 @@ const jsonService = ({ app }) => {
 
       res.send({
         code: 200,
-        message: "json is created!",
+        message: "Ok",
       });
     } catch (err) {
       console.log(err);
@@ -88,7 +128,7 @@ const jsonService = ({ app }) => {
   });
 
   /**
-   * response data 업데이트
+   * PATCH
    */
   app.patch("/api/v1/update-data", (req, res) => {
     try {
@@ -96,7 +136,7 @@ const jsonService = ({ app }) => {
       if (!response) throw new Error("data is not defined");
 
       const basePath = getBasePath(path);
-      const data = fs.readFileSync(`${root}${path}\\index.json`, {
+      const data = fs.readFileSync(`${root}${path}/index.json`, {
         encoding: "utf-8",
         flag: "r",
       });
@@ -113,31 +153,16 @@ const jsonService = ({ app }) => {
 
       res.send({
         code: 200,
-        message: "json is updated",
+        message: "Ok",
       });
     } catch (err) {
       res.send({
-        code: "000",
-        message: "json file update failed!",
+        code: 500,
+        message: "Internal Server Error",
       });
     }
   });
 
-  /**
-   * json 제거
-   */
-
-  app.delete("/api/v1/remove-json", (req, res) => {
-    try {
-      const { path } = req.body;
-
-      if (!path) throw new Error("Unvalid Parameters");
-    } catch {}
-  });
-
-  /**
-   * method 정보 업데이트
-   */
   app.patch("/api/v1/update-method", (req, res) => {
     try {
       const { path, method, delay, status } = req.body;
@@ -145,7 +170,7 @@ const jsonService = ({ app }) => {
       if (!method && (!delay || !status)) throw new Error("Unvalid Parameters");
 
       const basePath = getBasePath(path);
-      const response = fs.readFileSync(`${root}${path}\\index.json`, {
+      const response = fs.readFileSync(`${root}${path}/index.json`, {
         encoding: "utf-8",
         flag: "r",
       });
@@ -172,48 +197,26 @@ const jsonService = ({ app }) => {
 
       res.send({
         code: 200,
-        message: "json is updated",
+        message: "Ok",
       });
     } catch (err) {
       res.send({
-        code: "000",
-        message: "json file update failed!",
+        code: 500,
+        message: "Internal Server Error",
       });
     }
   });
 
-  // app.use("/api/v1/jsons", (req, res) => {
-  //   try {
-  //     const { query, method, headers, body } = req;
+  /**
+   * DELETE
+   */
+  app.delete("/api/v1/remove-json", (req, res) => {
+    try {
+      const { path } = req.body;
 
-  //     switch (method) {
-  //       case "GET":
-  //         const jsonFilesPath = glob
-  //           .sync(`${root}/**/*.json`)
-  //           .map((filePath) => path.normalize(`../../${filePath.toString()}`));
-
-  //         // const jsonFilesPath = fs
-  //         //   .readdirSync(`${process.cwd()}/src/json/`)
-  //         //   .filter((allFilesPaths) => allFilesPaths.match(/\.json$/) !== null);
-
-  //         console.log(jsonFilesPath);
-
-  //         res.send({
-  //           code: 200,
-  //           message: "successed",
-  //           data: JSON.parse(jsonFilesPath),
-  //         });
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-
-  //     res.send({
-  //       code: 500,
-  //       message: "server error",
-  //       err,
-  //     });
-  //   }
-  // });
+      if (!path) throw new Error("Unvalid Parameters");
+    } catch {}
+  });
 };
 
 module.exports = jsonService;

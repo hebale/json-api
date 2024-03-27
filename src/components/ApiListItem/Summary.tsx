@@ -4,6 +4,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 import CopyButton from "~/features/CopyButton";
 import DownloadButton from "~/features/DownloadButton";
+import EditApiDialog from "~/dialog/EidtApiDialog";
 
 import useAlert from "~/hooks/useAlert";
 
@@ -45,7 +46,8 @@ const Summary = ({ path }: { path: string }) => {
         />
       </Stack>
       <Stack flexDirection="row" sx={{ mr: 2 }}>
-        <SettingsIcon />
+        <EditApiDialog path={path} />
+        {/* <SettingsIcon /> */}
         {/* <DownloadButton
           url={`/api/v1/download?path=${name}`}
           fileName={`api_${new Date().getTime()}`}

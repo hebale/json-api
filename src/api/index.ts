@@ -5,6 +5,12 @@ export const getAllJsons = async () => {
   if (response?.code === 200) return response;
 };
 
+export const getJson = async (params: string) => {
+  console.log(params);
+  const response = await http.get(`/api/v1/json?path=${params}`);
+  if (response?.code === 200) return response;
+};
+
 export const updateJsonData = async (params: any) => {
   const response = await http.patch("/api/v1/update-data", { body: params });
   if (response?.code === 200) return response;

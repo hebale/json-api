@@ -1,8 +1,8 @@
 const errorService = ({ app }) => {
-  app.use((req, res, next) => {
+  app.use((_, res) => {
     res.status(404).send("Not Found");
   });
-  app.use(function (err, req, res, next) {
+  app.use(function (_, _, res) {
     res.status(500).send("Internal Server Error");
   });
 };

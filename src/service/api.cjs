@@ -5,7 +5,7 @@ const { glob } = require("glob");
 const root = path.resolve(process.cwd(), "./src/json");
 
 const statusMessage = {
-  200: "OK",
+  200: "Ok",
   304: "Not Modified",
   400: "Bad Request",
   401: "Unauthorized",
@@ -21,14 +21,17 @@ const statusMessage = {
 const api = ({ app }) => {
   app.use("/*", (req, res) => {
     try {
-      const filePath = glob.sync(`${root}${req.baseUrl}/index.json`);
+      const filePath = glob.sync(`${path.join(root, req.baseUrl)}/index.json`);
 
       if (!filePath.length) throw { code: 404, message: statusMessage["404"] };
 
-      const response = fs.readFileSync(`${process.cwd()}\\${filePath[0]}`, {
-        encoding: "utf-8",
-        flag: "r",
-      });
+      const response = fs.readFileSync(
+        path.resolve(process.cwd(), filePath[0]),
+        {
+          encoding: "utf-8",
+          flag: "r",
+        }
+      );
 
       const json = JSON.parse(response);
       const settings = json.methods.filter(

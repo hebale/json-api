@@ -6,6 +6,12 @@ const schemas = [
     schema: {
       type: "object",
       properties: {
+        title: {
+          type: "string",
+        },
+        description: {
+          type: "string",
+        },
         path: {
           type: "string",
           pattern: "((/([a-z0-9_-])+)+)(?![A-Z].)*",
@@ -19,7 +25,7 @@ const schemas = [
             properties: {
               type: {
                 type: "string",
-                enum: ["GET", "POST", "PULL", "PATCH", "DELETE"],
+                enum: ["GET", "POST", "PATCH", "DELETE"],
               },
               delay: {
                 type: "number",
@@ -40,7 +46,7 @@ const schemas = [
           type: "object",
         },
       },
-      required: ["path", "headers", "methods", "body"],
+      required: ["title", "path", "headers", "methods", "body"],
     },
   },
 ];

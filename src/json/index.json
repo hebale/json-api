@@ -7,18 +7,18 @@
     {
       "method": "POST",
       "delay": 100,
-      "status": 200
+      "status": 304
     },
     {
       "method": "GET",
-      "delay": 500,
-      "status": 200
+      "delay": 1000,
+      "status": 304
     }
   ],
   "response": {
     "변경테스트": true,
     "date": "2024-03-25",
-    "detail": "변경되었습니다"
+    "detail": "변경되었습니다2"
   },
   "data": {
     "변경테스트": true,

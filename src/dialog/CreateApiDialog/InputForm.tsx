@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Stack,
   Box,
@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import Monaco from "~/features/Monaco";
 import schema from "~/schema";
+
+import { DialogContentContext } from "~/features/Dialogs";
 
 const style = {
   "& .MuiFormControl-root + .MuiFormControl-root": {
@@ -29,11 +31,17 @@ const style = {
 };
 
 const UploadForm = () => {
+  const setDatas = useContext(DialogContentContext);
+
   return (
     <FormGroup sx={style}>
       <FormControl size="small">
         <InputLabel shrink>API Path</InputLabel>
-        <OutlinedInput placeholder="ex) /user/info" defaultValue={""} />
+        <OutlinedInput
+          placeholder="ex) /user/info"
+          defaultValue={""}
+          onChange={(e) => setDatas(e.target.value)}
+        />
       </FormControl>
       <FormControl size="small">
         <InputLabel shrink>Method</InputLabel>
