@@ -7,7 +7,7 @@ import DownloadButton from "~/features/DownloadButton";
 
 import useAlert from "~/hooks/useAlert";
 
-const nameStyle = {
+const style = {
   width: "70%",
   px: 1.5,
   py: 1,
@@ -18,19 +18,15 @@ const nameStyle = {
   backgroundColor: "#303030",
 };
 
-type SummaryProps = {
-  name: string;
-};
-
-const Summary = ({ name }: SummaryProps) => {
+const Summary = ({ path }: { path: string }) => {
   const { openAlert } = useAlert();
 
   return (
     <>
-      <Stack direction="row" justifyContent="space-between" sx={nameStyle}>
-        {name}
+      <Stack direction="row" justifyContent="space-between" sx={style}>
+        {path}
         <CopyButton
-          text={name}
+          text={path}
           iconButtonStyle={{
             p: 0,
             color: "inherit",
@@ -48,10 +44,10 @@ const Summary = ({ name }: SummaryProps) => {
           }
         />
       </Stack>
-      <Stack flexDirection="row">
+      <Stack flexDirection="row" sx={{ mr: 2 }}>
         <SettingsIcon />
         {/* <DownloadButton
-          url={`/api/v1/download?name=${name}`}
+          url={`/api/v1/download?path=${name}`}
           fileName={`api_${new Date().getTime()}`}
           tooltip={{
             title: "JSON download",

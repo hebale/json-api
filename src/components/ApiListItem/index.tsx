@@ -14,13 +14,14 @@ import Editor from "./Editor";
 
 import type { ApiListItemProps } from "~/types/components";
 
-const SummaryStyle = {
+const style = {
   py: 1,
   ".Mui-expanded": {
     m: 0,
   },
-  ".MuiAccordionSummary-contentGutters": {
+  ".MuiAccordionSummary-content": {
     m: 0,
+    alignItems: "center",
     justifyContent: "space-between",
   },
 };
@@ -30,10 +31,10 @@ const onUpdateData = (type: string, params) => {
 };
 
 const ApiListItem = ({
-  name,
+  path,
   headers,
   methods,
-  data,
+  response,
 }: Partial<ApiListItemProps>) => {
   const [expand, setExpand] = useState(true);
   const onToggleExpand = () => {
@@ -56,13 +57,17 @@ const ApiListItem = ({
             <ExpandMoreIcon />
           </IconButton>
         }
-        sx={{ ...SummaryStyle }}
+        sx={{ ...style }}
       >
-        <Summary name={name} />
+        <Summary {...{ path: path as string }} />
       </AccordionSummary>
       <AccordionDetails>
-        <Methods name={name} headers={headers} methods={methods} />
-        <Editor name={name} value={converter(data)} height={260} />
+        <Methods {...{ path: path as string, headers, methods }} />
+        <Editor
+          {...{ path: path as string }}
+          value={converter(response)}
+          height={260}
+        />
       </AccordionDetails>
     </Accordion>
   );

@@ -1,12 +1,16 @@
 import { objectToString } from "~/utils";
 
-type HttpProps = {
-  path: string;
+type Options = {
+  headers?: {
+    [key: string]: string;
+  };
   queries?: {
     [key: string]: string;
   };
   body?: any;
 };
+type HttpResponse = { code: number; message?: string; data: any };
+type HttpMethod = (path: string, options?: Options) => Promise<HttpResponse>;
 
 class Http {
   port: string;
@@ -17,15 +21,17 @@ class Http {
   constructor() {
     this.port = `${process.env.SERVER_PORT}`;
     this.headers = {
-      "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
     };
   }
 
-  get = async ({ path, queries }: HttpProps) => {
+  get: HttpMethod = async (path, options) => {
     try {
       const response = await fetch(
-        `${path ?? ""}${queries ? `&${objectToString(queries)}` : ""}`,
+        `${path ?? ""}${
+          options?.queries ? `&${objectToString(options.queries)}` : ""
+        }`,
         {
           method: "GET",
           headers: this.headers,
@@ -56,14 +62,12 @@ class Http {
     }
   };
 
-  post = async ({ path, body }: HttpProps) => {
-    console.log(body);
-
+  post: HttpMethod = async (path, options) => {
     try {
       const response = await fetch(`${path ?? ""}`, {
         method: "POST",
         headers: this.headers,
-        body: JSON.stringify(body),
+        body: JSON.stringify(options?.body || ""),
       });
 
       if (!response.ok) {
@@ -89,16 +93,13 @@ class Http {
       // console.error(err);
     }
   };
-  pull = async ({ path, body }: HttpProps) => {};
-  patch = async ({ path, body }: HttpProps) => {
+  patch: HttpMethod = async (path, options) => {
     try {
       const response = await fetch(`${path ?? ""}`, {
         method: "PATCH",
         headers: this.headers,
-        body: JSON.stringify(body),
+        body: JSON.stringify(options?.body || ""),
       });
-
-      console.log(JSON.stringify(body, null, 2));
 
       if (!response.ok) {
         const { ok, status, statusText } = response;
@@ -123,7 +124,7 @@ class Http {
       // console.error(err);
     }
   };
-  delete = async ({ path, body }: HttpProps) => {};
+  // delete: HttpMethod = async (path, options) => {};
 }
 
 export default new Http();

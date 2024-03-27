@@ -1,5 +1,5 @@
 {
-  "name": "/user",
+  "path": "/user",
   "headers": {
     "Content-Type": "application/json"
   },
@@ -7,15 +7,16 @@
     {
       "method": "POST",
       "delay": 0,
-      "status": 401
+      "status": 200
     },
     {
       "method": "GET",
-      "delay": 0,
-      "status": 200
+      "delay": 500,
+      "status": 200,
+      "code": "(query, body, response) => { return response[0][query.name] }"
     }
   ],
-  "data": [
+  "response": [
     {
       "active": "1",
       "ad_via_link": "https://discover.buysellads.com/carbon?utm_source=affiliates-carbon&utm_medium=ad_via_link&utm_campaign=in_unit&utm_term=carbon",

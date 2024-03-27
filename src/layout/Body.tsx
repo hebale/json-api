@@ -8,7 +8,7 @@ import Monaco from "~/features/Monaco";
 import schemas from "~/schema";
 
 const json = {
-  name: "/",
+  path: "/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -24,7 +24,7 @@ const json = {
       status: 200,
     },
   ],
-  data: {
+  response: {
     변경테스트: true,
     date: "2024-03-25",
     detail: "변경되었습니다",
@@ -35,12 +35,12 @@ const json = {
 const Body = () => {
   const [datas, setDatas] = useState<{ [key: string]: any }[] | null>(null);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const { data } = await getAllJsons();
-  //     if (data) setDatas(data);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const { data } = await getAllJsons();
+      if (data) setDatas(data);
+    })();
+  }, []);
 
   const onValidate = (makers) => {
     console.log(makers);
@@ -48,19 +48,19 @@ const Body = () => {
 
   return (
     <Box>
-      {/* {datas &&
+      {datas &&
         datas.map((data) => (
-          <React.Fragment key={data.name}>
+          <React.Fragment key={data.path}>
             <ApiListItem {...data} />
           </React.Fragment>
-        ))} */}
-      <Monaco
+        ))}
+      {/* <Monaco
         value={JSON.stringify(json)}
         height={600}
         schemas={schemas}
         onChange={(data) => console.log(data)}
         onValidate={onValidate}
-      />
+      /> */}
     </Box>
   );
 };

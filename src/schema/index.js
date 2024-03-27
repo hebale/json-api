@@ -2,13 +2,13 @@ const schemas = [
   {
     title: "JSON-API",
     descriptiion: "",
-    fileMatch: ["*"],
+    fileMatch: ["*.json"],
     schema: {
       type: "object",
       properties: {
         path: {
           type: "string",
-          pattern: "^/([a-z])$",
+          pattern: "((/([a-z0-9_-])+)+)(?![A-Z].)*",
         },
         headers: {
           type: "object",
@@ -36,7 +36,7 @@ const schemas = [
           },
           minItems: 1,
         },
-        body: {
+        response: {
           type: "object",
         },
       },

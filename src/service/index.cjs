@@ -1,5 +1,6 @@
-const jsonService = require("./jsonService.cjs");
-const errorService = require("./errorService.cjs");
+const json = require("./json.cjs");
+const error = require("./error.cjs");
+const api = require("./api.cjs");
 
 const service = ({ app }) => {
   app
@@ -11,8 +12,9 @@ const service = ({ app }) => {
       process.exit(1);
     });
 
-  jsonService({ app });
-  errorService({ app });
+  json({ app });
+  api({ app });
+  error({ app });
 };
 
 module.exports = service;

@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import useAlert from "~/hooks/useAlert";
 import useDialog from "~/hooks/useDialog";
 
-import TabContent from "./TabContent";
+import TabContext from "./TabContext";
 
 const CreateApiDialog = ({ title }: { title: string }) => {
   const { openAlert } = useAlert();
@@ -13,7 +13,7 @@ const CreateApiDialog = ({ title }: { title: string }) => {
   const open = () => {
     openDialog({
       title: title,
-      content: <TabContent />,
+      content: <TabContext />,
       actions: [
         {
           text: "저장",

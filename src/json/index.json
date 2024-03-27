@@ -1,5 +1,5 @@
 {
-  "name": "/",
+  "path": "/",
   "headers": {
     "Content-Type": "application/json"
   },
@@ -7,18 +7,22 @@
     {
       "method": "POST",
       "delay": 100,
-      "status": 500
+      "status": 200
     },
     {
       "method": "GET",
-      "delay": 600,
+      "delay": 500,
       "status": 200
     }
   ],
-  "data": {
+  "response": {
     "변경테스트": true,
     "date": "2024-03-25",
-    "detail": "변경되었습니다",
-    "test": true
+    "detail": "변경되었습니다"
+  },
+  "data": {
+    "변경테스트": true,
+    "date": "2024-03-28",
+    "detail": "변경되었습니다"
   }
 }

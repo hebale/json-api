@@ -7,15 +7,19 @@ import {
   OutlinedInput,
   Select,
   MenuItem,
-  Button,
+  ButtonGroup,
   Typography,
   SelectChangeEvent,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 
 import { updateJsonMethod } from "~/api";
-
 import useAlert from "~/hooks/useAlert";
-import type { ApiListItem } from "~/types/components";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import CodeIcon from "@mui/icons-material/Code";
+
+import type { ApiListItemProps } from "~/types/components";
 
 type FormData = {
   delay: number;
@@ -23,19 +27,19 @@ type FormData = {
 };
 
 const Methods = ({
-  name,
+  path,
   headers,
   methods,
-}: Omit<ApiListItem, "data">): JSX.Element[] => {
+}: Omit<ApiListItemProps, "response">): JSX.Element[] => {
   const [formData, setFormData] = useState<FormData | null>(null);
   const { openAlert } = useAlert();
 
   const onChangeDelay = async (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     method: string
   ) => {
     const response = await updateJsonMethod({
-      name,
+      path,
       method,
       delay: Number(e.target.value),
     });
@@ -48,13 +52,11 @@ const Methods = ({
   };
 
   const onChangeStatus = async (
-    e: SelectChangeEvent<HTMLSelectElement>,
+    e: SelectChangeEvent<number>,
     method: string
   ) => {
-    console.log(method);
-
     const response = await updateJsonMethod({
-      name,
+      path,
       method,
       status: e.target.value,
     });
@@ -84,7 +86,18 @@ const Methods = ({
       </Typography>
 
       <Stack flexDirection="row" alignItems="center">
-        <Button size="small">code</Button>
+        <ButtonGroup sx={{ mr: 2 }}>
+          <Tooltip title="Run" placement="top" arrow>
+            <IconButton size="small">
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Inject JS" placement="top" arrow>
+            <IconButton size="small">
+              <CodeIcon />
+            </IconButton>
+          </Tooltip>
+        </ButtonGroup>
 
         <FormGroup
           row={true}
@@ -105,7 +118,7 @@ const Methods = ({
               defaultValue={delay}
               inputProps={{
                 min: 0,
-                step: 100,
+                step: 500,
               }}
               sx={{ height: "30px" }}
               onChange={(e) => onChangeDelay(e, method)}
@@ -120,10 +133,14 @@ const Methods = ({
               onChange={(e) => onChangeStatus(e, method)}
             >
               <MenuItem value={200}>200</MenuItem>
+              <MenuItem value={304}>304</MenuItem>
+              <MenuItem value={400}>400</MenuItem>
               <MenuItem value={401}>401</MenuItem>
               <MenuItem value={403}>403</MenuItem>
-              <MenuItem value={404}>404</MenuItem>
+              <MenuItem value={405}>405</MenuItem>
+              <MenuItem value={408}>408</MenuItem>
               <MenuItem value={500}>500</MenuItem>
+              <MenuItem value={501}>501</MenuItem>
               <MenuItem value={505}>505</MenuItem>
             </Select>
           </FormControl>

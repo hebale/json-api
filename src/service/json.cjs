@@ -19,7 +19,7 @@ const jsonService = ({ app }) => {
   /**
    * api json 데이터
    */
-  app.get("/api/v1/all-jsons", async (req, res) => {
+  app.get("/api/v1/all-jsons", async (_, res) => {
     try {
       const jsonFilesPath = glob.sync(`${root}/**/*.json`);
       const allJson = [];
@@ -42,7 +42,7 @@ const jsonService = ({ app }) => {
     } catch (err) {
       console.log(err);
 
-      res.send({
+      res.status(500).send({
         code: 500,
         message: "server error",
         err,
@@ -55,9 +55,9 @@ const jsonService = ({ app }) => {
    */
   app.get("/api/v1/download", (req, res) => {
     try {
-      const { name } = req.query;
+      const { path } = req.query;
 
-      res.sendFile(`${root}${name}\\index.json`);
+      res.sendFile(`${root}${path}\\index.json`);
     } catch (err) {
       res.send({
         code: "000",
@@ -69,14 +69,14 @@ const jsonService = ({ app }) => {
   // json 데이터 등록
   app.post("/api/v1/regist", (req, res) => {
     try {
-      const { name, data } = req.body;
-      const basePath = getBasePath(name);
+      const { path, response } = req.body;
+      const basePath = getBasePath(path);
 
       if (!hasDir(basePath)) {
         fs.mkdirSync(basePath, { recursive: true });
       }
 
-      fs.writeFileSync(`${basePath}/index.json`, JSON.stringify(data));
+      fs.writeFileSync(`${basePath}/index.json`, JSON.stringify(response));
 
       res.send({
         code: 200,
@@ -87,56 +87,24 @@ const jsonService = ({ app }) => {
     }
   });
 
-  // app.patch("/api/v1/update-method", (req, res) => {
-  //   try {
-  //     const { name, method, data } = req.body;
-
-  //     const response = fs.readFileSync(`${root}${name}\\index.json`, {
-  //       encoding: "utf-8",
-  //       flag: "r",
-  //     });
-  //     const jsonData = JSON.parse(response);
-
-  //     console.log('before >>>>', jsonData);
-
-  //     if(method) {
-  //       jsonData.
-  //     }else{
-  //       jsonData.data = data;
-  //     }
-
-  //     console.log('after >>>>>>>', jsonData)
-
-  //     fs.writeFile(`${basePath}/index.json`, jsonData);
-
-  //     res.send({
-  //       code: 200,
-  //       message: "json is updated",
-  //     });
-  //   } catch (err) {
-  //     res.send({
-  //       code: "000",
-  //       message: "json file update failed!",
-  //     });
-  //   }
-  // });
-
   /**
    * response data 업데이트
    */
   app.patch("/api/v1/update-data", (req, res) => {
     try {
-      const { name, data } = req.body;
-      if (!data) throw new Error("data is not defined");
+      const { path, response } = req.body;
+      if (!response) throw new Error("data is not defined");
 
-      const basePath = getBasePath(name);
-      const response = fs.readFileSync(`${root}${name}\\index.json`, {
+      const basePath = getBasePath(path);
+      const data = fs.readFileSync(`${root}${path}\\index.json`, {
         encoding: "utf-8",
         flag: "r",
       });
-      const jsonData = JSON.parse(response);
+      const jsonData = JSON.parse(data);
 
-      jsonData.data = JSON.parse(data);
+      jsonData.response = JSON.parse(response);
+
+      console.log(jsonData, response, data);
 
       fs.writeFileSync(
         `${basePath}/index.json`,
@@ -156,16 +124,28 @@ const jsonService = ({ app }) => {
   });
 
   /**
+   * json 제거
+   */
+
+  app.delete("/api/v1/remove-json", (req, res) => {
+    try {
+      const { path } = req.body;
+
+      if (!path) throw new Error("Unvalid Parameters");
+    } catch {}
+  });
+
+  /**
    * method 정보 업데이트
    */
   app.patch("/api/v1/update-method", (req, res) => {
     try {
-      const { name, method, delay, status } = req.body;
+      const { path, method, delay, status } = req.body;
 
       if (!method && (!delay || !status)) throw new Error("Unvalid Parameters");
 
-      const basePath = getBasePath(name);
-      const response = fs.readFileSync(`${root}${name}\\index.json`, {
+      const basePath = getBasePath(path);
+      const response = fs.readFileSync(`${root}${path}\\index.json`, {
         encoding: "utf-8",
         flag: "r",
       });

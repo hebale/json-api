@@ -20,12 +20,12 @@ import { updateJsonData } from "~/api";
 import type { editor } from "monaco-editor";
 
 type EditorProps = {
-  name?: string;
+  path: string;
   value: string;
   height: number;
 };
 
-const Editor = ({ name, value, height }: EditorProps) => {
+const Editor = ({ path, value, height }: EditorProps) => {
   const [code, setCode] = useState<string | null>(value ?? null);
   const [validate, setValidate] = useState<
     Pick<editor.IMarker, "endColumn" | "endLineNumber" | "message">[]
@@ -51,7 +51,7 @@ const Editor = ({ name, value, height }: EditorProps) => {
       });
     }
 
-    const response = await updateJsonData({ name, data: code });
+    const response = await updateJsonData({ path, response: code });
 
     response
       ? openAlert({ type: "success", message: "저장 되었습니다" })

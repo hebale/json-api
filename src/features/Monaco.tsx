@@ -49,9 +49,9 @@ const Monaco = ({
 
   const onMount: OnMount = (editor) => {
     editorRef.current = editor;
-    setTimeout(async () => {
-      editor.getAction("editor.action.formatDocument")?.run();
-    }, 300);
+    // setTimeout(async () => {
+    //   editor.getAction("editor.action.formatDocument")?.run();
+    // }, 300);
   };
 
   const onChangeCode = () => {
