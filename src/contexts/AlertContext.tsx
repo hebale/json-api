@@ -2,10 +2,10 @@ import React, { createContext, useState } from "react";
 import Alerts from "~/features/Alerts";
 
 import type { ReactNode } from "react";
-import type { AlertProps, AlertDispetchProps } from "~/types/features";
+import type { AlertProps, AlertDispatchProps } from "~/types/features";
 
 export const AlertStatusContext = createContext<AlertProps[]>([]);
-export const AlertDispatchContext = createContext<AlertDispetchProps>({
+export const AlertDispatchContext = createContext<AlertDispatchProps>({
   open: () => {},
   close: () => {},
 });
@@ -13,7 +13,7 @@ export const AlertDispatchContext = createContext<AlertDispetchProps>({
 const AlertProvider = ({ children }: { children: ReactNode }) => {
   const [alerts, setAlerts] = useState<AlertProps[]>([]);
 
-  const dispatch: AlertDispetchProps = {
+  const dispatch: AlertDispatchProps = {
     open: (alert) => {
       setAlerts((alerts) => [...alerts, alert]);
     },

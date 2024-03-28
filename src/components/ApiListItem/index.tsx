@@ -31,7 +31,7 @@ const onUpdateData = (type: string, params) => {
 };
 
 const ApiListItem = ({
-  path,
+  apiPath,
   headers,
   methods,
   response,
@@ -59,12 +59,12 @@ const ApiListItem = ({
         }
         sx={{ ...style }}
       >
-        <Summary {...{ path: path as string }} />
+        <Summary {...{ apiPath: apiPath as string }} />
       </AccordionSummary>
       <AccordionDetails>
-        <Methods {...{ path: path as string, headers, methods }} />
+        <Methods {...{ apiPath: apiPath as string, headers, methods }} />
         <Editor
-          {...{ path: path as string }}
+          {...{ apiPath: apiPath as string }}
           value={converter(response)}
           height={260}
         />

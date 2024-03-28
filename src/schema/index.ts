@@ -12,7 +12,7 @@ const schemas = [
         description: {
           type: "string",
         },
-        path: {
+        apiPath: {
           type: "string",
           pattern: "((/([a-z0-9_-])+)+)(?![A-Z].)*",
         },
@@ -25,7 +25,7 @@ const schemas = [
             properties: {
               type: {
                 type: "string",
-                enum: ["GET", "POST", "PATCH", "DELETE"],
+                enum: ["GET", "POST", "PATCH", "PUT", "DELETE"],
               },
               delay: {
                 type: "number",

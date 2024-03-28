@@ -2,53 +2,49 @@ import React, { useState, useEffect } from "react";
 import { Tooltip, IconButton } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 
-import useAlert from "~/hooks/useAlert";
+import useModal from "~/hooks/useModal";
 import useDialog from "~/hooks/useDialog";
 
 import Editor from "./Editor";
-import { getJson } from "~/api";
+import { getJson, deleteJson } from "~/api";
 
-const EditApiDialog = ({ path }: { path: string }) => {
-  const { openAlert } = useAlert();
+const EditApiDialog = ({ apiPath }: { apiPath: string }) => {
   const { openDialog } = useDialog();
+  const { openModal } = useModal();
 
   const [code, setCode] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
-      const { data } = await getJson(path);
+      const { data } = await getJson(apiPath);
       console.log(data);
 
-      setCode(JSON.stringify(data));
+      setCode(data);
     })();
   }, []);
 
   const open = () => {
     openDialog({
       title: "API 수정",
-      content: <Editor value={code} height={600} />,
+      content: (
+        <Editor apiPath={apiPath} value={JSON.stringify(code)} height={600} />
+      ),
       actions: [
         {
           text: "삭제",
           color: "error",
           variant: "contained",
-          onAction: (closeFn, contents) => {
-            // closeFn();
-            console.log(contents);
-          },
-        },
-        {
-          text: "수정",
-          variant: "contained",
-          onAction: (closeFn) => {
-            openAlert({
-              type: "success",
-              message: "성공했습니다.",
+          onAction: async (closeFn, contents) => {
+            const flag = await openModal({
+              type: "confirm",
+              title: "알림",
+              message: "삭제하시겠습니까?",
             });
 
-            setTimeout(() => {
-              closeFn();
-            }, 4000);
+            if (flag) {
+              const data = await deleteJson({ apiPath: code?.apiPath });
+              console.log(data);
+            }
           },
         },
         {

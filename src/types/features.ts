@@ -40,8 +40,24 @@ export type AlertProps = {
   timer?: number;
 };
 
-export type AlertDispetchProps = {
+export type AlertDispatchProps = {
   open: (alert: AlertProps) => void;
+  close: (id: number) => void;
+};
+
+/**
+ * Modal type
+ */
+export type ModalProps = {
+  id?: number;
+  type: "alert" | "confirm" | "prompt";
+  title?: string;
+  message: string;
+  resolve?: any;
+};
+
+export type ModalDispatchProps = {
+  open: (alert: ModalProps) => Promise<ModalProps>;
   close: (id: number) => void;
 };
 

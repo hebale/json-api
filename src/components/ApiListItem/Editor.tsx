@@ -15,17 +15,17 @@ import CopyButton from "~/features/CopyButton";
 import Monaco from "~/features/Monaco";
 
 import useAlert from "~/hooks/useAlert";
-import { updateJsonData } from "~/api";
+import { patchJsonData } from "~/api";
 
 import type { editor } from "monaco-editor";
 
 type EditorProps = {
-  path: string;
+  apiPath: string;
   value: string;
   height: number;
 };
 
-const Editor = ({ path, value, height }: EditorProps) => {
+const Editor = ({ apiPath, value, height }: EditorProps) => {
   const [code, setCode] = useState<string | null>(value ?? null);
   const [validate, setValidate] = useState<
     Pick<editor.IMarker, "endColumn" | "endLineNumber" | "message">[]
@@ -42,16 +42,17 @@ const Editor = ({ path, value, height }: EditorProps) => {
     if (validate.length) {
       return openAlert({
         type: "error",
-        message: validate
+        message: `JSON 양식을 확인해주세요.\n${validate
           .map(
             ({ endLineNumber, endColumn, message }) =>
               `${endLineNumber}:${endColumn} ${message}`
           )
-          .join("\n"),
+          .join(`\n`)}`,
+        timer: 5000,
       });
     }
 
-    const response = await updateJsonData({ path, response: code });
+    const response = await patchJsonData({ apiPath, response: code });
 
     response
       ? openAlert({ type: "success", message: "저장 되었습니다" })

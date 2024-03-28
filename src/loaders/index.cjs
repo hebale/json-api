@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 
 const webpack = require("webpack");
 const middleware = require("webpack-dev-middleware");
-const compiler = webpack(require("../config/webpack.config.js"));
+const compiler = webpack(require("../config/webpack.config.cjs"));
 
 const loader = ({ app }) => {
   app.use(

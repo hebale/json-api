@@ -33,7 +33,11 @@ const Alerts = () => {
 
           return (
             <Collapse key={id}>
-              <Alert severity={type ?? "info"} onClose={() => close(id)}>
+              <Alert
+                severity={type ?? "info"}
+                onClose={() => close(id)}
+                sx={{ whiteSpace: "pre-wrap" }}
+              >
                 {message}
               </Alert>
             </Collapse>

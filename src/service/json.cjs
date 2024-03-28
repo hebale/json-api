@@ -12,24 +12,19 @@ const hasDir = (path) => {
 
 const root = path.resolve(process.cwd(), "./src/json");
 
-const getBasePath = (_path) =>
-  path.resolve(process.cwd(), `./src/json${_path}`);
+const getBasePath = (apiPath) =>
+  path.resolve(process.cwd(), `./src/json${apiPath}`);
 
 const jsonService = ({ app }) => {
   /**
-   * GET
+   * 모든 JSON 데이터 검색
    */
-  app.get("/api/v1/all-jsons", async (_, res) => {
+  app.get("/api/v1/all", async (_, res) => {
     try {
       const jsonFilesPath = glob.sync(`${root}/**/*.json`);
       const allJson = [];
 
       jsonFilesPath.forEach((filePath) => {
-        console.log(
-          process.cwd(),
-          filePath,
-          path.resolve(process.cwd(), filePath)
-        );
         const response = fs.readFileSync(
           path.resolve(process.cwd(), filePath),
           {
@@ -58,18 +53,14 @@ const jsonService = ({ app }) => {
     }
   });
 
+  /**
+   * 단일 JSON 데이터 검색
+   */
   app.get("/api/v1/json", async (req, res) => {
     try {
-      const query = req.query;
-
-      console.log(
-        process.cwd(),
-        `${query.path}/index.json`,
-        path.join(process.cwd(), `${query.path}/index.json`)
-      );
-
+      const { apiPath } = req.query;
       const response = fs.readFileSync(
-        path.resolve(process.cwd(), `src/json${query.path}/index.json`),
+        path.resolve(process.cwd(), `src/json${apiPath}/index.json`),
         {
           encoding: "utf-8",
           flag: "r",
@@ -91,13 +82,16 @@ const jsonService = ({ app }) => {
     }
   });
 
+  /**
+   * 단일 JSON파일 다운로드
+   */
   app.get("/api/v1/download", (req, res) => {
     try {
-      const { path } = req.query;
+      const { apiPath } = req.query;
 
-      res.sendFile(`${root}${path}\\index.json`);
+      res.sendFile(`${root}${apiPath}/index.json`);
     } catch (err) {
-      res.send({
+      res.status(500).send({
         code: 500,
         message: "Internal Server Error",
       });
@@ -105,20 +99,20 @@ const jsonService = ({ app }) => {
   });
 
   /**
-   * POST
+   * 단일 JSON파일 등록
    */
-  app.post("/api/v1/regist", (req, res) => {
+  app.post("/api/v1/json", (req, res) => {
     try {
-      const { path, response } = req.body;
-      const basePath = getBasePath(path);
+      const { apiPath, response } = req.body;
+      const basePath = getBasePath(apiPath);
 
       if (!hasDir(basePath)) {
         fs.mkdirSync(basePath, { recursive: true });
       }
 
-      fs.writeFileSync(`${basePath}/index.json`, JSON.stringify(response));
+      fs.writeFileSync(`${basePath}/index.json`, JSON.parse(response));
 
-      res.send({
+      res.status(500).send({
         code: 200,
         message: "Ok",
       });
@@ -128,15 +122,15 @@ const jsonService = ({ app }) => {
   });
 
   /**
-   * PATCH
+   *  단일 JSON파일 response값 수정
    */
-  app.patch("/api/v1/update-data", (req, res) => {
+  app.patch("/api/v1/json/response", (req, res) => {
     try {
-      const { path, response } = req.body;
+      const { apiPath, response } = req.body;
       if (!response) throw new Error("data is not defined");
 
-      const basePath = getBasePath(path);
-      const data = fs.readFileSync(`${root}${path}/index.json`, {
+      const basePath = getBasePath(apiPath);
+      const data = fs.readFileSync(`${root}${apiPath}/index.json`, {
         encoding: "utf-8",
         flag: "r",
       });
@@ -144,10 +138,8 @@ const jsonService = ({ app }) => {
 
       jsonData.response = JSON.parse(response);
 
-      console.log(jsonData, response, data);
-
       fs.writeFileSync(
-        `${basePath}/index.json`,
+        path.join(basePath, "/index.json"),
         JSON.stringify(jsonData, null, 2)
       );
 
@@ -156,27 +148,30 @@ const jsonService = ({ app }) => {
         message: "Ok",
       });
     } catch (err) {
-      res.send({
+      res.status(500).send({
         code: 500,
         message: "Internal Server Error",
       });
     }
   });
 
-  app.patch("/api/v1/update-method", (req, res) => {
+  /**
+   *  단일 JSON파일 methods값 수정
+   */
+  app.patch("/api/v1/json/methods", (req, res) => {
     try {
-      const { path, method, delay, status } = req.body;
+      const { apiPath, method, delay, status } = req.body;
 
       if (!method && (!delay || !status)) throw new Error("Unvalid Parameters");
 
-      const basePath = getBasePath(path);
-      const response = fs.readFileSync(`${root}${path}/index.json`, {
+      const basePath = getBasePath(apiPath);
+      const response = fs.readFileSync(`${root}${apiPath}/index.json`, {
         encoding: "utf-8",
         flag: "r",
       });
       const jsonData = JSON.parse(response);
 
-      if (delay) {
+      if (delay === 0 || delay) {
         jsonData.methods = jsonData.methods.map((_) => {
           if (_.method === method) _.delay = delay;
           return _;
@@ -191,7 +186,7 @@ const jsonService = ({ app }) => {
       }
 
       fs.writeFileSync(
-        `${basePath}/index.json`,
+        path.join(basePath, "/index.json"),
         JSON.stringify(jsonData, null, 2)
       );
 
@@ -200,7 +195,7 @@ const jsonService = ({ app }) => {
         message: "Ok",
       });
     } catch (err) {
-      res.send({
+      res.status(500).send({
         code: 500,
         message: "Internal Server Error",
       });
@@ -208,15 +203,81 @@ const jsonService = ({ app }) => {
   });
 
   /**
-   * DELETE
+   * 단일 JSON파일 전체수정
    */
-  app.delete("/api/v1/remove-json", (req, res) => {
+  app.put("/api/v1/json", (req, res) => {
     try {
-      const { path } = req.body;
+      const { apiPath, response } = req.body;
+      const basePath = getBasePath(apiPath);
 
-      if (!path) throw new Error("Unvalid Parameters");
-    } catch {}
+      if (!hasDir(basePath)) {
+        fs.mkdirSync(basePath, { recursive: true });
+      }
+
+      fs.writeFileSync(
+        path.join(basePath, "/index.json"),
+        JSON.stringify(response, null, 2)
+      );
+
+      res.status(500).send({
+        code: 200,
+        message: "Ok",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  /**
+   * 단일 JSON파일 삭제
+   */
+  app.delete("/api/v1/json", (req, res) => {
+    try {
+      const { apiPath } = req.body;
+      if (!apiPath) throw new Error("Unvalid Parameters");
+
+      fs.rmSync(path.join(root, apiPath, "/index.json"));
+      /**
+       * ※추가※ 폴더정리 함수필요
+       */
+      res.send({
+        code: 200,
+        message: "Ok",
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: "Internal Server Error",
+      });
+    }
   });
 };
 
 module.exports = jsonService;
+
+// function cleanEmptyFoldersRecursively(folder) {
+//   var fs = require('fs');
+//   var path = require('path');
+
+//   var isDir = fs.statSync(folder).isDirectory();
+//   if (!isDir) {
+//     return;
+//   }
+//   var files = fs.readdirSync(folder);
+//   if (files.length > 0) {
+//     files.forEach(function(file) {
+//       var fullPath = path.join(folder, file);
+//       cleanEmptyFoldersRecursively(fullPath);
+//     });
+
+//     // re-evaluate files; after deleting subfolder
+//     // we may have parent folder empty now
+//     files = fs.readdirSync(folder);
+//   }
+
+//   if (files.length == 0) {
+//     console.log("removing: ", folder);
+//     fs.rmdirSync(folder);
+//     return;
+//   }
+// }

@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.tsx",
   "scripts": {
-    "dev": "webpack-dev-server --config ./src/config/webpack.config.js --mode=development",
+    "dev": "webpack-dev-server --config ./src/config/webpack.config.cjs --mode=development",
     "start": "nodemon ./src/app.cjs",
-    "build": "pnpm clean && webpack --config ./src/config/webpack.config.js --mode=production",
+    "build": "pnpm clean && webpack --config ./src/config/webpack.config.cjs --mode=production",
     "clean": "rimraf ./public"
   },
   "dependencies": {

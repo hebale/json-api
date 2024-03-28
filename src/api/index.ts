@@ -1,22 +1,36 @@
 import http from "./http";
 
 export const getAllJsons = async () => {
-  const response = await http.get("/api/v1/all-jsons");
+  const response = await http.get("/api/v1/all");
   if (response?.code === 200) return response;
 };
 
 export const getJson = async (params: string) => {
-  console.log(params);
-  const response = await http.get(`/api/v1/json?path=${params}`);
+  const response = await http.get(`/api/v1/json?apiPath=${params}`);
   if (response?.code === 200) return response;
 };
 
-export const updateJsonData = async (params: any) => {
-  const response = await http.patch("/api/v1/update-data", { body: params });
+export const postJsonData = async (params: any) => {
+  const response = await http.patch("/api/v1/json", { body: params });
   if (response?.code === 200) return response;
 };
 
-export const updateJsonMethod = async (params: any) => {
-  const response = await http.patch("/api/v1/update-method", { body: params });
+export const putJsonData = async (params: any) => {
+  const response = await http.put("/api/v1/json", { body: params });
+  if (response?.code === 200) return response;
+};
+
+export const patchJsonData = async (params: any) => {
+  const response = await http.patch("/api/v1/json/response", { body: params });
+  if (response?.code === 200) return response;
+};
+
+export const patchJsonMethods = async (params: any) => {
+  const response = await http.patch("/api/v1/json/methods", { body: params });
+  if (response?.code === 200) return response;
+};
+
+export const deleteJson = async (params: any) => {
+  const response = await http.delete(`/api/v1/json`, { body: params });
   if (response?.code === 200) return response;
 };

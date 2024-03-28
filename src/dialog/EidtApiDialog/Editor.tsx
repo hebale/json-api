@@ -15,16 +15,17 @@ import CopyButton from "~/features/CopyButton";
 import Monaco from "~/features/Monaco";
 
 import useAlert from "~/hooks/useAlert";
-import { updateJsonData } from "~/api";
+import { putJsonData } from "~/api";
 
 import type { editor } from "monaco-editor";
 
 type EditorProps = {
+  apiPath: string;
   value: string;
   height?: number;
 };
 
-const Editor = ({ value, height }: EditorProps) => {
+const Editor = ({ apiPath, value, height }: EditorProps) => {
   const [code, setCode] = useState<string | null>(value ?? null);
   const [validate, setValidate] = useState<
     Pick<editor.IMarker, "endColumn" | "endLineNumber" | "message">[]
@@ -50,7 +51,7 @@ const Editor = ({ value, height }: EditorProps) => {
       });
     }
 
-    const response = await updateJsonData({ path, response: code });
+    const response = await putJsonData({ apiPath, response: JSON.parse(code) });
 
     response
       ? openAlert({ type: "success", message: "저장 되었습니다" })
@@ -65,9 +66,9 @@ const Editor = ({ value, height }: EditorProps) => {
   };
 
   return (
-    <Box sx={{ mt: 4 }}>
+    <Box>
       <InputLabel sx={{ fontSize: "14px" /* color: "#1976d2" */ }} shrink>
-        Response Data
+        JSON Data
       </InputLabel>
       <Stack
         flexDirection="row"
@@ -110,7 +111,7 @@ const Editor = ({ value, height }: EditorProps) => {
         </ButtonGroup>
       </Stack>
       <Monaco
-        value={code ?? ""}
+        value={JSON.stringify(code) ?? ""}
         height={height}
         boxStyle={{
           borderTopLeftRadius: 0,

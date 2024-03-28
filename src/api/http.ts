@@ -124,7 +124,68 @@ class Http {
       // console.error(err);
     }
   };
-  // delete: HttpMethod = async (path, options) => {};
+  put: HttpMethod = async (path, options) => {
+    try {
+      const response = await fetch(`${path ?? ""}`, {
+        method: "PUT",
+        headers: this.headers,
+        body: JSON.stringify(options?.body || ""),
+      });
+
+      if (!response.ok) {
+        const { ok, status, statusText } = response;
+        throw { ok, status, message: statusText };
+      }
+
+      const data = await (() => {
+        if (
+          !this.headers ||
+          this.headers["Content-Type"].indexOf("json") > -1
+        ) {
+          return response.json();
+        }
+        return response;
+      })();
+
+      return data;
+    } catch (err) {
+      let message = "Unknown Error!";
+      if (err instanceof Error) message = err.message;
+
+      // console.error(err);
+    }
+  };
+  delete: HttpMethod = async (path, options) => {
+    try {
+      const response = await fetch(`${path ?? ""}`, {
+        method: "DELETE",
+        headers: this.headers,
+        body: JSON.stringify(options?.body || ""),
+      });
+
+      if (!response.ok) {
+        const { ok, status, statusText } = response;
+        throw { ok, status, message: statusText };
+      }
+
+      const data = await (() => {
+        if (
+          !this.headers ||
+          this.headers["Content-Type"].indexOf("json") > -1
+        ) {
+          return response.json();
+        }
+        return response;
+      })();
+
+      return data;
+    } catch (err) {
+      let message = "Unknown Error!";
+      if (err instanceof Error) message = err.message;
+
+      // console.error(err);
+    }
+  };
 }
 
 export default new Http();

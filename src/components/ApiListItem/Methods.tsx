@@ -14,10 +14,11 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import { updateJsonMethod } from "~/api";
 import useAlert from "~/hooks/useAlert";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import CodeIcon from "@mui/icons-material/Code";
+
+import { patchJsonMethods } from "~/api";
 
 import type { ApiListItemProps } from "~/types/components";
 
@@ -27,7 +28,7 @@ type FormData = {
 };
 
 const Methods = ({
-  path,
+  apiPath,
   headers,
   methods,
 }: Omit<ApiListItemProps, "response">): JSX.Element[] => {
@@ -38,8 +39,8 @@ const Methods = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     method: string
   ) => {
-    const response = await updateJsonMethod({
-      path,
+    const response = await patchJsonMethods({
+      apiPath,
       method,
       delay: Number(e.target.value),
     });
@@ -55,8 +56,8 @@ const Methods = ({
     e: SelectChangeEvent<number>,
     method: string
   ) => {
-    const response = await updateJsonMethod({
-      path,
+    const response = await patchJsonMethods({
+      apiPath,
       method,
       status: e.target.value,
     });

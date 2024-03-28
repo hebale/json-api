@@ -2,8 +2,6 @@ import React from "react";
 import { Stack } from "@mui/material";
 
 import ApiSearchBar from "~/components/ApiSearchBar";
-import DownlaodFile from "~/components/DownlaodFile";
-
 import CreateApiDialog from "~/dialog/CreateApiDialog";
 
 const Header = () => {

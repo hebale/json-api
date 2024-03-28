@@ -8,7 +8,7 @@ import Monaco from "~/features/Monaco";
 import schemas from "~/schema";
 
 const json = {
-  path: "/",
+  apiPath: "/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -50,7 +50,7 @@ const Body = () => {
     <Box>
       {datas &&
         datas.map((data) => (
-          <React.Fragment key={data.path}>
+          <React.Fragment key={data.apiPath}>
             <ApiListItem {...data} />
           </React.Fragment>
         ))}
