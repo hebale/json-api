@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { FormControl, OutlinedInput, InputAdornment } from "@mui/material";
+import {
+  FormControl,
+  OutlinedInput,
+  Typography,
+  InputAdornment,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 const ApiSearchBar = () => {
@@ -21,18 +26,18 @@ const ApiSearchBar = () => {
     <FormControl variant="outlined" size="small">
       <OutlinedInput
         type="text"
-        placeholder="api name"
+        placeholder="{path}"
         {...{ onChange }}
         {...{ onKeyDown }}
+        sx={{ alignItems: "center" }}
         startAdornment={
-          <InputAdornment position="start">
+          <Typography
+            sx={{ mt: 0.5, mr: 0.2, fontWeight: 700 }}
+          >{`http://localhost:${process.env.SERVER_PORT}/`}</Typography>
+        }
+        endAdornment={
+          <InputAdornment position="end">
             <SearchIcon />
-            {/* <IconButton
-              // onClick={handleClickShowPassword}
-              // onMouseDown={handleMouseDownPassword}
-              edge="start"
-            >
-            </IconButton> */}
           </InputAdornment>
         }
       />

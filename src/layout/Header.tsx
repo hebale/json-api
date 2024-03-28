@@ -10,6 +10,7 @@ const Header = () => {
       component="header"
       flexDirection="row"
       justifyContent="space-between"
+      alignItems="center"
       sx={{ py: 4 }}
     >
       <ApiSearchBar />
