@@ -1,4 +1,4 @@
-const errorService = ({ app }) => {
+const error = ({ app }) => {
   app.use((_, res) => {
     res.status(404).send("Not Found");
   });
@@ -7,4 +7,4 @@ const errorService = ({ app }) => {
   });
 };
 
-module.exports = errorService;
+module.exports = error;

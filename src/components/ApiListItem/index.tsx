@@ -26,10 +26,6 @@ const style = {
   },
 };
 
-const onUpdateData = (type: string, params) => {
-  console.log(type, params);
-};
-
 const ApiListItem = ({
   apiPath,
   headers,
@@ -41,13 +37,7 @@ const ApiListItem = ({
     setExpand((prev) => !prev);
   };
 
-  const converter = (value) => {
-    if (typeof value === "string") {
-      return value;
-    }
-
-    return JSON.stringify(value);
-  };
+  console.log(response);
 
   return (
     <Accordion expanded={expand} sx={{ border: "1px solid #eee" }}>
@@ -65,7 +55,7 @@ const ApiListItem = ({
         <Methods {...{ apiPath: apiPath as string, headers, methods }} />
         <Editor
           {...{ apiPath: apiPath as string }}
-          value={converter(response)}
+          value={JSON.stringify(response, null, 2)}
           height={260}
         />
       </AccordionDetails>

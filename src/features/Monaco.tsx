@@ -12,11 +12,12 @@ type MonacoProps = {
   value: string;
   schemas?: any[];
   boxStyle?: { [key: string]: string | number };
+  options?: any;
   onChange?: (value?: string) => void;
   onValidate?: (value: editor.IMarker[]) => void;
 };
 
-const options = {
+const defaultOptions = {
   height: 300,
   theme: "vs-dark",
   options: {
@@ -35,6 +36,7 @@ const Monaco = ({
   schemas,
   onChange,
   onValidate,
+  ...options
 }: MonacoProps) => {
   const editorRef = useRef<null | editor.IStandaloneCodeEditor>(null);
   const monaco = useMonaco();
@@ -74,7 +76,10 @@ const Monaco = ({
         onMount={onMount}
         onChange={onChangeCode}
         onValidate={onValidate}
-        {...options}
+        options={{
+          ...defaultOptions,
+          ...options,
+        }}
         {...(height && { height: height - 32 })}
       />
     </Box>

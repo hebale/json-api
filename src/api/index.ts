@@ -10,17 +10,17 @@ export const getJson = async (params: string) => {
   if (response?.code === 200) return response;
 };
 
-export const postJsonData = async (params: any) => {
-  const response = await http.patch("/api/v1/json", { body: params });
+export const postJson = async (params: any) => {
+  const response = await http.post("/api/v1/json", { body: params });
   if (response?.code === 200) return response;
 };
 
-export const putJsonData = async (params: any) => {
+export const putJson = async (params: any) => {
   const response = await http.put("/api/v1/json", { body: params });
   if (response?.code === 200) return response;
 };
 
-export const patchJsonData = async (params: any) => {
+export const patchJsonResponse = async (params: any) => {
   const response = await http.patch("/api/v1/json/response", { body: params });
   if (response?.code === 200) return response;
 };

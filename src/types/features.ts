@@ -10,6 +10,23 @@ export type DownloadFileProps = {
 };
 
 /**
+ * JSON data
+ */
+export type JSONData = {
+  apiPath: string;
+  header: {
+    [key: string]: string;
+  };
+  methods: {
+    method: "GET" | "POST" | "PULL" | "PATCH" | "DELTE";
+    delay: number;
+    status: number;
+    code: string;
+  }[];
+  response: any;
+};
+
+/**
  * Dialog type
  */
 export type DialogProps = {

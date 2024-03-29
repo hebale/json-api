@@ -24,7 +24,7 @@ const TabContent = () => {
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={onChangeTab}>
             <Tab label="파일 업로드" value="upload" />
-            <Tab label="등록하기" value="form" />
+            <Tab label="정보 입력" value="form" />
           </TabList>
         </Box>
         <TabPanel value="upload">

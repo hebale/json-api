@@ -15,28 +15,44 @@ import CopyButton from "~/features/CopyButton";
 import Monaco from "~/features/Monaco";
 
 import useAlert from "~/hooks/useAlert";
-import { putJsonData } from "~/api";
+import schemas from "~/schema";
+import { getJson, putJson } from "~/api";
 
 import type { editor } from "monaco-editor";
 
 type EditorProps = {
-  apiPath: string;
+  path: string;
   value: string;
   height?: number;
 };
 
-const Editor = ({ apiPath, value, height }: EditorProps) => {
-  const [code, setCode] = useState<string | null>(value ?? null);
+const Editor = ({ path, value, height }: EditorProps) => {
+  const [origin, setOrigin] = useState<string>("");
+  const [code, setCode] = useState<string>(value);
   const [validate, setValidate] = useState<
     Pick<editor.IMarker, "endColumn" | "endLineNumber" | "message">[]
   >([]);
   const [isChanged, setIsChanged] = useState(false);
-
   const { openAlert } = useAlert();
 
   useEffect(() => {
-    setIsChanged(value === code);
+    getJsonData();
+  }, []);
+
+  useEffect(() => {
+    setIsChanged(origin === code);
   }, [code]);
+
+  const getJsonData = async () => {
+    const response = await getJson(path);
+
+    delete response?.data.path; // 수정불가항목 미노출
+
+    const strJson = JSON.stringify(response?.data, null, 2);
+
+    setCode(strJson);
+    setOrigin(strJson);
+  };
 
   const onSaveCode = async () => {
     if (validate.length) {
@@ -51,14 +67,20 @@ const Editor = ({ apiPath, value, height }: EditorProps) => {
       });
     }
 
-    const response = await putJsonData({ apiPath, response: JSON.parse(code) });
+    const response = await putJson({
+      apiPath: path,
+      response: { apiPath: path, ...JSON.parse(code) },
+    });
 
-    response
-      ? openAlert({ type: "success", message: "저장 되었습니다" })
-      : openAlert({
-          type: "error",
-          message: "오류가 발생했습니다. 다시 시도해 주세요.",
-        });
+    if (response) {
+      openAlert({ type: "success", message: "저장 되었습니다" });
+      getJsonData();
+    } else {
+      openAlert({
+        type: "error",
+        message: "오류가 발생했습니다. 다시 시도해 주세요.",
+      });
+    }
   };
 
   const onValidateCode = (makers: editor.IMarker[]) => {
@@ -99,7 +121,7 @@ const Editor = ({ apiPath, value, height }: EditorProps) => {
             }
           />
           <Tooltip title="Refresh" placement="top" arrow>
-            <IconButton onClick={() => setCode(value)} disabled={isChanged}>
+            <IconButton onClick={() => getJsonData()} disabled={isChanged}>
               <RefreshIcon />
             </IconButton>
           </Tooltip>
@@ -111,8 +133,9 @@ const Editor = ({ apiPath, value, height }: EditorProps) => {
         </ButtonGroup>
       </Stack>
       <Monaco
-        value={JSON.stringify(code) ?? ""}
+        value={code}
         height={height}
+        schemas={schemas}
         boxStyle={{
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,

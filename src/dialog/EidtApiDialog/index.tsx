@@ -1,40 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Tooltip, IconButton } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 
+import useAlert from "~/hooks/useAlert";
 import useModal from "~/hooks/useModal";
 import useDialog from "~/hooks/useDialog";
 
 import Editor from "./Editor";
-import { getJson, deleteJson } from "~/api";
+import { deleteJson } from "~/api";
 
 const EditApiDialog = ({ apiPath }: { apiPath: string }) => {
-  const { openDialog } = useDialog();
+  const { openAlert } = useAlert();
   const { openModal } = useModal();
-
-  const [code, setCode] = useState<string | null>(null);
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await getJson(apiPath);
-      console.log(data);
-
-      setCode(data);
-    })();
-  }, []);
+  const { openDialog } = useDialog();
 
   const open = () => {
     openDialog({
       title: "API 수정",
-      content: (
-        <Editor apiPath={apiPath} value={JSON.stringify(code)} height={600} />
-      ),
+      content: <Editor path={apiPath} value={""} height={600} />,
       actions: [
         {
           text: "삭제",
           color: "error",
           variant: "contained",
-          onAction: async (closeFn, contents) => {
+          onAction: async (closeFn) => {
             const flag = await openModal({
               type: "confirm",
               title: "알림",
@@ -42,13 +31,26 @@ const EditApiDialog = ({ apiPath }: { apiPath: string }) => {
             });
 
             if (flag) {
-              const data = await deleteJson({ apiPath: code?.apiPath });
-              console.log(data);
+              const response = await deleteJson({ apiPath });
+
+              if (!response) {
+                return openAlert({
+                  type: "error",
+                  message: "삭제중 오류가 발생했습니다.",
+                });
+              }
+
+              openAlert({
+                type: "success",
+                message: "삭제 되었습니다.",
+              });
+
+              closeFn();
             }
           },
         },
         {
-          text: "취소",
+          text: "닫기",
           onAction: (closeFn) => closeFn(),
         },
       ],
@@ -56,8 +58,8 @@ const EditApiDialog = ({ apiPath }: { apiPath: string }) => {
   };
 
   return (
-    <Tooltip title="Edit" placement="top" arrow>
-      <IconButton variant="contained" onClick={open}>
+    <Tooltip title="JSON Edit" placement="top" arrow>
+      <IconButton onClick={open}>
         <SettingsIcon />
       </IconButton>
     </Tooltip>

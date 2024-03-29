@@ -15,7 +15,7 @@ const root = path.resolve(process.cwd(), "./src/json");
 const getBasePath = (apiPath) =>
   path.resolve(process.cwd(), `./src/json${apiPath}`);
 
-const jsonService = ({ app }) => {
+const json = ({ app }) => {
   /**
    * 모든 JSON 데이터 검색
    */
@@ -88,8 +88,9 @@ const jsonService = ({ app }) => {
   app.get("/api/v1/download", (req, res) => {
     try {
       const { apiPath } = req.query;
+      const basePath = getBasePath(apiPath);
 
-      res.sendFile(`${root}${apiPath}/index.json`);
+      res.sendFile(`${basePath}/index.json`);
     } catch (err) {
       res.status(500).send({
         code: 500,
@@ -103,21 +104,24 @@ const jsonService = ({ app }) => {
    */
   app.post("/api/v1/json", (req, res) => {
     try {
-      const { apiPath, response } = req.body;
-      const basePath = getBasePath(apiPath);
+      const { data } = req.body;
+      const basePath = getBasePath(data.apiPath);
 
       if (!hasDir(basePath)) {
         fs.mkdirSync(basePath, { recursive: true });
       }
 
-      fs.writeFileSync(`${basePath}/index.json`, JSON.parse(response));
+      fs.writeFileSync(`${basePath}/index.json`, JSON.stringify(data, null, 2));
 
-      res.status(500).send({
+      res.send({
         code: 200,
         message: "Ok",
       });
     } catch (err) {
-      console.log(err);
+      res.status(500).send({
+        code: 500,
+        message: "Internal Server Error",
+      });
     }
   });
 
@@ -130,7 +134,7 @@ const jsonService = ({ app }) => {
       if (!response) throw new Error("data is not defined");
 
       const basePath = getBasePath(apiPath);
-      const data = fs.readFileSync(`${root}${apiPath}/index.json`, {
+      const data = fs.readFileSync(`${basePath}/index.json`, {
         encoding: "utf-8",
         flag: "r",
       });
@@ -165,7 +169,7 @@ const jsonService = ({ app }) => {
       if (!method && (!delay || !status)) throw new Error("Unvalid Parameters");
 
       const basePath = getBasePath(apiPath);
-      const response = fs.readFileSync(`${root}${apiPath}/index.json`, {
+      const response = fs.readFileSync(`${basePath}/index.json`, {
         encoding: "utf-8",
         flag: "r",
       });
@@ -219,7 +223,7 @@ const jsonService = ({ app }) => {
         JSON.stringify(response, null, 2)
       );
 
-      res.status(500).send({
+      res.send({
         code: 200,
         message: "Ok",
       });
@@ -253,7 +257,7 @@ const jsonService = ({ app }) => {
   });
 };
 
-module.exports = jsonService;
+module.exports = json;
 
 // function cleanEmptyFoldersRecursively(folder) {
 //   var fs = require('fs');

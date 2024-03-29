@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Box,
@@ -17,8 +17,9 @@ import DropBox from "~/features/DropBox";
 import { inputFileReader } from "~/utils";
 
 import schema from "~/schema";
+import { DialogContentContext } from "~/features/Dialogs";
 
-import type { DropFile } from "~/types/features";
+import type { DropFile, JSONData } from "~/types/features";
 import type { ChangeEvent } from "react";
 
 const style = {
@@ -50,10 +51,15 @@ const HiddenInput = styled("input")({
 });
 
 const UploadForm = () => {
+  const [code, setCode] = useState<string>("");
   const [uploadData, setUploadData] = useState<DropFile | null>(null);
   const inputFile = useRef<null | HTMLInputElement>(null);
-
+  const setDatas = useContext(DialogContentContext);
   const { openAlert } = useAlert();
+
+  useEffect(() => {
+    setDatas && setDatas(code || uploadData?.data);
+  }, [code, uploadData]);
 
   const onInputFileClear = () => {
     setUploadData(null);
@@ -111,7 +117,8 @@ const UploadForm = () => {
               value={uploadData.data as string}
               height={500}
               {...schema}
-              onChange={(data) => console.log(data)}
+              options={{ readOnly: true }}
+              onChange={(data) => data && setCode(data)}
             />
           ) : (
             <DropBox allow={["json"]} onDrop={(data) => setUploadData(data)} />

@@ -6,6 +6,8 @@ import useDialog from "~/hooks/useDialog";
 
 import TabContext from "./TabContext";
 
+import { postJson } from "~/api";
+
 const CreateApiDialog = ({ title }: { title: string }) => {
   const { openAlert } = useAlert();
   const { openDialog } = useDialog();
@@ -16,17 +18,28 @@ const CreateApiDialog = ({ title }: { title: string }) => {
       content: <TabContext />,
       actions: [
         {
-          text: "저장",
+          text: "등록",
           variant: "contained",
-          onAction: (closeFn) => {
-            openAlert({
-              type: "success",
-              message: "성공했습니다.",
+          onAction: async (closeFn, contents) => {
+            const data = JSON.parse(contents);
+            const response = await postJson({
+              apiPath: data.apiPath,
+              data,
             });
 
-            setTimeout(() => {
-              closeFn();
-            }, 4000);
+            if (!response) {
+              return openAlert({
+                type: "error",
+                message: "등록중 오류가 발생했습니다.",
+              });
+            }
+
+            openAlert({
+              type: "success",
+              message: "등록 되었습니다.",
+            });
+
+            closeFn();
           },
         },
         {

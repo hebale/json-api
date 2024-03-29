@@ -15,7 +15,7 @@ import CopyButton from "~/features/CopyButton";
 import Monaco from "~/features/Monaco";
 
 import useAlert from "~/hooks/useAlert";
-import { patchJsonData } from "~/api";
+import { patchJsonResponse } from "~/api";
 
 import type { editor } from "monaco-editor";
 
@@ -26,7 +26,7 @@ type EditorProps = {
 };
 
 const Editor = ({ apiPath, value, height }: EditorProps) => {
-  const [code, setCode] = useState<string | null>(value ?? null);
+  const [code, setCode] = useState<string>(value ?? "");
   const [validate, setValidate] = useState<
     Pick<editor.IMarker, "endColumn" | "endLineNumber" | "message">[]
   >([]);
@@ -52,7 +52,7 @@ const Editor = ({ apiPath, value, height }: EditorProps) => {
       });
     }
 
-    const response = await patchJsonData({ apiPath, response: code });
+    const response = await patchJsonResponse({ apiPath, response: code });
 
     response
       ? openAlert({ type: "success", message: "저장 되었습니다" })
@@ -112,7 +112,7 @@ const Editor = ({ apiPath, value, height }: EditorProps) => {
         </ButtonGroup>
       </Stack>
       <Monaco
-        value={code ?? ""}
+        value={code}
         height={height}
         boxStyle={{
           borderTopLeftRadius: 0,

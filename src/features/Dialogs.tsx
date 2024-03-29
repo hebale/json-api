@@ -44,7 +44,7 @@ const Dialogs = () => {
             key={id}
             open={open as boolean}
             fullWidth={true}
-            maxWidth={"md"}
+            maxWidth={"lg"}
             onClose={() => onCloseDialog()}
             {...rest}
           >

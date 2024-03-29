@@ -1,5 +1,5 @@
 {
-  "apiPath": "/user/info",
+  "apiPath": "/data",
   "headers": {
     "Content-Type": "application/json"
   },
