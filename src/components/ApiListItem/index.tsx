@@ -37,8 +37,6 @@ const ApiListItem = ({
     setExpand((prev) => !prev);
   };
 
-  console.log(response);
-
   return (
     <Accordion expanded={expand} sx={{ border: "1px solid #eee" }}>
       <AccordionSummary

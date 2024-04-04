@@ -18,6 +18,17 @@ const TabContent = () => {
         width: "100%",
         my: "-16px",
         typography: "body1",
+        "& .MuiFormGroup-root + .MuiFormGroup-root .MuiFormLabel-root": {
+          mt: 2,
+        },
+        "& .MuiFormControlLabel-root .MuiTypography-root": {
+          fontSize: "14px",
+        },
+        "& .MuiFormLabel-root": {
+          mb: 0.5,
+          width: "100%",
+          fontSize: "12px",
+        },
       }}
     >
       <TabContext value={tabValue}>

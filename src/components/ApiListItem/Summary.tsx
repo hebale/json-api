@@ -1,6 +1,7 @@
 import React from "react";
 import { Stack } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
+import EditIcon from "@mui/icons-material/Edit";
 
 import CopyButton from "~/features/CopyButton";
 import DownloadButton from "~/features/DownloadButton";
@@ -14,9 +15,8 @@ const style = {
   py: 1,
   borderRadius: "4px",
   fontSize: "16px",
-  fontWeight: 500,
-  color: "#fff",
-  backgroundColor: "#303030",
+  fontWeight: 600,
+  backgroundColor: "#f4f4f4",
 };
 
 const Summary = ({ apiPath }: { apiPath: string }) => {

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { styled } from "@mui/material/styles";
 import {
+  Stack,
   Box,
   FormGroup,
+  FormLabel,
   FormControl,
   OutlinedInput,
-  InputLabel,
   IconButton,
   Button,
 } from "@mui/material";
@@ -21,22 +22,6 @@ import { DialogContentContext } from "~/features/Dialogs";
 
 import type { DropFile, JSONData } from "~/types/features";
 import type { ChangeEvent } from "react";
-
-const style = {
-  "& .MuiFormControl-root + .MuiFormControl-root": {
-    mt: 4,
-  },
-  "& .MuiInputLabel-root": {
-    ml: -1,
-    fontSize: "14px",
-  },
-  "& .MuiOutlinedInput-root": {
-    mt: 1.5,
-  },
-  "& .MuiTypography-root": {
-    fontSize: "14px",
-  },
-};
 
 const HiddenInput = styled("input")({
   position: "absolute",
@@ -87,45 +72,51 @@ const UploadForm = () => {
   };
 
   return (
-    <FormGroup sx={style}>
-      <FormControl size="small" sx={{ flexDirection: "row" }}>
-        <InputLabel shrink>File Name</InputLabel>
-        <OutlinedInput
-          value={uploadData?.name ?? ""}
-          sx={{ pr: 0, fontSize: "14px" }}
-          endAdornment={
-            <IconButton onClick={onInputFileClear} disabled={!uploadData}>
-              <ClearIcon fontSize="small" />
-            </IconButton>
-          }
-          disabled
-        />
-        <Button component="label" variant="contained" sx={{ ml: 1, mt: 1.4 }}>
-          열기
-          <HiddenInput ref={inputFile} type="file" onChange={onInputFile} />
-        </Button>
-      </FormControl>
-      <FormControl size="small">
+    <Stack>
+      <FormGroup>
+        <FormLabel>File Name</FormLabel>
+        <FormControl size="small" sx={{ flexDirection: "row" }}>
+          <OutlinedInput
+            value={uploadData?.name ?? ""}
+            sx={{ pr: 0, fontSize: "14px" }}
+            endAdornment={
+              <IconButton onClick={onInputFileClear} disabled={!uploadData}>
+                <ClearIcon fontSize="small" />
+              </IconButton>
+            }
+            disabled
+          />
+          <Button component="label" variant="contained" sx={{ ml: 1 }}>
+            열기
+            <HiddenInput ref={inputFile} type="file" onChange={onInputFile} />
+          </Button>
+        </FormControl>
+      </FormGroup>
+      <FormGroup>
         {uploadData ? (
-          <InputLabel shrink>JSON Full Data</InputLabel>
+          <FormLabel>JSON Full Data</FormLabel>
         ) : (
-          <InputLabel shrink>Upload</InputLabel>
+          <FormLabel>Upload</FormLabel>
         )}
-        <Box sx={{ mt: 1.5 }}>
-          {uploadData ? (
-            <Monaco
-              value={uploadData.data as string}
-              height={500}
-              {...schema}
-              options={{ readOnly: true }}
-              onChange={(data) => data && setCode(data)}
-            />
-          ) : (
-            <DropBox allow={["json"]} onDrop={(data) => setUploadData(data)} />
-          )}
-        </Box>
-      </FormControl>
-    </FormGroup>
+        <FormControl size="small">
+          <Box sx={{ mt: 1.5 }}>
+            {uploadData ? (
+              <Monaco
+                value={uploadData.data as string}
+                height={500}
+                {...schema}
+                onChange={(data) => data && setCode(data)}
+              />
+            ) : (
+              <DropBox
+                allow={["json"]}
+                onDrop={(data) => setUploadData(data)}
+              />
+            )}
+          </Box>
+        </FormControl>
+      </FormGroup>
+    </Stack>
   );
 };
 

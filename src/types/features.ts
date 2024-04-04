@@ -14,14 +14,15 @@ export type DownloadFileProps = {
  */
 export type JSONData = {
   apiPath: string;
-  header: {
+  description?: string | number;
+  headers: {
     [key: string]: string;
   };
   methods: {
-    method: "GET" | "POST" | "PULL" | "PATCH" | "DELTE";
+    method: "GET" | "POST" | "PULL" | "PATCH" | "DELETE";
     delay: number;
     status: number;
-    code: string;
+    code: string | null;
   }[];
   response: any;
 };

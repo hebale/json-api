@@ -6,7 +6,7 @@
   "methods": [
     {
       "method": "POST",
-      "delay": 500,
+      "delay": 0,
       "status": 200
     },
     {

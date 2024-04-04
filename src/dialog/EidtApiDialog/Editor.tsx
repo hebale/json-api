@@ -3,9 +3,9 @@ import {
   Box,
   Stack,
   ButtonGroup,
+  FormLabel,
   Tooltip,
   IconButton,
-  InputLabel,
 } from "@mui/material";
 
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -89,9 +89,9 @@ const Editor = ({ path, value, height }: EditorProps) => {
 
   return (
     <Box>
-      <InputLabel sx={{ fontSize: "14px" /* color: "#1976d2" */ }} shrink>
+      <FormLabel sx={{ fontSize: "14px" /* color: "#1976d2" */ }}>
         JSON Data
-      </InputLabel>
+      </FormLabel>
       <Stack
         flexDirection="row"
         justifyContent="flex-end"

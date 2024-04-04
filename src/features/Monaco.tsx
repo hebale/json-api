@@ -12,19 +12,15 @@ type MonacoProps = {
   value: string;
   schemas?: any[];
   boxStyle?: { [key: string]: string | number };
-  options?: any;
+  options?: editor.IStandaloneEditorConstructionOptions;
   onChange?: (value?: string) => void;
   onValidate?: (value: editor.IMarker[]) => void;
 };
 
-const defaultOptions = {
-  height: 300,
-  theme: "vs-dark",
-  options: {
-    fontSize: 13,
-    tabSize: 2,
-    minimap: { enabled: false },
-  },
+const defaultOptions: editor.IStandaloneEditorConstructionOptions = {
+  fontSize: 13,
+  tabSize: 2,
+  minimap: { enabled: false },
   roundedSelection: true,
 };
 
@@ -36,7 +32,7 @@ const Monaco = ({
   schemas,
   onChange,
   onValidate,
-  ...options
+  options,
 }: MonacoProps) => {
   const editorRef = useRef<null | editor.IStandaloneCodeEditor>(null);
   const monaco = useMonaco();
@@ -69,6 +65,8 @@ const Monaco = ({
       }}
     >
       <Editor
+        height={300}
+        theme={"vs-dark"}
         loading={<CircularProgress thickness={5} />}
         defaultLanguage={language}
         value={value}
