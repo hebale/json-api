@@ -8,59 +8,30 @@ import {
   OutlinedInput,
   FormControlLabel,
   Checkbox,
-  IconButton,
+  Typography,
 } from "@mui/material";
 import Monaco from "~/features/Monaco";
 import schema from "~/schema";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 import { DialogContentContext } from "~/features/Dialogs";
 import type { JSONData } from "~/types/features";
+import HeaderTable from "./HeaderTable";
 
 const jsonData: JSONData = {
-  apiPath: "",
+  path: "",
   description: "",
-  headers: {},
   methods: [],
+  headers: {},
   response: [],
 };
-
-// const headerForm = () => {
-//   return (
-//     <React.Fragment>
-//       <FormControl size="small">
-//         <OutlinedInput
-//           placeholder="key"
-//           defaultValue={""}
-//           onChange={(e) => onChangePath(e.target.value)}
-//         />
-//       </FormControl>
-//       <FormControl size="small">
-//         <OutlinedInput
-//           placeholder="value"
-//           defaultValue={""}
-//           onChange={(e) => onChangePath(e.target.value)}
-//         />
-//       </FormControl>
-//       <IconButton onClick={() => {}} sx={{ color: "red" }}>
-//         <RemoveCircleIcon />
-//       </IconButton>
-//     </React.Fragment>
-//   );
-// };
 
 const UploadForm = () => {
   const setDatas = useContext(DialogContentContext);
   const [code, setCode] = useState(jsonData);
-  const [headers, setHeaders] = useState({
-    "Content-Type": "application/json",
-  });
 
   useEffect(() => {
-    setCode((prev) => {
-      return { ...prev, headers };
-    });
-  }, [headers]);
+    setDatas && setDatas("");
+  }, []);
 
   const onChangeDescription = (value: string) => {
     setCode((prev) => {
@@ -70,17 +41,7 @@ const UploadForm = () => {
 
   const onChangePath = (value: string) => {
     setCode((prev) => {
-      return { ...prev, apiPath: value };
-    });
-  };
-
-  const onChangeHeaders = () => {};
-
-  const onClickRemoveHeader = (key: string) => {
-    setHeaders((prev) => {
-      delete prev[key];
-
-      return prev;
+      return { ...prev, path: value };
     });
   };
 
@@ -119,14 +80,29 @@ const UploadForm = () => {
     });
   };
 
+  const onChangeHeader = (headers: { [key: string]: string }) => {
+    setCode((prev) => {
+      return { ...prev, headers };
+    });
+  };
+
   return (
     <Stack direction="row" gap={3} justifyContent="space-between">
-      <Box sx={{ width: "40%" }}>
+      <Box sx={{ width: "45%" }}>
         <FormGroup>
-          <FormLabel>Path</FormLabel>
+          <FormLabel>
+            Path
+            <Typography
+              component="span"
+              color="error"
+              sx={{ verticalAlign: "center" }}
+            >
+              *
+            </Typography>
+          </FormLabel>
           <FormControl size="small" sx={{ width: "100%" }}>
             <OutlinedInput
-              placeholder="ex) /user/info"
+              placeholder="/"
               defaultValue={""}
               onChange={(e) => onChangePath(e.target.value)}
             />
@@ -136,46 +112,11 @@ const UploadForm = () => {
           <FormLabel>Description</FormLabel>
           <FormControl size="small" sx={{ width: "100%" }}>
             <OutlinedInput
+              placeholder=""
               defaultValue={""}
               onChange={(e) => onChangeDescription(e.target.value)}
             />
           </FormControl>
-        </FormGroup>
-        <FormGroup>
-          <FormLabel>Headers</FormLabel>
-
-          {Object.keys(headers).map((key) => {
-            return (
-              <Stack
-                key={key}
-                direction="row"
-                alignItems="center"
-                sx={{ width: "100%" }}
-              >
-                <FormControl size="small">
-                  <OutlinedInput
-                    placeholder="key"
-                    defaultValue={""}
-                    onChange={(e) => onChangePath(e.target.value)}
-                  />
-                </FormControl>
-                <Box sx={{ mx: 0.6 }}>:</Box>
-                <FormControl size="small">
-                  <OutlinedInput
-                    placeholder="value"
-                    defaultValue={""}
-                    onChange={(e) => onChangePath(e.target.value)}
-                  />
-                </FormControl>
-                <IconButton
-                  onClick={() => onClickRemoveHeader(key)}
-                  sx={{ color: "red" }}
-                >
-                  <RemoveCircleIcon />
-                </IconButton>
-              </Stack>
-            );
-          })}
         </FormGroup>
         <FormGroup
           sx={{
@@ -187,7 +128,7 @@ const UploadForm = () => {
         >
           <FormLabel>Methods</FormLabel>
           {["GET", "POST", "PULL", "PATCH", "DELETE"].map((method) => (
-            <FormControl key={method} size="small" sx={{ width: "25%" }}>
+            <FormControl key={method} size="small">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -201,24 +142,30 @@ const UploadForm = () => {
             </FormControl>
           ))}
         </FormGroup>
+        <FormGroup>
+          <FormLabel>Headers</FormLabel>
+          <HeaderTable onChange={onChangeHeader} />
+        </FormGroup>
       </Box>
 
-      <Box sx={{ width: "60%" }}>
-        <FormLabel>JSON Data</FormLabel>
-        <FormControl size="small" sx={{ width: "100%" }}>
-          <Monaco
-            value={JSON.stringify(code, null, 2)}
-            height={500}
-            {...schema}
-            options={{
-              readOnly: true,
-              readOnlyMessage: {
-                value: "읽기 전용입니다.",
-              },
-            }}
-            // onChange={(data) => console.log(data)}
-          />
-        </FormControl>
+      <Box sx={{ width: "55%" }}>
+        <FormGroup>
+          <FormLabel>JSON Data</FormLabel>
+          <FormControl size="small" sx={{ width: "100%" }}>
+            <Monaco
+              value={JSON.stringify(code, null, 2)}
+              height={500}
+              {...schema}
+              options={{
+                readOnly: true,
+                readOnlyMessage: {
+                  value: "읽기 전용입니다.",
+                },
+              }}
+              onChange={(data) => setDatas && setDatas(data)}
+            />
+          </FormControl>
+        </FormGroup>
       </Box>
     </Stack>
   );

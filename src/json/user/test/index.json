@@ -1,0 +1,13 @@
+{
+  "path": "/user/test",
+  "description": "",
+  "methods": [],
+  "headers": {
+    "Content-type": "application/json"
+  },
+  "response": [
+    {
+      "test": true
+    }
+  ]
+}

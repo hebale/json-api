@@ -12,7 +12,7 @@ const schemas = [
         description: {
           type: "string",
         },
-        apiPath: {
+        path: {
           type: "string",
           pattern: "((/([a-z0-9_-])+)+)(?![A-Z].)*",
         },

@@ -1,46 +1,27 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { styled } from "@mui/material/styles";
 import {
   Stack,
   Box,
   FormGroup,
   FormLabel,
   FormControl,
-  OutlinedInput,
-  IconButton,
-  Button,
+  Typography,
+  Chip,
 } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
 
-import useAlert from "~/hooks/useAlert";
 import Monaco from "~/features/Monaco";
 import DropBox from "~/features/DropBox";
-import { inputFileReader } from "~/utils";
 
 import schema from "~/schema";
 import { DialogContentContext } from "~/features/Dialogs";
 
-import type { DropFile, JSONData } from "~/types/features";
-import type { ChangeEvent } from "react";
-
-const HiddenInput = styled("input")({
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  width: 1,
-  height: 1,
-  clip: "rect(0, 0, 0, 0)",
-  clipPath: "inset(50%)",
-  overflow: "hidden",
-  whiteSpace: "nowrap",
-});
+import type { DropFile } from "~/types/features";
 
 const UploadForm = () => {
   const [code, setCode] = useState<string>("");
   const [uploadData, setUploadData] = useState<DropFile | null>(null);
   const inputFile = useRef<null | HTMLInputElement>(null);
   const setDatas = useContext(DialogContentContext);
-  const { openAlert } = useAlert();
 
   useEffect(() => {
     setDatas && setDatas(code || uploadData?.data);
@@ -51,69 +32,43 @@ const UploadForm = () => {
     (inputFile.current as HTMLInputElement).value = "";
   };
 
-  const onInputFile = (e: ChangeEvent) => {
-    const file = (e.target as HTMLInputElement & { files: FileList }).files[0];
-
-    if (!file) return;
-
-    inputFileReader(
-      file,
-      ["json"],
-      (data) => {
-        setUploadData({ ...data });
-      },
-      (message) => {
-        openAlert({
-          type: "error",
-          message,
-        });
-      }
-    );
-  };
-
   return (
     <Stack>
       <FormGroup>
-        <FormLabel>File Name</FormLabel>
-        <FormControl size="small" sx={{ flexDirection: "row" }}>
-          <OutlinedInput
-            value={uploadData?.name ?? ""}
-            sx={{ pr: 0, fontSize: "14px" }}
-            endAdornment={
-              <IconButton onClick={onInputFileClear} disabled={!uploadData}>
-                <ClearIcon fontSize="small" />
-              </IconButton>
-            }
-            disabled
-          />
-          <Button component="label" variant="contained" sx={{ ml: 1 }}>
-            열기
-            <HiddenInput ref={inputFile} type="file" onChange={onInputFile} />
-          </Button>
-        </FormControl>
-      </FormGroup>
-      <FormGroup>
         {uploadData ? (
-          <FormLabel>JSON Full Data</FormLabel>
+          <>
+            <FormLabel>JSON Full Data</FormLabel>
+            <Box sx={{ mt: 0.5, mb: 1 }}>
+              <Chip
+                label={
+                  <Stack flexDirection="row" alignItems="center">
+                    {uploadData.name}
+                    <Typography
+                      sx={{ ml: 0.2, fontSize: "10px", fontWeight: 300 }}
+                    >
+                      ({uploadData.size}byte)
+                    </Typography>
+                  </Stack>
+                }
+                onDelete={onInputFileClear}
+              />
+            </Box>
+          </>
         ) : (
           <FormLabel>Upload</FormLabel>
         )}
+
         <FormControl size="small">
-          <Box sx={{ mt: 1.5 }}>
-            {uploadData ? (
-              <Monaco
-                value={uploadData.data as string}
-                height={500}
-                {...schema}
-                onChange={(data) => data && setCode(data)}
-              />
-            ) : (
-              <DropBox
-                allow={["json"]}
-                onDrop={(data) => setUploadData(data)}
-              />
-            )}
-          </Box>
+          {uploadData ? (
+            <Monaco
+              value={uploadData.data as string}
+              height={500}
+              {...schema}
+              onChange={(data) => data && setCode(data)}
+            />
+          ) : (
+            <DropBox allow={["json"]} onDrop={(data) => setUploadData(data)} />
+          )}
         </FormControl>
       </FormGroup>
     </Stack>

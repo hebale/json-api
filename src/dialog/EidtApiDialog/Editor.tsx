@@ -68,8 +68,8 @@ const Editor = ({ path, value, height }: EditorProps) => {
     }
 
     const response = await putJson({
-      apiPath: path,
-      response: { apiPath: path, ...JSON.parse(code) },
+      path: path,
+      response: { path: path, ...JSON.parse(code) },
     });
 
     if (response) {

@@ -8,7 +8,7 @@ type Method = {
 };
 
 export type ApiListItemProps = {
-  apiPath: string;
+  path: string;
   headers: {
     [key: string]: string | number;
   };

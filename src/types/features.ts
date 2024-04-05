@@ -13,7 +13,7 @@ export type DownloadFileProps = {
  * JSON data
  */
 export type JSONData = {
-  apiPath: string;
+  path: string;
   description?: string | number;
   headers: {
     [key: string]: string;

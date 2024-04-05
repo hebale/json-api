@@ -1,18 +1,18 @@
 {
-  "path": "/data",
+  "path": "/user/info/go/go/gogo",
   "headers": {
     "Content-Type": "application/json"
   },
   "methods": [
     {
       "method": "POST",
-      "delay": 0,
+      "delay": 6500,
       "status": 200
     },
     {
       "method": "GET",
-      "delay": 0,
-      "status": 200
+      "delay": 500,
+      "status": 505
     }
   ],
   "response": [

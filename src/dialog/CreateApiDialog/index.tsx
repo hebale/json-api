@@ -23,7 +23,7 @@ const CreateApiDialog = ({ title }: { title: string }) => {
           onAction: async (closeFn, contents) => {
             const data = JSON.parse(contents);
             const response = await postJson({
-              apiPath: data.apiPath,
+              path: data.path,
               data,
             });
 

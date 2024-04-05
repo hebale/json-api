@@ -6,7 +6,7 @@ export const getAllJsons = async () => {
 };
 
 export const getJson = async (params: string) => {
-  const response = await http.get(`/api/v1/json?apiPath=${params}`);
+  const response = await http.get(`/api/v1/json?path=${params}`);
   if (response?.code === 200) return response;
 };
 

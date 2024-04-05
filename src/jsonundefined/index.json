@@ -1,12 +1,12 @@
 {
-  "path": "/data",
+  "apiPath": "/user/info",
   "headers": {
     "Content-Type": "application/json"
   },
   "methods": [
     {
       "method": "POST",
-      "delay": 0,
+      "delay": 500,
       "status": 200
     },
     {

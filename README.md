@@ -12,6 +12,11 @@ pnpm dev # 화면 UI 서버
 pnpm start # api서버 & 화면 UI서버
 ```
 
+### 콘셉트
+
+front 와 back의 개발기간의 갭으 줄이기위한 json api 생성 테스트 app
+s
+
 ### 폴더구조
 
 확장자 분류
@@ -88,7 +93,6 @@ json-api
 
 - validation 작업
 - 파일업로드 배치
-- 오케스트로 디자인적용
 - 다운로드 버튼 추가
 - monaco 스크롤 이슈
 - monaco 스키마 설정 확인

@@ -14,7 +14,7 @@ const Header = () => {
       sx={{ py: 4 }}
     >
       <ApiSearchBar />
-      <CreateApiDialog title={"API 생성"} />
+      <CreateApiDialog title={"API 등록"} />
     </Stack>
   );
 };

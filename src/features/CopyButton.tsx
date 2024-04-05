@@ -12,7 +12,7 @@ const CopyButton = ({
 }: CopyButtonProps) => {
   const onCopyClipboard = (path: string) => {
     navigator.clipboard.writeText(path);
-    onCopied(path);
+    onCopied && onCopied(path);
   };
 
   return (

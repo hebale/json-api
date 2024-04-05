@@ -1,19 +1,18 @@
-const fs = require("fs");
-const path = require("path");
-const { glob } = require("glob");
+const $fs = require("fs");
+const $path = require("path");
+const { glob: $glob } = require("glob");
 
 const hasDir = (path) => {
   try {
-    return fs.lstatSync(path);
+    return $fs.lstatSync(path);
   } catch (err) {
     return false;
   }
 };
 
-const root = path.resolve(process.cwd(), "./src/json");
+const root = $path.resolve(process.cwd(), "./src/json");
 
-const getBasePath = (apiPath) =>
-  path.resolve(process.cwd(), `./src/json${apiPath}`);
+const getBasePath = (path) => $path.resolve(process.cwd(), `./src/json${path}`);
 
 const json = ({ app }) => {
   /**
@@ -21,12 +20,12 @@ const json = ({ app }) => {
    */
   app.get("/api/v1/all", async (_, res) => {
     try {
-      const jsonFilesPath = glob.sync(`${root}/**/*.json`);
+      const jsonFilesPath = $glob.sync(`${root}/**/*.json`);
       const allJson = [];
 
       jsonFilesPath.forEach((filePath) => {
-        const response = fs.readFileSync(
-          path.resolve(process.cwd(), filePath),
+        const response = $fs.readFileSync(
+          $path.resolve(process.cwd(), filePath),
           {
             encoding: "utf-8",
             flag: "r",
@@ -58,9 +57,9 @@ const json = ({ app }) => {
    */
   app.get("/api/v1/json", async (req, res) => {
     try {
-      const { apiPath } = req.query;
-      const response = fs.readFileSync(
-        path.resolve(process.cwd(), `src/json${apiPath}/index.json`),
+      const { path } = req.query;
+      const response = $fs.readFileSync(
+        $path.resolve(process.cwd(), `src/json${path}/index.json`),
         {
           encoding: "utf-8",
           flag: "r",
@@ -87,8 +86,8 @@ const json = ({ app }) => {
    */
   app.get("/api/v1/download", (req, res) => {
     try {
-      const { apiPath } = req.query;
-      const basePath = getBasePath(apiPath);
+      const { path } = req.query;
+      const basePath = getBasePath(path);
 
       res.sendFile(`${basePath}/index.json`);
     } catch (err) {
@@ -105,13 +104,16 @@ const json = ({ app }) => {
   app.post("/api/v1/json", (req, res) => {
     try {
       const { data } = req.body;
-      const basePath = getBasePath(data.apiPath);
+      const basePath = getBasePath(data.path);
 
       if (!hasDir(basePath)) {
-        fs.mkdirSync(basePath, { recursive: true });
+        $fs.mkdirSync(basePath, { recursive: true });
       }
 
-      fs.writeFileSync(`${basePath}/index.json`, JSON.stringify(data, null, 2));
+      $fs.writeFileSync(
+        `${basePath}/index.json`,
+        JSON.stringify(data, null, 2)
+      );
 
       res.send({
         code: 200,
@@ -130,11 +132,11 @@ const json = ({ app }) => {
    */
   app.patch("/api/v1/json/response", (req, res) => {
     try {
-      const { apiPath, response } = req.body;
+      const { path, response } = req.body;
       if (!response) throw new Error("data is not defined");
 
-      const basePath = getBasePath(apiPath);
-      const data = fs.readFileSync(`${basePath}/index.json`, {
+      const basePath = getBasePath(path);
+      const data = $fs.readFileSync(`${basePath}/index.json`, {
         encoding: "utf-8",
         flag: "r",
       });
@@ -142,8 +144,8 @@ const json = ({ app }) => {
 
       jsonData.response = JSON.parse(response);
 
-      fs.writeFileSync(
-        path.join(basePath, "/index.json"),
+      $fs.writeFileSync(
+        $path.join(basePath, "/index.json"),
         JSON.stringify(jsonData, null, 2)
       );
 
@@ -164,12 +166,12 @@ const json = ({ app }) => {
    */
   app.patch("/api/v1/json/methods", (req, res) => {
     try {
-      const { apiPath, method, delay, status } = req.body;
+      const { path, method, delay, status } = req.body;
 
       if (!method && (!delay || !status)) throw new Error("Unvalid Parameters");
 
-      const basePath = getBasePath(apiPath);
-      const response = fs.readFileSync(`${basePath}/index.json`, {
+      const basePath = getBasePath(path);
+      const response = $fs.readFileSync(`${basePath}/index.json`, {
         encoding: "utf-8",
         flag: "r",
       });
@@ -189,8 +191,8 @@ const json = ({ app }) => {
         });
       }
 
-      fs.writeFileSync(
-        path.join(basePath, "/index.json"),
+      $fs.writeFileSync(
+        $path.join(basePath, "/index.json"),
         JSON.stringify(jsonData, null, 2)
       );
 
@@ -211,15 +213,15 @@ const json = ({ app }) => {
    */
   app.put("/api/v1/json", (req, res) => {
     try {
-      const { apiPath, response } = req.body;
-      const basePath = getBasePath(apiPath);
+      const { path, response } = req.body;
+      const basePath = getBasePath(path);
 
       if (!hasDir(basePath)) {
-        fs.mkdirSync(basePath, { recursive: true });
+        $fs.mkdirSync(basePath, { recursive: true });
       }
 
-      fs.writeFileSync(
-        path.join(basePath, "/index.json"),
+      $fs.writeFileSync(
+        $path.join(basePath, "/index.json"),
         JSON.stringify(response, null, 2)
       );
 
@@ -237,10 +239,10 @@ const json = ({ app }) => {
    */
   app.delete("/api/v1/json", (req, res) => {
     try {
-      const { apiPath } = req.body;
-      if (!apiPath) throw new Error("Unvalid Parameters");
+      const { path } = req.body;
+      if (!path) throw new Error("Unvalid Parameters");
 
-      fs.rmSync(path.join(root, apiPath, "/index.json"));
+      $fs.rmSync($path.join(root, path, "/index.json"));
       /**
        * ※추가※ 폴더정리 함수필요
        */
@@ -263,25 +265,25 @@ module.exports = json;
 //   var fs = require('fs');
 //   var path = require('path');
 
-//   var isDir = fs.statSync(folder).isDirectory();
+//   var isDir = $fs.statSync(folder).isDirectory();
 //   if (!isDir) {
 //     return;
 //   }
-//   var files = fs.readdirSync(folder);
+//   var files = $fs.readdirSync(folder);
 //   if (files.length > 0) {
 //     files.forEach(function(file) {
-//       var fullPath = path.join(folder, file);
+//       var fullPath = $path.join(folder, file);
 //       cleanEmptyFoldersRecursively(fullPath);
 //     });
 
 //     // re-evaluate files; after deleting subfolder
 //     // we may have parent folder empty now
-//     files = fs.readdirSync(folder);
+//     files = $fs.readdirSync(folder);
 //   }
 
 //   if (files.length == 0) {
 //     console.log("removing: ", folder);
-//     fs.rmdirSync(folder);
+//     $fs.rmdirSync(folder);
 //     return;
 //   }
 // }

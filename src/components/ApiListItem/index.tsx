@@ -27,7 +27,7 @@ const style = {
 };
 
 const ApiListItem = ({
-  apiPath,
+  path,
   headers,
   methods,
   response,
@@ -47,12 +47,12 @@ const ApiListItem = ({
         }
         sx={{ ...style }}
       >
-        <Summary {...{ apiPath: apiPath as string }} />
+        <Summary {...{ path: path as string }} />
       </AccordionSummary>
       <AccordionDetails>
-        <Methods {...{ apiPath: apiPath as string, headers, methods }} />
+        <Methods {...{ path: path as string, headers, methods }} />
         <Editor
-          {...{ apiPath: apiPath as string }}
+          {...{ path: path as string }}
           value={JSON.stringify(response, null, 2)}
           height={260}
         />

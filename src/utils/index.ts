@@ -34,6 +34,7 @@ export const inputFileReader = (
   reader.onload = () => {
     const { name, size } = file;
 
+    console.log(file);
     onSucess({
       name,
       size,

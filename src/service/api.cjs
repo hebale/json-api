@@ -1,8 +1,8 @@
-const fs = require("fs");
-const path = require("path");
+const $fs = require("fs");
+const $path = require("path");
 const { glob } = require("glob");
 
-const root = path.resolve(process.cwd(), "./src/json");
+const root = $path.resolve(process.cwd(), "./src/json");
 
 const statusMessage = {
   200: "Ok",
@@ -21,12 +21,12 @@ const statusMessage = {
 const api = ({ app }) => {
   app.use("/*", (req, res) => {
     try {
-      const filePath = glob.sync(`${path.join(root, req.baseUrl)}/index.json`);
+      const filePath = glob.sync(`${$path.join(root, req.baseUrl)}/index.json`);
 
       if (!filePath.length) throw { code: 404, message: statusMessage["404"] };
 
-      const response = fs.readFileSync(
-        path.resolve(process.cwd(), filePath[0]),
+      const response = $fs.readFileSync(
+        $path.resolve(process.cwd(), filePath[0]),
         {
           encoding: "utf-8",
           flag: "r",
@@ -49,7 +49,7 @@ const api = ({ app }) => {
         res.status(status).send({
           status,
           message: statusMessage[status],
-          data: data ?? [],
+          ...(status === 200 && { data: data ?? [] }),
         });
       }, delay);
     } catch (err) {

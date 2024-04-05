@@ -28,7 +28,7 @@ type FormData = {
 };
 
 const Methods = ({
-  apiPath,
+  path,
   headers,
   methods,
 }: Omit<ApiListItemProps, "response">): JSX.Element[] => {
@@ -40,7 +40,7 @@ const Methods = ({
     method: string
   ) => {
     const response = await patchJsonMethods({
-      apiPath,
+      path,
       method,
       delay: Number(e.target.value),
     });
@@ -57,7 +57,7 @@ const Methods = ({
     method: string
   ) => {
     const response = await patchJsonMethods({
-      apiPath,
+      path,
       method,
       status: e.target.value,
     });

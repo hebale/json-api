@@ -20,12 +20,12 @@ import { patchJsonResponse } from "~/api";
 import type { editor } from "monaco-editor";
 
 type EditorProps = {
-  apiPath: string;
+  path: string;
   value: string;
   height: number;
 };
 
-const Editor = ({ apiPath, value, height }: EditorProps) => {
+const Editor = ({ path, value, height }: EditorProps) => {
   const [code, setCode] = useState<string>(value ?? "");
   const [validate, setValidate] = useState<
     Pick<editor.IMarker, "endColumn" | "endLineNumber" | "message">[]
@@ -52,7 +52,7 @@ const Editor = ({ apiPath, value, height }: EditorProps) => {
       });
     }
 
-    const response = await patchJsonResponse({ apiPath, response: code });
+    const response = await patchJsonResponse({ path, response: code });
 
     response
       ? openAlert({ type: "success", message: "저장 되었습니다" })

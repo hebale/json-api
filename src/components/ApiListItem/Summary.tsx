@@ -19,15 +19,15 @@ const style = {
   backgroundColor: "#f4f4f4",
 };
 
-const Summary = ({ apiPath }: { apiPath: string }) => {
+const Summary = ({ path }: { path: string }) => {
   const { openAlert } = useAlert();
 
   return (
     <>
       <Stack direction="row" justifyContent="space-between" sx={style}>
-        {apiPath}
+        {path}
         <CopyButton
-          text={apiPath}
+          text={path}
           iconButtonStyle={{
             p: 0,
             color: "inherit",
@@ -46,7 +46,7 @@ const Summary = ({ apiPath }: { apiPath: string }) => {
         />
       </Stack>
       <Stack flexDirection="row" sx={{ mr: 2 }}>
-        <EditApiDialog apiPath={apiPath} />
+        <EditApiDialog path={path} />
         {/* <SettingsIcon /> */}
         {/* <DownloadButton
           url={`/api/v1/download?path=${name}`}

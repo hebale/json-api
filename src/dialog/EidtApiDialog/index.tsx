@@ -1,6 +1,5 @@
 import React from "react";
 import { Tooltip, IconButton } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
 import EditIcon from "@mui/icons-material/Edit";
 
 import useAlert from "~/hooks/useAlert";
@@ -10,15 +9,15 @@ import useDialog from "~/hooks/useDialog";
 import Editor from "./Editor";
 import { deleteJson } from "~/api";
 
-const EditApiDialog = ({ apiPath }: { apiPath: string }) => {
+const EditApiDialog = ({ path }: { path: string }) => {
   const { openAlert } = useAlert();
   const { openModal } = useModal();
   const { openDialog } = useDialog();
 
   const open = () => {
     openDialog({
-      title: "API 수정",
-      content: <Editor path={apiPath} value={""} height={600} />,
+      title: "API JSON 수정",
+      content: <Editor path={path} value={""} height={600} />,
       actions: [
         {
           text: "삭제",
@@ -32,7 +31,7 @@ const EditApiDialog = ({ apiPath }: { apiPath: string }) => {
             });
 
             if (flag) {
-              const response = await deleteJson({ apiPath });
+              const response = await deleteJson({ path });
 
               if (!response) {
                 return openAlert({
