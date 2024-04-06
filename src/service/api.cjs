@@ -40,10 +40,17 @@ const api = ({ app }) => {
 
       if (!settings) throw { code: 405, message: statusMessage["405"] };
 
+      const { headers } = json;
       const { delay, status, code } = settings;
       const data = code
         ? eval(code)(req.query, req.body, json.response)
         : json.response;
+
+      for (let i = 0; i < Object.keys(headers).length; i++) {
+        const key = Object.keys(headers)[i];
+
+        res.append(key, headers[key]);
+      }
 
       setTimeout(() => {
         res.status(status).send({

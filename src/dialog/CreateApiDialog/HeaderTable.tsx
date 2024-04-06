@@ -36,9 +36,7 @@ const tableContainerStyle = {
 
 const HeaderTable = ({ onChange }: HeaderTableProps) => {
   const [count, setCount] = useState(0);
-  const [headers, setHeaders] = useState<HeaderData[]>([
-    { id: count, status: true, key: "Content-type", value: "application/json" },
-  ]);
+  const [headers, setHeaders] = useState<HeaderData[]>([]);
 
   useEffect(() => {
     addHeader();

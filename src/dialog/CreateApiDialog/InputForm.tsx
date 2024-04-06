@@ -88,7 +88,7 @@ const UploadForm = () => {
 
   return (
     <Stack direction="row" gap={3} justifyContent="space-between">
-      <Box sx={{ width: "45%" }}>
+      <Box sx={{ width: "60%" }}>
         <FormGroup>
           <FormLabel>
             Path
@@ -148,7 +148,7 @@ const UploadForm = () => {
         </FormGroup>
       </Box>
 
-      <Box sx={{ width: "55%" }}>
+      <Box sx={{ width: "40%" }}>
         <FormGroup>
           <FormLabel>JSON Data</FormLabel>
           <FormControl size="small" sx={{ width: "100%" }}>
