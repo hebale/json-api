@@ -69,7 +69,7 @@ const Editor = ({ path, value, height }: EditorProps) => {
   return (
     <Box sx={{ mt: 4 }}>
       <InputLabel sx={{ fontSize: "14px" /* color: "#1976d2" */ }} shrink>
-        Response Data
+        Response
       </InputLabel>
       <Stack
         flexDirection="row"

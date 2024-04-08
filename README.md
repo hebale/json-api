@@ -92,7 +92,6 @@ json-api
 ## 작업필요사항
 
 - validation 작업
-- 파일업로드 배치
 - 다운로드 버튼 추가
-- monaco 스크롤 이슈
 - monaco 스키마 설정 확인
+- monaco 커스텀스타일 작성

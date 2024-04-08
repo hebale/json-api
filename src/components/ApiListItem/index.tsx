@@ -54,7 +54,6 @@ const ApiListItem = ({
         <Editor
           {...{ path: path as string }}
           value={JSON.stringify(response, null, 2)}
-          height={260}
         />
       </AccordionDetails>
     </Accordion>

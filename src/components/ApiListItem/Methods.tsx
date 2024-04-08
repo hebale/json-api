@@ -76,10 +76,12 @@ const Methods = ({
       justifyContent="space-between"
       alignItems="center"
       sx={{
+        ...(index > 0 && { mt: 1 }),
         p: 1,
         px: 2,
-        ...(index > 0 && { borderTop: "1px solid #ddd" }),
-        background: "#fafafa",
+        border: "1px solid rgba(0, 0, 0, 0.23)",
+        borderRadius: "4px",
+        background: "#fff",
       }}
     >
       <Typography sx={{ fontSize: "14px", fontWeight: 600 }}>
@@ -121,7 +123,16 @@ const Methods = ({
                 min: 0,
                 step: 500,
               }}
-              sx={{ height: "30px" }}
+              sx={{
+                height: "30px",
+                "& .MuiInputBase-input": {
+                  pr: 1,
+                  background: "#fff",
+                },
+                "& .MuiInputBase-input::-webkit-inner-spin-button": {
+                  opacity: 1,
+                },
+              }}
               onChange={(e) => onChangeDelay(e, method)}
             />
           </FormControl>
@@ -130,7 +141,7 @@ const Methods = ({
             <Select
               label="status"
               defaultValue={status}
-              sx={{ height: "30px" }}
+              sx={{ height: "30px", background: "#fff" }}
               onChange={(e) => onChangeStatus(e, method)}
             >
               <MenuItem value={200}>200</MenuItem>

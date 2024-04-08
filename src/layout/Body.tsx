@@ -4,6 +4,8 @@ import { Box } from "@mui/material";
 import ApiListItem from "~/components/ApiListItem";
 import { getAllJsons } from "~/api";
 
+import Viewer from "~/features/Viewer";
+
 const Body = () => {
   const [datas, setDatas] = useState<{ [key: string]: any }[] | null>(null);
 

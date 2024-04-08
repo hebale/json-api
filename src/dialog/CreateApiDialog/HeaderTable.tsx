@@ -24,10 +24,11 @@ type HeaderData = {
 };
 
 const tableContainerStyle = {
-  border: "1px solid rgba(224, 224, 224, 1)",
+  border: "1px solid rgba(0, 0, 0, 0.23)",
   borderRadius: "4px",
   "& .MuiTableCell-root": {
     p: 0.5,
+    border: "none",
   },
   "& .MuiInputBase-root": {
     fontSize: "14px",

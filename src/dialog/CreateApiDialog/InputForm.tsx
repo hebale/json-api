@@ -14,14 +14,30 @@ import Monaco from "~/features/Monaco";
 import schema from "~/schema";
 
 import { DialogContentContext } from "~/features/Dialogs";
-import type { JSONData } from "~/types/features";
+import Viewer from "~/features/Viewer";
 import HeaderTable from "./HeaderTable";
+
+import type { editor } from "monaco-editor";
+import type { JSONData } from "~/types/features";
+
+const jsonDataStyle = {
+  p: 2,
+  height: "100%",
+  lineHeight: 1.6,
+  fontSize: "12px",
+  fontWeight: 300,
+  borderColor: "#1e1e1e",
+  borderRadius: "4px",
+  letterSpacing: "0.05em",
+  color: "#fff",
+  background: "#1e1e1e",
+};
 
 const jsonData: JSONData = {
   path: "",
   description: "",
-  methods: [],
   headers: {},
+  methods: [],
   response: [],
 };
 
@@ -42,6 +58,12 @@ const UploadForm = () => {
   const onChangePath = (value: string) => {
     setCode((prev) => {
       return { ...prev, path: value };
+    });
+  };
+
+  const onChangeHeader = (headers: { [key: string]: string }) => {
+    setCode((prev) => {
+      return { ...prev, headers };
     });
   };
 
@@ -80,15 +102,22 @@ const UploadForm = () => {
     });
   };
 
-  const onChangeHeader = (headers: { [key: string]: string }) => {
-    setCode((prev) => {
-      return { ...prev, headers };
-    });
+  const onResponseValidate = (marker: editor.IMarker[], value?: string) => {
+    if (!marker.length) {
+      setCode((prev) => {
+        return { ...prev, response: value ? JSON.parse(value) : "" };
+      });
+    }
   };
 
   return (
-    <Stack direction="row" gap={3} justifyContent="space-between">
-      <Box sx={{ width: "60%" }}>
+    <Stack
+      direction="row"
+      gap={3}
+      justifyContent="space-between"
+      alignItems="stretch"
+    >
+      <Box sx={{ width: "50%" }}>
         <FormGroup>
           <FormLabel>
             Path
@@ -118,6 +147,10 @@ const UploadForm = () => {
             />
           </FormControl>
         </FormGroup>
+        <FormGroup>
+          <FormLabel>Headers</FormLabel>
+          <HeaderTable onChange={onChangeHeader} />
+        </FormGroup>
         <FormGroup
           sx={{
             display: "flex",
@@ -142,28 +175,35 @@ const UploadForm = () => {
             </FormControl>
           ))}
         </FormGroup>
-        <FormGroup>
-          <FormLabel>Headers</FormLabel>
-          <HeaderTable onChange={onChangeHeader} />
+        <FormGroup
+          sx={{
+            "& .MuiBox-root": {
+              background: "#fff",
+              border: "1px solid rgba(0, 0, 0, 0.23)",
+              borderRadius: "4px",
+            },
+          }}
+        >
+          <FormLabel>Response</FormLabel>
+          <Monaco value={"[]"} height={360} onValidate={onResponseValidate} />
         </FormGroup>
       </Box>
 
-      <Box sx={{ width: "40%" }}>
-        <FormGroup>
+      <Box sx={{ width: "50%" }}>
+        <FormGroup sx={{ height: "100%", flexWrap: "nowrap" }}>
           <FormLabel>JSON Data</FormLabel>
-          <FormControl size="small" sx={{ width: "100%" }}>
-            <Monaco
-              value={JSON.stringify(code, null, 2)}
-              height={500}
-              {...schema}
-              options={{
-                readOnly: true,
-                readOnlyMessage: {
-                  value: "읽기 전용입니다.",
-                },
-              }}
-              onChange={(data) => setDatas && setDatas(data)}
-            />
+          <FormControl
+            size="small"
+            sx={{
+              px: 2,
+              width: "100%",
+              height: "100%",
+              border: "1px solid rgba(0, 0, 0, 0.23)",
+              borderRadius: "4px",
+              boxSizing: "border-box",
+            }}
+          >
+            <Viewer value={JSON.stringify(code, null, 2)} />
           </FormControl>
         </FormGroup>
       </Box>
