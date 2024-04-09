@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
-type HeaderTableProps = {
+type HeadersProps = {
   onChange: (headers: { [key: string]: string }) => void;
 };
 
@@ -35,7 +35,7 @@ const tableContainerStyle = {
   },
 };
 
-const HeaderTable = ({ onChange }: HeaderTableProps) => {
+const Headers = ({ onChange }: HeadersProps) => {
   const [count, setCount] = useState(0);
   const [headers, setHeaders] = useState<HeaderData[]>([]);
 
@@ -155,4 +155,4 @@ const HeaderTable = ({ onChange }: HeaderTableProps) => {
   );
 };
 
-export default HeaderTable;
+export default Headers;

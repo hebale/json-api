@@ -5,8 +5,10 @@ import type { DialogProps } from "~/types/features";
 
 const useDialog = () => {
   const { open, close } = useContext(DialogDispatchContext);
-  const openDialog = (dialog: DialogProps) =>
+  const openDialog = (dialog: DialogProps) => {
+    console.log(dialog);
     open({ id: new Date().getTime(), open: true, ...dialog });
+  };
 
   const closeDialog = (id: number) => close(id);
 

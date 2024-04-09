@@ -15,12 +15,12 @@ import {
 } from "@mui/material";
 
 import useAlert from "~/hooks/useAlert";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import CodeIcon from "@mui/icons-material/Code";
 
 import { patchJsonMethods } from "~/api";
 
 import type { ApiListItemProps } from "~/types/components";
+import InjectJsCode from "~/dialog/InjdectJsCode";
 
 type FormData = {
   delay: number;
@@ -34,6 +34,8 @@ const Methods = ({
 }: Omit<ApiListItemProps, "response">): JSX.Element[] => {
   const [formData, setFormData] = useState<FormData | null>(null);
   const { openAlert } = useAlert();
+
+  const onChangePipeline = async () => {};
 
   const onChangeDelay = async (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -89,18 +91,9 @@ const Methods = ({
       </Typography>
 
       <Stack flexDirection="row" alignItems="center">
-        <ButtonGroup sx={{ mr: 2 }}>
-          <Tooltip title="Run" placement="top" arrow>
-            <IconButton size="small">
-              <PlayArrowIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Inject JS" placement="top" arrow>
-            <IconButton size="small">
-              <CodeIcon />
-            </IconButton>
-          </Tooltip>
-        </ButtonGroup>
+        <FormGroup sx={{ mr: 1 }}>
+          <InjectJsCode path={path} method={method} />
+        </FormGroup>
 
         <FormGroup
           row={true}

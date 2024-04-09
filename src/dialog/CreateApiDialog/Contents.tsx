@@ -5,7 +5,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import UploadForm from "./UploadForm";
 import InputForm from "./InputForm";
 
-const TabContent = () => {
+const Contents = () => {
   const [tabValue, setTabValue] = useState("upload");
 
   const onChangeTab = (e: React.SyntheticEvent, value: string) => {
@@ -49,4 +49,4 @@ const TabContent = () => {
   );
 };
 
-export default TabContent;
+export default Contents;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Tooltip, IconButton } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 import useAlert from "~/hooks/useAlert";
 import useModal from "~/hooks/useModal";
@@ -60,7 +60,7 @@ const EditApiDialog = ({ path }: { path: string }) => {
   return (
     <Tooltip title="JSON Edit" placement="top" arrow>
       <IconButton onClick={open}>
-        <EditIcon />
+        <SettingsIcon />
       </IconButton>
     </Tooltip>
   );

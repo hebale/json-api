@@ -1,18 +1,26 @@
 {
   "path": "/data",
   "headers": {
-    "Content-Type": "application/json"
+    "Header-Test": "foo"
   },
   "methods": [
     {
-      "method": "POST",
-      "delay": 0,
-      "status": 200
-    },
-    {
       "method": "GET",
       "delay": 0,
-      "status": 200
+      "status": 200,
+      "code": {
+        "isActive": false,
+        "value": null
+      }
+    },
+    {
+      "method": "POST",
+      "delay": 0,
+      "status": 200,
+      "code": {
+        "isActive": true,
+        "value": null
+      }
     }
   ],
   "response": [
@@ -21,14 +29,8 @@
       "bannerid": "486824",
       "creativeid": "557538",
       "description": "Get 10 Free Images From Adobe Stock. Start Now.",
-      "evenodd": "0",
-      "external_id": "185168",
-      "height": "0",
-      "i": "0",
       "identifier": "bcaba3302e93ca389042f1cbfa5f0a75",
-      "num_slots": "1",
       "rendering": "carbon",
-      "width": "0",
       "zoneid": "32083",
       "zonekey": "CK7DT53I"
     }

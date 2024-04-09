@@ -1,9 +1,0 @@
-{
-  "path": "/user/info/detail",
-  "description": "",
-  "methods": [],
-  "headers": {
-    "Content-type": "application/json"
-  },
-  "response": []
-}

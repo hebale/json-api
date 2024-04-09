@@ -34,8 +34,10 @@ const Dialogs = () => {
           title,
           content,
           actions = [],
-          ...rest
+          props,
         } = dialog;
+
+        console.log(dialog);
 
         const onCloseDialog: () => void = () => close(id);
 
@@ -46,7 +48,7 @@ const Dialogs = () => {
             fullWidth={true}
             maxWidth={"lg"}
             onClose={() => onCloseDialog()}
-            {...rest}
+            {...props}
           >
             <DialogTitle>{title}</DialogTitle>
             <IconButton

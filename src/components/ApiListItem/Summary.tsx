@@ -1,11 +1,9 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import EditIcon from "@mui/icons-material/Edit";
 
 import CopyButton from "~/features/CopyButton";
 import DownloadButton from "~/features/DownloadButton";
-import EditApiDialog from "~/dialog/EidtApiDialog";
+import EditApiDialog from "~/dialog/EditApiDialog";
 
 import useAlert from "~/hooks/useAlert";
 
@@ -46,17 +44,16 @@ const Summary = ({ path }: { path: string }) => {
         />
       </Stack>
       <Stack flexDirection="row" sx={{ mr: 2 }}>
-        <EditApiDialog path={path} />
-        {/* <SettingsIcon /> */}
-        {/* <DownloadButton
+        <DownloadButton
           url={`/api/v1/download?path=${name}`}
           fileName={`api_${new Date().getTime()}`}
           tooltip={{
-            title: "JSON download",
+            title: "JSON Download",
             placement: "top",
             arrow: true,
           }}
-        /> */}
+        />
+        <EditApiDialog path={path} />
       </Stack>
     </>
   );

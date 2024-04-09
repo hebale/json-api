@@ -42,8 +42,8 @@ const api = ({ app }) => {
 
       const { headers } = json;
       const { delay, status, code } = settings;
-      const data = code
-        ? eval(code)(req.query, req.body, json.response)
+      const data = code.isActive
+        ? eval(code.value)(req, json.response)
         : json.response;
 
       for (let i = 0; i < Object.keys(headers).length; i++) {

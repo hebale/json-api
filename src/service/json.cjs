@@ -82,6 +82,37 @@ const json = ({ app }) => {
   });
 
   /**
+   * 단일 JSON 메소드 데이터 검색
+   */
+  app.get("/api/v1/json/method", async (req, res) => {
+    try {
+      const { path, method } = req.query;
+      const response = $fs.readFileSync(
+        $path.resolve(process.cwd(), `src/json${path}/index.json`),
+        {
+          encoding: "utf-8",
+          flag: "r",
+        }
+      );
+      const data = JSON.parse(response);
+
+      res.send({
+        code: 200,
+        message: "Ok",
+        data: data.methods.filter(
+          ({ method: _method }) => _method === method
+        )[0],
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: "Internal Server Error",
+        err,
+      });
+    }
+  });
+
+  /**
    * 단일 JSON파일 다운로드
    */
   app.get("/api/v1/download", (req, res) => {

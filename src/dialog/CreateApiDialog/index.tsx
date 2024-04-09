@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import useAlert from "~/hooks/useAlert";
 import useDialog from "~/hooks/useDialog";
 
-import TabContext from "./TabContext";
+import Contents from "./Contents";
 import { postJson } from "~/api";
 
 const CreateApiDialog = ({ title }: { title: string }) => {
@@ -14,7 +14,7 @@ const CreateApiDialog = ({ title }: { title: string }) => {
   const open = () => {
     openDialog({
       title: title,
-      content: <TabContext />,
+      content: <Contents />,
       actions: [
         {
           text: "등록",

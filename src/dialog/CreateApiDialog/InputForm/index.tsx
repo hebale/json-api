@@ -11,27 +11,13 @@ import {
   Typography,
 } from "@mui/material";
 import Monaco from "~/features/Monaco";
-import schema from "~/schema";
 
 import { DialogContentContext } from "~/features/Dialogs";
 import Viewer from "~/features/Viewer";
-import HeaderTable from "./HeaderTable";
+import Headers from "./Headers";
 
 import type { editor } from "monaco-editor";
 import type { JSONData } from "~/types/features";
-
-const jsonDataStyle = {
-  p: 2,
-  height: "100%",
-  lineHeight: 1.6,
-  fontSize: "12px",
-  fontWeight: 300,
-  borderColor: "#1e1e1e",
-  borderRadius: "4px",
-  letterSpacing: "0.05em",
-  color: "#fff",
-  background: "#1e1e1e",
-};
 
 const jsonData: JSONData = {
   path: "",
@@ -86,7 +72,10 @@ const UploadForm = () => {
             | "DELETE",
           delay: 0,
           status: 200,
-          code: null,
+          code: {
+            isActive: false,
+            value: null,
+          },
         });
       } else {
         methods = methods.filter(
@@ -149,7 +138,7 @@ const UploadForm = () => {
         </FormGroup>
         <FormGroup>
           <FormLabel>Headers</FormLabel>
-          <HeaderTable onChange={onChangeHeader} />
+          <Headers onChange={onChangeHeader} />
         </FormGroup>
         <FormGroup
           sx={{

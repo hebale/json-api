@@ -22,7 +22,10 @@ export type JSONData = {
     method: "GET" | "POST" | "PULL" | "PATCH" | "DELETE";
     delay: number;
     status: number;
-    code: string | null;
+    code: {
+      isActive: boolean;
+      value: string | null;
+    };
   }[];
   response: any;
 };
@@ -36,6 +39,7 @@ export type DialogProps = {
   title: string;
   content: JSX.Element;
   actions?: ActionProps[];
+  props?: Partial<MuiDialogProps>;
 };
 
 export type ActionProps = ButtonProps & {

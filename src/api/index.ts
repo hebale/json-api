@@ -10,6 +10,18 @@ export const getJson = async (params: string) => {
   if (response?.code === 200) return response;
 };
 
+export const getJsonMethos = async ({
+  path,
+  method,
+}: {
+  [key: string]: string;
+}) => {
+  const response = await http.get(
+    `/api/v1/json/method?path=${path}&method=${method}`
+  );
+  if (response?.code === 200) return response;
+};
+
 export const postJson = async (params: any) => {
   const response = await http.post("/api/v1/json", { body: params });
   if (response?.code === 200) return response;
