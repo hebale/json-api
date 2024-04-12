@@ -5,6 +5,10 @@ import ApiListItem from "~/components/ApiListItem";
 import { getAllJsons } from "~/api";
 
 import Viewer from "~/features/Viewer";
+import Contents from "~/dialog/EditPipeline/Contents";
+
+const defaultJs = `function pipeline(request, response) {\n  const { query, body} = request;\n  // code goes here\n\n\n  return response;\n}`;
+
 
 const Body = () => {
   const [datas, setDatas] = useState<{ [key: string]: any }[] | null>(null);
@@ -21,14 +25,16 @@ const Body = () => {
   };
 
   return (
-    <Box>
-      {datas &&
-        datas.map((data) => (
-          <React.Fragment key={data.path}>
-            <ApiListItem {...data} />
-          </React.Fragment>
-        ))}
-    </Box>
+    <>  
+      <Box>
+        {datas &&
+          datas.map((data) => (
+            <React.Fragment key={data.path}>
+              <ApiListItem {...data} />
+            </React.Fragment>
+          ))}
+      </Box>
+    </>
   );
 };
 

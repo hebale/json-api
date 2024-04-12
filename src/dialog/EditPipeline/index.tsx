@@ -10,12 +10,12 @@ import useDialog from "~/hooks/useDialog";
 import Contents from "./Contents";
 import { getJsonMethos } from "~/api";
 
-type InjectJsCodeProps = {
+type EditPipelineProps = {
   path: string;
   method: string;
 };
 
-const InjectJsCode = ({ path, method }: InjectJsCodeProps) => {
+const EditPipeline = ({ path, method }: EditPipelineProps) => {
   const { openAlert } = useAlert();
   const { openModal } = useModal();
   const { openDialog } = useDialog();
@@ -36,7 +36,7 @@ const InjectJsCode = ({ path, method }: InjectJsCodeProps) => {
     openDialog({
       title: "Reponse Pipeline",
       props: {
-        maxWidth: "md",
+        maxWidth: "lg",
       },
       content: <Contents path="/" value={code?.value ?? ""} />,
     });
@@ -51,4 +51,4 @@ const InjectJsCode = ({ path, method }: InjectJsCodeProps) => {
   );
 };
 
-export default InjectJsCode;
+export default EditPipeline;

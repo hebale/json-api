@@ -20,7 +20,7 @@ import CodeIcon from "@mui/icons-material/Code";
 import { patchJsonMethods } from "~/api";
 
 import type { ApiListItemProps } from "~/types/components";
-import InjectJsCode from "~/dialog/InjdectJsCode";
+import EditPipeline from "~/dialog/EditPipeline";
 
 type FormData = {
   delay: number;
@@ -92,7 +92,7 @@ const Methods = ({
 
       <Stack flexDirection="row" alignItems="center">
         <FormGroup sx={{ mr: 1 }}>
-          <InjectJsCode path={path} method={method} />
+          <EditPipeline path={path} method={method} />
         </FormGroup>
 
         <FormGroup

@@ -91,7 +91,12 @@ json-api
 
 ## 작업필요사항
 
+### test
 - validation 작업
-- 다운로드 버튼 추가
 - monaco 스키마 설정 확인
+- 다운로드 버튼 기능확인
+
+### ui
+- pipeline 구성 ui 제작
 - monaco 커스텀스타일 작성
+

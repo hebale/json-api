@@ -66,7 +66,7 @@ const Dialogs = () => {
                 {content}
               </DialogContentContext.Provider>
             </DialogContent>
-            {actions.length && (
+            {!!actions.length && (
               <DialogActions sx={{ py: 2 }}>
                 {actions.map((action, index) => {
                   const { text, onAction, ...rest }: ActionProps = action;
