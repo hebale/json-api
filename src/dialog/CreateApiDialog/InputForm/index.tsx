@@ -92,9 +92,10 @@ const UploadForm = () => {
   };
 
   const onResponseValidate = (marker: editor.IMarker[], value?: string) => {
+    console.log(value);
     if (!marker.length) {
       setCode((prev) => {
-        return { ...prev, response: value ? JSON.parse(value) : "" };
+        return { ...prev, response: value };
       });
     }
   };

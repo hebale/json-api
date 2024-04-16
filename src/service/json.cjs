@@ -32,7 +32,7 @@ const json = ({ app }) => {
           }
         );
         const data = JSON.parse(response);
-
+        
         allJson.push(data);
       });
 

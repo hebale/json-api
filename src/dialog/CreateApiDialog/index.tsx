@@ -20,6 +20,9 @@ const CreateApiDialog = ({ title }: { title: string }) => {
           text: "등록",
           variant: "contained",
           onAction: async (closeFn, contents) => {
+
+            console.log(contents);
+
             const data = JSON.parse(contents);
             const response = await postJson({
               path: data.path,

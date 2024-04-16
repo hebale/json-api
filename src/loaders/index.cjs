@@ -10,7 +10,7 @@ const compiler = webpack(require("../config/webpack.config.cjs"));
 const loader = ({ app }) => {
   app.use(
     $cors({
-      origin: "http://localhost",
+      origin: "*",
       credentials: true,
     })
   );

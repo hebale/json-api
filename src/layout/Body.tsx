@@ -26,6 +26,7 @@ const Body = () => {
 
   return (
     <>  
+      {/* <Contents path='/data' value={defaultJs} /> */}
       <Box>
         {datas &&
           datas.map((data) => (
