@@ -1,0 +1,28 @@
+{
+  "path": "/service-mesh/gateway/connected-service",
+  "headers": {
+    "X-service": "gateway"
+  },
+  "methods": [
+    {
+      "method": "GET",
+      "delay": 0,
+      "status": 200,
+      "code": {
+        "isActive": false,
+        "value": "function pipeline(request, response) {\n  const { query, body} = request;\n  // code goes here\n\n\n  return response;\n}"
+      }
+    }
+  ],
+  "response": [
+    { 
+      "name": "가상 서비스명",
+      "namespace": "default",
+      "port": [80, 433],
+      "gateway": { "app": "helm-guest" },
+      "destService": ["frontend", "backend"],
+      "connectService": 3,
+      "creationTimestamp": "2024-04-15T09:07:46"
+    }
+  ]
+}
