@@ -1,40 +1,19 @@
-import React, { useState } from "react";
-import {
-  FormControl,
-  OutlinedInput,
-  Typography,
-  InputAdornment,
-} from "@mui/material";
+import React from "react";
+import { FormControl, OutlinedInput, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-const ApiSearchBar = () => {
-  const [searchText, setSearchText] = useState("");
+type ApiSearchBarProps = {
+  onSearch: (str: string) => void;
+};
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setSearchText(e.target.value);
-
-  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") doSearch();
-  };
-
-  const doSearch = () => {
-    /* ~ contents search ~ */
-    console.log(`"${searchText}" search!`);
-  };
-
+const ApiSearchBar = ({ onSearch }: ApiSearchBarProps) => {
   return (
     <FormControl variant="outlined" size="small">
       <OutlinedInput
         type="text"
-        placeholder="{path}"
-        {...{ onChange }}
-        {...{ onKeyDown }}
-        sx={{ alignItems: "center" }}
-        startAdornment={
-          <Typography
-            sx={{ mt: 0.5, mr: 0.2, fontWeight: 700 }}
-          >{`http://localhost:${process.env.SERVER_PORT}/`}</Typography>
-        }
+        placeholder="path"
+        onChange={(e) => onSearch((e.target as HTMLInputElement).value)}
+        sx={{ minWidth: "360px", alignItems: "center" }}
         endAdornment={
           <InputAdornment position="end">
             <SearchIcon />

@@ -7,69 +7,69 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
-dotenv.config({ path: path.join(process.cwd(), ".env") });
+const webpackConfig = (() => {    
+  dotenv.config({ path: path.join(process.cwd(), ".env") });
 
-module.exports = {
-  mode: "development",
-  entry: "./src/index.tsx",
-  output: {
-    filename: "./assets/script.min.js",
-    path: path.join(process.cwd(), "./public"),
-  },
-  resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx", ".scss"],
-    alias: {
-      "~": path.resolve(__dirname, "../../src"),
+  return {
+    mode: "development",
+    entry: "./src/index.tsx",
+    output: {
+      filename: "./assets/script.min.js",
+      path: path.join(process.cwd(), "./public"),
     },
-  },
-  module: {
-    rules: [
-      {
-        test: /\.[jt]sx?/,
-        loader: "esbuild-loader",
-        options: {
-          target: "es2015",
-        },
+    resolve: {
+      extensions: [".js", ".jsx", ".ts", ".tsx", ".scss"],
+      alias: {
+        "~": path.resolve(__dirname, "../../src"),
       },
-      {
-        test: /\.s[ac]ss$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: "../../",
-            },
+    },
+    module: {
+      rules: [
+        {
+          test: /\.[jt]sx?/,
+          loader: "esbuild-loader",
+          options: {
+            target: "es2015",
           },
-          "css-loader",
-          "sass-loader",
-        ],
-      },
+        },
+        {
+          test: /\.s[ac]ss$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: "../../",
+              },
+            },
+            "css-loader",
+            "sass-loader",
+          ],
+        },
+      ],
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        "process.env": JSON.stringify(process.env),
+      }),
+      new HtmlWebpackPlugin({
+        template: path.resolve(process.cwd(), "./index.html"),
+        minify: false,
+      }),
+      new MiniCssExtractPlugin({ filename: "./assets/style.min.css" }),
+      // new CopyPligin({
+      //   patterns: [
+      //     { from: "./src/server", to: "./server" },
+      //     { from: "./src/server.js", to: "./" },
+      //   ],
+      // }),
+      new BundleAnalyzerPlugin({
+        analyzerMode: "static",
+        reportFilename: "bundle-repost.html",
+        openAnalyzer: false,
+        excludeAssets: [/node_modules/],
+      }),
     ],
-  },
-  devServer: {
-    host: "localhost",
-    port: 8080,
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      "process.env": JSON.stringify(process.env),
-    }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(process.cwd(), "./index.html"),
-      minify: false,
-    }),
-    new MiniCssExtractPlugin({ filename: "./assets/style.min.css" }),
-    // new CopyPligin({
-    //   patterns: [
-    //     { from: "./src/server", to: "./server" },
-    //     { from: "./src/server.js", to: "./" },
-    //   ],
-    // }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: "static",
-      reportFilename: "bundle-repost.html",
-      openAnalyzer: false,
-      excludeAssets: [/node_modules/],
-    }),
-  ],
-};
+  }
+})();
+
+module.exports = webpackConfig;

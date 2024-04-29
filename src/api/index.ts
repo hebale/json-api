@@ -2,7 +2,7 @@ import http from "./http";
 
 export const getAllJsons = async () => {
   const response = await http.get("/api/v1/all");
-  if (response?.code === 200) return response;
+  if (response?.code === 200) return response.data;
 };
 
 export const getJson = async (params: string) => {

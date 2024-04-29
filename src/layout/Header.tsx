@@ -1,20 +1,19 @@
 import React from "react";
-import { Stack } from "@mui/material";
+import { Stack, Box } from "@mui/material";
 
-import ApiSearchBar from "~/components/ApiSearchBar";
-import CreateApiDialog from "~/dialog/CreateApiDialog";
+import type { HeaderProps } from "~/types/layout";
 
-const Header = () => {
+const Header = ({ left, right }: HeaderProps) => {
   return (
     <Stack
+      id="header"
       component="header"
       flexDirection="row"
       justifyContent="space-between"
       alignItems="center"
-      sx={{ py: 4 }}
     >
-      <ApiSearchBar />
-      <CreateApiDialog title={"API 등록"} />
+      {left && <Box>{left}</Box>}
+      {right && <Box>{right}</Box>}
     </Stack>
   );
 };

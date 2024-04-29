@@ -17,7 +17,7 @@ service({ app });
 const onServer = () => {
   app
     .listen(port, () => {
-      console.info($figlet.textSync("APIMAKER-APP", { font: "Slant" }));
+      console.info($figlet.textSync("API-MAKER", { font: "Slant" }));
     })
     .on("error", (err) => {
       console.error(err);

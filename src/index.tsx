@@ -1,13 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Container } from "@mui/material";
 
 import AlertProvider from "~/contexts/AlertContext";
 import ModalProvider from "./contexts/ModalContext";
 import DialogProvider from "~/contexts/DialogContext";
 
-import Header from "~/layout/Header";
-import Body from "~/layout/Body";
+import Layout from "~/layout";
 import "~/assets/style.scss";
 
 if (document.querySelector("#app") !== null) {
@@ -15,10 +13,7 @@ if (document.querySelector("#app") !== null) {
     <AlertProvider>
       <ModalProvider>
         <DialogProvider>
-          <Container maxWidth="md">
-            <Header />
-            <Body />
-          </Container>
+          <Layout />
         </DialogProvider>
       </ModalProvider>
     </AlertProvider>

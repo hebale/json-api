@@ -14,4 +14,5 @@ export type ApiListItemProps = {
   };
   methods: Method[];
   response: any;
+  searchText?: string;
 };
