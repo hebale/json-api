@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { highlightMarker } from '~/utils/index';
 
 import Summary from "./Summary";
 import Methods from "./Methods";
@@ -31,6 +32,7 @@ const ApiListItem = ({
   headers,
   methods,
   response,
+  emphasis,
 }: Partial<ApiListItemProps>) => {
   const [expand, setExpand] = useState(true);
   const onToggleExpand = () => {
@@ -47,7 +49,7 @@ const ApiListItem = ({
         }
         sx={{ ...style }}
       >
-        <Summary {...{ path: path as string }} />
+        <Summary {...{ path: highlightMarker(path, emphasis) }} />
       </AccordionSummary>
       <AccordionDetails>
         <Methods {...{ path: path as string, headers, methods }} />

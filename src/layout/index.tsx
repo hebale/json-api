@@ -42,7 +42,7 @@ const Layout = () => {
           {apiLists &&
             apiLists
               .filter((apiList) => apiList.path.indexOf(searchText) > -1)
-              .map((apiList) => <ApiListItem {...apiList} />)}
+            .map((apiList) => <ApiListItem {...apiList} emphasis={searchText} />)}
         </>
       </Contents>
     </Container>

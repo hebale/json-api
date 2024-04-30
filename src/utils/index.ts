@@ -1,3 +1,5 @@
+import React from "react";
+
 export const decodeUnicode = (str: string) => {
   return decodeURIComponent(
     atob(str)
@@ -53,4 +55,30 @@ export const objectToString = (params: {
   return Object.keys(params)
     .map((value) => `${value}=${params[value]}`)
     .join("&");
+};
+
+export const highlightMarker = (
+  str: string,
+  word: string
+): (string | React.ReactElement)[] => {
+  if (str.indexOf(word) === -1) return [str];
+  
+  const splitStr = str.split(word);
+
+  return splitStr.reduce(
+    (aggr: (string | React.ReactElement)[], str, index) => {
+      if (index !== splitStr.length - 1) {
+        aggr = [
+          ...aggr,
+          splitStr[index],
+          React.createElement("mark", null, word),
+        ];
+      } else {
+        aggr = [...aggr, splitStr[index]];
+      }
+
+      return aggr;
+    },
+    []
+  );
 };

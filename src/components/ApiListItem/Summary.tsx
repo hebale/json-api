@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack } from "@mui/material";
+import { Stack, Box } from "@mui/material";
 
 import CopyButton from "~/features/CopyButton";
 import DownloadButton from "~/features/DownloadButton";
@@ -22,26 +22,28 @@ const Summary = ({ path }: { path: string }) => {
 
   return (
     <>
-      <Stack direction="row" justifyContent="space-between" sx={style}>
+      <Stack direction="row" sx={style}>
         {path}
-        <CopyButton
-          text={path}
-          iconButtonStyle={{
-            p: 0,
-            color: "inherit",
-          }}
-          tooltip={{
-            title: "Copy",
-            placement: "top",
-            arrow: true,
-          }}
-          onCopied={() =>
-            openAlert({
-              type: "info",
-              message: "클립보드에 복사 되었습니다.",
-            })
-          }
-        />
+        <Box sx={{ ml: 'auto'}}>
+          <CopyButton
+            text={path}
+            iconButtonStyle={{
+              p: 0,
+              color: "inherit",
+            }}
+            tooltip={{
+              title: "Copy",
+              placement: "top",
+              arrow: true,
+            }}
+            onCopied={() =>
+              openAlert({
+                type: "info",
+                message: "클립보드에 복사 되었습니다.",
+              })
+            }
+          />
+        </Box>
       </Stack>
       <Stack flexDirection="row" sx={{ mr: 2 }}>
         <DownloadButton
