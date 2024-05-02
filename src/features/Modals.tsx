@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react';
 import {
   Stack,
   Box,
@@ -6,14 +6,14 @@ import {
   OutlinedInput,
   Button,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 import {
   ModalStatusContext,
   ModalDispatchContext,
-} from "~/contexts/ModalContext";
+} from '~/contexts/ModalContext';
 
-import type { ModalProps } from "~/types/features";
+import type { ModalProps } from '~/types/features';
 
 const Modals = () => {
   const modals = useContext(ModalStatusContext);
@@ -21,14 +21,14 @@ const Modals = () => {
   const [input, setInput] = useState<string | null>(null);
 
   const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
     p: 3,
-    transform: "translate(-50%, -50%)",
+    transform: 'translate(-50%, -50%)',
     width: 400,
-    borderRadius: "4px",
-    backgroundColor: "#fff",
+    borderRadius: '4px',
+    backgroundColor: '#fff',
     boxShadow: 24,
   };
 
@@ -50,11 +50,11 @@ const Modals = () => {
               </Typography>
               <Typography sx={{ mt: 2 }}>{message}</Typography>
 
-              {type === "prompt" && (
+              {type === 'prompt' && (
                 <OutlinedInput
                   type="contained"
                   size="small"
-                  sx={{ mt: 2, width: "100%" }}
+                  sx={{ mt: 2, width: '100%' }}
                   onChange={(e) => setInput(e.target.value)}
                 />
               )}
@@ -66,7 +66,7 @@ const Modals = () => {
                 justifyContent="flex-end"
                 sx={{ mt: 2 }}
               >
-                {type === "alert" ? (
+                {type === 'alert' ? (
                   <Button
                     variant="contained"
                     onClick={() => {
@@ -82,7 +82,7 @@ const Modals = () => {
                       variant="contained"
                       onClick={() => {
                         close(id as number);
-                        resolve(type === "prompt" ? input : true);
+                        resolve(type === 'prompt' ? input : true);
                       }}
                     >
                       확인

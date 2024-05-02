@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Stack,
   FormGroup,
@@ -12,15 +12,15 @@ import {
   SelectChangeEvent,
   IconButton,
   Tooltip,
-} from "@mui/material";
+} from '@mui/material';
 
-import useAlert from "~/hooks/useAlert";
-import CodeIcon from "@mui/icons-material/Code";
+import useAlert from '~/hooks/useAlert';
+import CodeIcon from '@mui/icons-material/Code';
 
-import { patchJsonMethods } from "~/api";
+import { patchJsonMethods } from '~/api';
 
-import type { ApiListItemProps } from "~/types/components";
-import EditPipeline from "~/dialog/EditPipeline";
+import type { ApiListItemProps } from '~/types/components';
+import EditPipeline from '~/dialog/EditPipeline';
 
 type FormData = {
   delay: number;
@@ -31,7 +31,7 @@ const Methods = ({
   path,
   headers,
   methods,
-}: Omit<ApiListItemProps, "response">): JSX.Element[] => {
+}: Omit<ApiListItemProps, 'response'>): JSX.Element[] => {
   const [formData, setFormData] = useState<FormData | null>(null);
   const { openAlert } = useAlert();
 
@@ -49,8 +49,8 @@ const Methods = ({
 
     !response &&
       openAlert({
-        type: "error",
-        message: "오류가 발생했습니다. 다시 시도해 주세요.",
+        type: 'error',
+        message: '오류가 발생했습니다. 다시 시도해 주세요.',
       });
   };
 
@@ -66,8 +66,8 @@ const Methods = ({
 
     !response &&
       openAlert({
-        type: "error",
-        message: "오류가 발생했습니다. 다시 시도해 주세요.",
+        type: 'error',
+        message: '오류가 발생했습니다. 다시 시도해 주세요.',
       });
   };
 
@@ -81,27 +81,27 @@ const Methods = ({
         ...(index > 0 && { mt: 1 }),
         p: 1,
         px: 2,
-        border: "1px solid rgba(0, 0, 0, 0.23)",
-        borderRadius: "4px",
-        background: "#fff",
+        border: '1px solid rgba(0, 0, 0, 0.23)',
+        borderRadius: '4px',
+        background: '#fff',
       }}
     >
-      <Typography sx={{ fontSize: "14px", fontWeight: 600 }}>
+      <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>
         {method}
       </Typography>
 
       <Stack flexDirection="row" alignItems="center">
-        <FormGroup sx={{ mr: 1 }}>
+        {/* <FormGroup sx={{ mr: 1 }}>
           <EditPipeline path={path} method={method} />
-        </FormGroup>
+        </FormGroup> */}
 
         <FormGroup
           row={true}
           sx={{
-            "& .MuiFormControl-root": {
+            '& .MuiFormControl-root': {
               width: 80,
             },
-            "& .MuiFormControl-root + .MuiFormControl-root": {
+            '& .MuiFormControl-root + .MuiFormControl-root': {
               ml: 1,
             },
           }}
@@ -117,12 +117,12 @@ const Methods = ({
                 step: 500,
               }}
               sx={{
-                height: "30px",
-                "& .MuiInputBase-input": {
+                height: '30px',
+                '& .MuiInputBase-input': {
                   pr: 1,
-                  background: "#fff",
+                  background: '#fff',
                 },
-                "& .MuiInputBase-input::-webkit-inner-spin-button": {
+                '& .MuiInputBase-input::-webkit-inner-spin-button': {
                   opacity: 1,
                 },
               }}
@@ -134,7 +134,7 @@ const Methods = ({
             <Select
               label="status"
               defaultValue={status}
-              sx={{ height: "30px", background: "#fff" }}
+              sx={{ height: '30px', background: '#fff' }}
               onChange={(e) => onChangeStatus(e, method)}
             >
               <MenuItem value={200}>200</MenuItem>

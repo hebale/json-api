@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { styled } from "@mui/material/styles";
+import React, { useState, useEffect } from 'react';
+import { styled } from '@mui/material/styles';
 import {
   Box,
   Stack,
@@ -11,19 +11,19 @@ import {
   Tooltip,
   IconButton,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
-import RefreshIcon from "@mui/icons-material/Refresh";
-import SaveIcon from "@mui/icons-material/Save";
+import RefreshIcon from '@mui/icons-material/Refresh';
+import SaveIcon from '@mui/icons-material/Save';
 
-import CopyButton from "~/features/CopyButton";
-import Monaco from "~/features/Monaco";
+import CopyButton from '~/features/CopyButton';
+import Monaco from '~/features/Monaco';
 
-import useAlert from "~/hooks/useAlert";
-import { getJson, putJson } from "~/api";
+import useAlert from '~/hooks/useAlert';
+import { getJson, putJson } from '~/api';
 
-import type { editor } from "monaco-editor";
+import type { editor } from 'monaco-editor';
 
 type EditorProps = {
   path: string;
@@ -36,48 +36,48 @@ const CustomSwitch = styled(Switch)(({ theme }) => ({
   width: 36,
   height: 20,
   padding: 0,
-  display: "flex",
-  "&:active": {
-    "& .MuiSwitch-thumb": {
+  display: 'flex',
+  '&:active': {
+    '& .MuiSwitch-thumb': {
       width: 18,
     },
-    "& .MuiSwitch-switchBase.Mui-checked": {
-      transform: "translateX(13.5px)",
+    '& .MuiSwitch-switchBase.Mui-checked': {
+      transform: 'translateX(13.5px)',
     },
   },
-  "& .MuiSwitch-switchBase": {
+  '& .MuiSwitch-switchBase': {
     padding: 2,
-    "&.Mui-checked": {
-      transform: "translateX(16px)",
-      color: "#fff",
-      "& + .MuiSwitch-track": {
+    '&.Mui-checked': {
+      transform: 'translateX(16px)',
+      color: '#fff',
+      '& + .MuiSwitch-track': {
         opacity: 1,
-        backgroundColor: "#1890ff",
+        backgroundColor: '#1890ff',
       },
     },
   },
-  "& .MuiSwitch-thumb": {
-    boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
+  '& .MuiSwitch-thumb': {
+    boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
     width: 16,
     height: 16,
     borderRadius: 8,
-    transition: theme.transitions.create(["width"], {
+    transition: theme.transitions.create(['width'], {
       duration: 200,
     }),
   },
-  "& .MuiSwitch-track": {
+  '& .MuiSwitch-track': {
     borderRadius: 20 / 2,
     opacity: 1,
-    backgroundColor: "rgba(255,255,255,.35)",
-    boxSizing: "border-box",
+    backgroundColor: 'rgba(255,255,255,.35)',
+    boxSizing: 'border-box',
   },
 }));
 
 const Contents = ({ path, value }: EditorProps) => {
-  const [origin, setOrigin] = useState<string>("");
+  const [origin, setOrigin] = useState<string>('');
   const [code, setCode] = useState<string>(defaultJs);
   const [validate, setValidate] = useState<
-    Pick<editor.IMarker, "endColumn" | "endLineNumber" | "message">[]
+    Pick<editor.IMarker, 'endColumn' | 'endLineNumber' | 'message'>[]
   >([]);
   const [isChanged, setIsChanged] = useState(false);
   const { openAlert } = useAlert();
@@ -105,13 +105,13 @@ const Contents = ({ path, value }: EditorProps) => {
     return;
     if (validate.length) {
       return openAlert({
-        type: "error",
+        type: 'error',
         message: validate
           .map(
             ({ endLineNumber, endColumn, message }) =>
               `${endLineNumber}:${endColumn} ${message}`
           )
-          .join("\n"),
+          .join('\n'),
       });
     }
 
@@ -121,12 +121,12 @@ const Contents = ({ path, value }: EditorProps) => {
     });
 
     if (response) {
-      openAlert({ type: "success", message: "저장 되었습니다" });
+      openAlert({ type: 'success', message: '저장 되었습니다' });
       getJsonData();
     } else {
       openAlert({
-        type: "error",
-        message: "오류가 발생했습니다. 다시 시도해 주세요.",
+        type: 'error',
+        message: '오류가 발생했습니다. 다시 시도해 주세요.',
       });
     }
   };
@@ -137,7 +137,7 @@ const Contents = ({ path, value }: EditorProps) => {
 
   return (
     <>
-      <FormGroup sx={{ mr: "auto", color: "#fff" }}>
+      <FormGroup sx={{ mr: 'auto', color: '#fff' }}>
         <Tooltip title="코드실행" placement="top" arrow>
           <CustomSwitch defaultChecked />
         </Tooltip>
@@ -145,16 +145,20 @@ const Contents = ({ path, value }: EditorProps) => {
           <CustomSwitch defaultChecked />
         </Tooltip>
       </FormGroup>
-      
-      <Stack alignItems="center" gap={2} sx={{
-        width: '100%',
-        "& .MuiBox-root": {          
-          border: '1px solid #eee'
-        },
-        "& > .MuiBox-root": {
-          width: '33.3%'
-        }
-      }}>
+
+      <Stack
+        alignItems="center"
+        gap={2}
+        sx={{
+          width: '100%',
+          '& .MuiBox-root': {
+            border: '1px solid #eee',
+          },
+          '& > .MuiBox-root': {
+            width: '33.3%',
+          },
+        }}
+      >
         <Box>
           <Stack direction="row">
             <Box>
@@ -174,7 +178,6 @@ const Contents = ({ path, value }: EditorProps) => {
           <FormLabel>result</FormLabel>
         </Box>
       </Stack>
-
 
       {/* <Stack direction="row">
         <Stack direction="row">
@@ -263,7 +266,6 @@ const Contents = ({ path, value }: EditorProps) => {
           />
         </Box>
       </Stack> */}
-        
     </>
   );
 };

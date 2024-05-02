@@ -1,7 +1,7 @@
-import react, { useContext } from "react";
-import { AlertDispatchContext } from "~/contexts/AlertContext";
+import react, { useContext } from 'react';
+import { AlertDispatchContext } from '~/contexts/AlertContext';
 
-import type { AlertProps } from "~/types/features";
+import type { AlertProps } from '~/types/features';
 
 const useAlert = () => {
   const { open, close } = useContext(AlertDispatchContext);

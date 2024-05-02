@@ -1,14 +1,14 @@
-const json = require("./json.cjs");
-const error = require("./error.cjs");
-const api = require("./api.cjs");
+const json = require('./json.cjs');
+const error = require('./error.cjs');
+const api = require('./api.cjs');
 
 const service = ({ app }) => {
   app
-    .get("/", (_, res) => {
-      res.type("html");
-      res.sendFile(path.resolve(__dirname, "../index.html"));
+    .get('/', (_, res) => {
+      res.type('html');
+      res.sendFile(path.resolve(__dirname, '../index.html'));
     })
-    .on("error", (err) => {
+    .on('error', (err) => {
       process.exit(1);
     });
 

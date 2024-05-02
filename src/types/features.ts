@@ -2,7 +2,7 @@ import type {
   TooltipProps,
   ButtonProps,
   DialogProps as MuiDialogProps,
-} from "@mui/material";
+} from '@mui/material';
 
 export type DownloadFileProps = {
   url: string;
@@ -19,7 +19,7 @@ export type JSONData = {
     [key: string]: string;
   };
   methods: {
-    method: "GET" | "POST" | "PULL" | "PATCH" | "DELETE";
+    method: 'GET' | 'POST' | 'PULL' | 'PATCH' | 'DELETE';
     delay: number;
     status: number;
     code: {
@@ -57,7 +57,7 @@ export type DialogDispatchAction = {
  */
 export type AlertProps = {
   id?: number;
-  type: "success" | "info" | "warning" | "error";
+  type: 'success' | 'info' | 'warning' | 'error';
   message: string;
   timer?: number;
 };
@@ -72,7 +72,7 @@ export type AlertDispatchProps = {
  */
 export type ModalProps = {
   id?: number;
-  type: "alert" | "confirm" | "prompt";
+  type: 'alert' | 'confirm' | 'prompt';
   title?: string;
   message: string;
   resolve?: any;
@@ -104,7 +104,7 @@ export type DropBoxProps = {
  */
 export type CopyButtonProps = {
   text: string | null;
-  tooltip: Omit<TooltipProps, "children">;
+  tooltip: Omit<TooltipProps, 'children'>;
   iconButtonStyle?: { [key: string]: string | number };
   onCopied?: (text: string) => void;
 };
@@ -115,5 +115,5 @@ export type CopyButtonProps = {
 export type DownloadButtonProps = {
   url: string;
   fileName: string;
-  tooltip: Omit<TooltipProps, "children">;
+  tooltip: Omit<TooltipProps, 'children'>;
 };

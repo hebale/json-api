@@ -1,7 +1,7 @@
-import react, { useContext } from "react";
-import { ModalDispatchContext } from "~/contexts/ModalContext";
+import react, { useContext } from 'react';
+import { ModalDispatchContext } from '~/contexts/ModalContext';
 
-import type { ModalProps } from "~/types/features";
+import type { ModalProps } from '~/types/features';
 
 const useModal = () => {
   const { open, close } = useContext(ModalDispatchContext);

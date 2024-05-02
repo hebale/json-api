@@ -1,13 +1,14 @@
-import React from "react";
-import { Tooltip, IconButton } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
+import React from 'react';
+import { Tooltip, IconButton } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
 
-import useAlert from "~/hooks/useAlert";
-import useModal from "~/hooks/useModal";
-import useDialog from "~/hooks/useDialog";
+import useAlert from '~/hooks/useAlert';
+import useModal from '~/hooks/useModal';
+import useDialog from '~/hooks/useDialog';
 
-import Editor from "./Editor";
-import { deleteJson } from "~/api";
+import Contents from './Contents';
+import { deleteJson } from '~/api';
+import Contents from './Contents/index';
 
 const EditApiDialog = ({ path }: { path: string }) => {
   const { openAlert } = useAlert();
@@ -16,18 +17,18 @@ const EditApiDialog = ({ path }: { path: string }) => {
 
   const open = () => {
     openDialog({
-      title: "API JSON 수정",
-      content: <Editor path={path} value={""} height={600} />,
+      title: 'JSON 수정',
+      content: <Contents path={path} />,
       actions: [
         {
-          text: "삭제",
-          color: "error",
-          variant: "contained",
+          text: '삭제',
+          color: 'error',
+          variant: 'contained',
           onAction: async (closeFn) => {
             const flag = await openModal({
-              type: "confirm",
-              title: "알림",
-              message: "삭제하시겠습니까?",
+              type: 'confirm',
+              title: '알림',
+              message: '삭제하시겠습니까?',
             });
 
             if (flag) {
@@ -35,14 +36,14 @@ const EditApiDialog = ({ path }: { path: string }) => {
 
               if (!response) {
                 return openAlert({
-                  type: "error",
-                  message: "삭제중 오류가 발생했습니다.",
+                  type: 'error',
+                  message: '삭제중 오류가 발생했습니다.',
                 });
               }
 
               openAlert({
-                type: "success",
-                message: "삭제 되었습니다.",
+                type: 'success',
+                message: '삭제 되었습니다.',
               });
 
               closeFn();
@@ -50,7 +51,17 @@ const EditApiDialog = ({ path }: { path: string }) => {
           },
         },
         {
-          text: "닫기",
+          text: '저장',
+          onAction: (closeFn, contents) => {
+            console.log(contents);
+          },
+        },
+        {
+          text: '새로고침',
+          onAction: (closeFn) => closeFn(),
+        },
+        {
+          text: '닫기',
           onAction: (closeFn) => closeFn(),
         },
       ],

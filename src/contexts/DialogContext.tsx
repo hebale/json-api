@@ -1,8 +1,8 @@
-import React, { createContext, useState } from "react";
-import Dialogs from "~/features/Dialogs";
+import React, { createContext, useState } from 'react';
+import Dialogs from '~/features/Dialogs';
 
-import type { ReactNode } from "react";
-import type { DialogProps, DialogDispatchAction } from "~/types/features";
+import type { ReactNode } from 'react';
+import type { DialogProps, DialogDispatchAction } from '~/types/features';
 
 export const DialogStatusContext = createContext<DialogProps[]>([]);
 export const DialogDispatchContext = createContext<DialogDispatchAction>({

@@ -16,3 +16,13 @@ export type ApiListItemProps = {
   response: any;
   searchText?: string;
 };
+
+export type ApiData = {
+  path: string;
+  headers: {
+    [key: string]: string | number;
+  };
+  methods: Method[];
+  response: any;
+  searchText?: string;
+};

@@ -1,35 +1,35 @@
-const $fs = require("fs");
-const $path = require("path");
-const { glob } = require("glob");
+const $fs = require('fs');
+const $path = require('path');
+const { glob } = require('glob');
 
-const root = $path.resolve(process.cwd(), "./src/json");
+const root = $path.resolve(process.cwd(), './src/json');
 
 const statusMessage = {
-  200: "Ok",
-  304: "Not Modified",
-  400: "Bad Request",
-  401: "Unauthorized",
-  403: "Forbidden",
-  404: "Not Found",
-  405: "Method Not Allowed",
-  408: "Request Timeout",
-  500: "Internal Server Error",
-  501: "Not Implemented",
-  505: "HTTP Version Not Supported",
+  200: 'Ok',
+  304: 'Not Modified',
+  400: 'Bad Request',
+  401: 'Unauthorized',
+  403: 'Forbidden',
+  404: 'Not Found',
+  405: 'Method Not Allowed',
+  408: 'Request Timeout',
+  500: 'Internal Server Error',
+  501: 'Not Implemented',
+  505: 'HTTP Version Not Supported',
 };
 
 const api = ({ app }) => {
-  app.use("/*", (req, res) => {
+  app.use('/*', (req, res) => {
     try {
       const filePath = glob.sync(`${$path.join(root, req.baseUrl)}/index.json`);
 
-      if (!filePath.length) throw { code: 404, message: statusMessage["404"] };
+      if (!filePath.length) throw { code: 404, message: statusMessage['404'] };
 
       const response = $fs.readFileSync(
         $path.resolve(process.cwd(), filePath[0]),
         {
-          encoding: "utf-8",
-          flag: "r",
+          encoding: 'utf-8',
+          flag: 'r',
         }
       );
 
@@ -38,7 +38,7 @@ const api = ({ app }) => {
         ({ method }) => method === req.method
       )[0];
 
-      if (!settings) throw { code: 405, message: statusMessage["405"] };
+      if (!settings) throw { code: 405, message: statusMessage['405'] };
 
       const { headers } = json;
       const { delay, status, code } = settings;

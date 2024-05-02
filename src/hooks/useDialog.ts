@@ -1,7 +1,7 @@
-import { useContext } from "react";
-import { DialogDispatchContext } from "~/contexts/DialogContext";
+import { useContext } from 'react';
+import { DialogDispatchContext } from '~/contexts/DialogContext';
 
-import type { DialogProps } from "~/types/features";
+import type { DialogProps } from '~/types/features';
 
 const useDialog = () => {
   const { open, close } = useContext(DialogDispatchContext);

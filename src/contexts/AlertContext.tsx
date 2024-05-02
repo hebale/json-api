@@ -1,8 +1,8 @@
-import React, { createContext, useState } from "react";
-import Alerts from "~/features/Alerts";
+import React, { createContext, useState } from 'react';
+import Alerts from '~/features/Alerts';
 
-import type { ReactNode } from "react";
-import type { AlertProps, AlertDispatchProps } from "~/types/features";
+import type { ReactNode } from 'react';
+import type { AlertProps, AlertDispatchProps } from '~/types/features';
 
 export const AlertStatusContext = createContext<AlertProps[]>([]);
 export const AlertDispatchContext = createContext<AlertDispatchProps>({

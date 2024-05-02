@@ -1,52 +1,52 @@
 const schemas = [
   {
-    title: "JSON-API",
-    descriptiion: "",
-    fileMatch: ["*.json"],
+    title: 'JSON-API',
+    descriptiion: '',
+    fileMatch: ['*.json'],
     schema: {
-      type: "object",
+      type: 'object',
       properties: {
         title: {
-          type: "string",
+          type: 'string',
         },
         description: {
-          type: "string",
+          type: 'string',
         },
         path: {
-          type: "string",
-          pattern: "((/([a-z0-9_-])+)+)(?![A-Z].)*",
+          type: 'string',
+          pattern: '((/([a-z0-9_-])+)+)(?![A-Z].)*',
         },
         headers: {
-          type: "object",
+          type: 'object',
         },
         methods: {
-          type: "array",
+          type: 'array',
           items: {
             properties: {
               type: {
-                type: "string",
-                enum: ["GET", "POST", "PATCH", "PUT", "DELETE"],
+                type: 'string',
+                enum: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
               },
               delay: {
-                type: "number",
+                type: 'number',
                 exclusiveMinimum: 0,
               },
               status: {
-                type: "number",
+                type: 'number',
               },
               code: {
-                type: "string",
+                type: 'string',
               },
             },
-            requierd: ["type", "delay", "status"],
+            requierd: ['type', 'delay', 'status'],
           },
           minItems: 1,
         },
         response: {
-          type: "object",
+          type: 'object',
         },
       },
-      required: ["title", "path", "headers", "methods", "body"],
+      required: ['title', 'path', 'headers', 'methods', 'body'],
     },
   },
 ];

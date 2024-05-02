@@ -1,17 +1,19 @@
-import React from "react";
-import { Box } from "@mui/material";
+import React from 'react';
+import { Stack, Box } from '@mui/material';
 
-import Pipeline from "~/dialog/EditPipeline/Contents";
-import type { ContentsProps } from "~/types/layout";
+import { ReactElement } from 'react';
+import type { ContentsProps } from '~/types/layout';
 
-const defaultJs = `function pipeline(request, response) {\n  const { query, body} = request;\n  // code goes here\n\n\n  return response;\n}`;
-
-const Contents = ({ children }: ContentsProps) => {
+const Contents = ({ head, body }: ContentsProps) => {
   return (
-    <>
-      <Pipeline path="/data" value={defaultJs} />
-      <Box id="contents">{children}</Box>
-    </>
+    <Stack id="contents">
+      {head && <Box>{head}</Box>}
+      {(body as ReactElement[]).length > 0 ? (
+        <Box>{body}</Box>
+      ) : (
+        <Box>검색결과가 없습니다.</Box>
+      )}
+    </Stack>
   );
 };
 

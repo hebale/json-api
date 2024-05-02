@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
-import { Box, Alert, Collapse } from "@mui/material";
-import { TransitionGroup } from "react-transition-group";
+import React, { useContext } from 'react';
+import { Box, Alert, Collapse } from '@mui/material';
+import { TransitionGroup } from 'react-transition-group';
 
 import {
   AlertStatusContext,
   AlertDispatchContext,
-} from "~/contexts/AlertContext";
+} from '~/contexts/AlertContext';
 
-import type { AlertProps } from "~/types/features";
+import type { AlertProps } from '~/types/features';
 
 const Alerts = () => {
   const alerts = useContext(AlertStatusContext);
@@ -17,9 +17,8 @@ const Alerts = () => {
     <Box
       sx={{
         zIndex: 1600,
-        position: "fixed",
+        position: 'fixed',
         top: 0,
-        left: 0,
         right: 0,
       }}
     >
@@ -34,9 +33,9 @@ const Alerts = () => {
           return (
             <Collapse key={id}>
               <Alert
-                severity={type ?? "info"}
+                severity={type ?? 'info'}
                 onClose={() => close(id)}
-                sx={{ whiteSpace: "pre-wrap" }}
+                sx={{ whiteSpace: 'pre-wrap' }}
               >
                 {message}
               </Alert>

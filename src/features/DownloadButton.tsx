@@ -1,9 +1,9 @@
-import React from "react";
-import { IconButton, Tooltip } from "@mui/material";
+import React from 'react';
+import { IconButton, Tooltip } from '@mui/material';
 
-import DownloadIcon from "@mui/icons-material/Download";
+import DownloadIcon from '@mui/icons-material/Download';
 
-import type { DownloadButtonProps } from "~/types/features";
+import type { DownloadButtonProps } from '~/types/features';
 
 const DownloadButton = ({
   url,
@@ -13,10 +13,10 @@ const DownloadButton = ({
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const link = document.createElement("a");
+    const link = document.createElement('a');
 
     link.href = url;
-    link.setAttribute("download", `${fileName}`);
+    link.setAttribute('download', `${fileName}`);
 
     document.body.appendChild(link);
 

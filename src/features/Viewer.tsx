@@ -1,25 +1,25 @@
-import React, { useRef, useCallback } from "react";
-import { Box } from "@mui/material";
+import React, { useRef, useCallback } from 'react';
+import { Box } from '@mui/material';
 
-import Editor, { useMonaco } from "@monaco-editor/react";
-import CircularProgress from "@mui/material/CircularProgress";
+import Editor, { useMonaco } from '@monaco-editor/react';
+import CircularProgress from '@mui/material/CircularProgress';
 
-import type { editor } from "monaco-editor";
-import type { OnMount } from "@monaco-editor/react";
+import type { editor } from 'monaco-editor';
+import type { OnMount } from '@monaco-editor/react';
 
 type ViewerProps = {
   language?: string;
-  height?: number | "auto";
+  height?: number | 'auto';
   value: string;
 };
 
 const viewerStyle = {
-  "& .monaco-editor .view-overlays .current-line": {
-    display: "none",
+  '& .monaco-editor .view-overlays .current-line': {
+    display: 'none',
   },
 };
 
-const Viewer = ({ language = "json", height = "auto", value }: ViewerProps) => {
+const Viewer = ({ language = 'json', height = 'auto', value }: ViewerProps) => {
   const editorRef = useRef<null | editor.IStandaloneCodeEditor>(null);
   const monaco = useMonaco();
 
@@ -30,7 +30,7 @@ const Viewer = ({ language = "json", height = "auto", value }: ViewerProps) => {
     const container = editor.getDomNode();
     const contentWidth = editor.getContainerDomNode().clientWidth;
     const contentHeight =
-      typeof height === "string"
+      typeof height === 'string'
         ? editor.getContentHeight()
         : Math.min(height, editor.getContentHeight() ?? height);
 
@@ -59,10 +59,10 @@ const Viewer = ({ language = "json", height = "auto", value }: ViewerProps) => {
           scrollBeyondLastLine: false,
           folding: false,
           lineDecorationsWidth: 0,
-          lineNumbers: "off",
+          lineNumbers: 'off',
           readOnly: true,
         }}
-        {...(height !== "auto" && { height })}
+        {...(height !== 'auto' && { height })}
       />
     </Box>
   );

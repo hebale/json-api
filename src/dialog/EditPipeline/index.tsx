@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Tooltip, IconButton } from "@mui/material";
+import React, { useState, useEffect } from 'react';
+import { Tooltip, IconButton } from '@mui/material';
 
-import CodeIcon from "@mui/icons-material/Code";
+import CodeIcon from '@mui/icons-material/Code';
 
-import useAlert from "~/hooks/useAlert";
-import useModal from "~/hooks/useModal";
-import useDialog from "~/hooks/useDialog";
+import useAlert from '~/hooks/useAlert';
+import useModal from '~/hooks/useModal';
+import useDialog from '~/hooks/useDialog';
 
-import Contents from "./Contents";
-import { getJsonMethos } from "~/api";
+import Contents from './Contents';
+import { getJsonMethos } from '~/api';
 
 type EditPipelineProps = {
   path: string;
@@ -34,17 +34,17 @@ const EditPipeline = ({ path, method }: EditPipelineProps) => {
 
   const open = () => {
     openDialog({
-      title: "Reponse Pipeline",
+      title: 'Reponse Pipeline',
       props: {
-        maxWidth: "lg",
+        maxWidth: 'lg',
       },
-      content: <Contents path="/" value={code?.value ?? ""} />,
+      content: <Contents path="/" value={code?.value ?? ''} />,
     });
   };
 
   return (
     <Tooltip title="Inject JS" placement="top" arrow>
-      <IconButton onClick={open} {...(code?.isActive && { color: "primary" })}>
+      <IconButton onClick={open} {...(code?.isActive && { color: 'primary' })}>
         <CodeIcon />
       </IconButton>
     </Tooltip>

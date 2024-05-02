@@ -1,8 +1,8 @@
-import Reacr from "react";
-import { IconButton, Tooltip } from "@mui/material";
+import Reacr from 'react';
+import { IconButton, Tooltip } from '@mui/material';
 
-import CopyAllIcon from "@mui/icons-material/CopyAll";
-import type { CopyButtonProps } from "~/types/features";
+import CopyAllIcon from '@mui/icons-material/CopyAll';
+import type { CopyButtonProps } from '~/types/features';
 
 const CopyButton = ({
   text,

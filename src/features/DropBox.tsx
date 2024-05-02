@@ -1,39 +1,39 @@
-import React, { useRef, useState, useEffect, useCallback } from "react";
-import { styled } from "@mui/material/styles";
-import { Stack, Box, Typography, Button } from "@mui/material";
-import FileOpenIcon from "@mui/icons-material/FileOpen";
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { styled } from '@mui/material/styles';
+import { Stack, Box, Typography, Button } from '@mui/material';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
 
-import useAlert from "~/hooks/useAlert";
-import { inputFileReader } from "~/utils";
-import type { ChangeEvent } from "react";
-import type { DropFile, DropBoxProps, DropBoxEvent } from "~/types/features";
+import useAlert from '~/hooks/useAlert';
+import { inputFileReader } from '~/utils';
+import type { ChangeEvent } from 'react';
+import type { DropFile, DropBoxProps, DropBoxEvent } from '~/types/features';
 
 const boxStyle = {
-  position: "relative",
-  width: "100%",
+  position: 'relative',
+  width: '100%',
   height: 340,
   py: 2,
   gap: 1,
-  borderRadius: "4px",
-  border: "2px dashed #ddd",
-  background: "#00000008",
-  boxSizing: "border-box",
-  "& *": {
-    color: "#aaa",
+  borderRadius: '4px',
+  border: '2px dashed #ddd',
+  background: '#00000008',
+  boxSizing: 'border-box',
+  '& *': {
+    color: '#aaa',
   },
 };
 
 const boxOverStyle = {
-  borderColor: "#1976d2",
-  backgorund: "#00000022",
-  "& *": {
-    color: "primary",
+  borderColor: '#1976d2',
+  backgorund: '#00000022',
+  '& *': {
+    color: 'primary',
   },
 };
 
 const dropAreaStyle = {
   zIndex: 10,
-  position: "absolute",
+  position: 'absolute',
   left: 0,
   top: 0,
   right: 0,
@@ -42,24 +42,24 @@ const dropAreaStyle = {
 
 const findButtonStyle = {
   zIndex: 11,
-  position: "relative",
+  position: 'relative',
   mt: 1.5,
-  background: "#303030",
-  "&:hover, &:focus": {
-    background: "#303030",
+  background: '#303030',
+  '&:hover, &:focus': {
+    background: '#303030',
   },
 };
 
-const HiddenInput = styled("input")({
-  position: "absolute",
+const HiddenInput = styled('input')({
+  position: 'absolute',
   bottom: 0,
   left: 0,
   width: 1,
   height: 1,
-  clip: "rect(0, 0, 0, 0)",
-  clipPath: "inset(50%)",
-  overflow: "hidden",
-  whiteSpace: "nowrap",
+  clip: 'rect(0, 0, 0, 0)',
+  clipPath: 'inset(50%)',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
 });
 
 const DropBox = ({ allow, onDrop }: DropBoxProps) => {
@@ -84,7 +84,7 @@ const DropBox = ({ allow, onDrop }: DropBoxProps) => {
       },
       (message) => {
         openAlert({
-          type: "error",
+          type: 'error',
           message,
         });
       }
@@ -105,7 +105,7 @@ const DropBox = ({ allow, onDrop }: DropBoxProps) => {
         },
         (message) => {
           openAlert({
-            type: "error",
+            type: 'error',
             message,
           });
         }
@@ -151,7 +151,7 @@ const DropBox = ({ allow, onDrop }: DropBoxProps) => {
       <FileOpenIcon fontSize="large" />
       <Typography>{`드래그 하여 ${allow
         .map((str) => str.toUpperCase())
-        .join(",")}파일 업로드`}</Typography>
+        .join(',')}파일 업로드`}</Typography>
       <Button component="label" variant="contained" sx={findButtonStyle}>
         찾아보기
         <HiddenInput ref={inputFile} type="file" onChange={onInputFile} />

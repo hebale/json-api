@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
 export const decodeUnicode = (str: string) => {
   return decodeURIComponent(
     atob(str)
-      .split("")
+      .split('')
       .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       })
-      .join("")
+      .join('')
   );
 };
 
@@ -20,11 +20,11 @@ export const inputFileReader = (
   const reader = new FileReader();
 
   const ext = file.name
-    .substring(file.name.lastIndexOf(".") + 1, file.name.length)
+    .substring(file.name.lastIndexOf('.') + 1, file.name.length)
     .toLowerCase();
 
   if (exts.indexOf(ext) === -1) {
-    return onError(`파일 확장자를 확인해주세요. (${exts.join(", ")})`);
+    return onError(`파일 확장자를 확인해주세요. (${exts.join(', ')})`);
   }
 
   if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
@@ -54,7 +54,7 @@ export const objectToString = (params: {
 }) => {
   return Object.keys(params)
     .map((value) => `${value}=${params[value]}`)
-    .join("&");
+    .join('&');
 };
 
 export const highlightMarker = (
@@ -62,7 +62,7 @@ export const highlightMarker = (
   word: string
 ): (string | React.ReactElement)[] => {
   if (str.indexOf(word) === -1) return [str];
-  
+
   const splitStr = str.split(word);
 
   return splitStr.reduce(
@@ -71,7 +71,7 @@ export const highlightMarker = (
         aggr = [
           ...aggr,
           splitStr[index],
-          React.createElement("mark", null, word),
+          React.createElement('mark', { key: index }, word),
         ];
       } else {
         aggr = [...aggr, splitStr[index]];

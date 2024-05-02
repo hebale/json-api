@@ -1,14 +1,14 @@
-import React, { useRef, useCallback } from "react";
-import { Box } from "@mui/material";
-import Editor, { useMonaco } from "@monaco-editor/react";
-import CircularProgress from "@mui/material/CircularProgress";
+import React, { useRef, useCallback } from 'react';
+import { Box } from '@mui/material';
+import Editor, { useMonaco } from '@monaco-editor/react';
+import CircularProgress from '@mui/material/CircularProgress';
 
-import type { editor } from "monaco-editor";
-import type { Monaco, OnMount } from "@monaco-editor/react";
+import type { editor } from 'monaco-editor';
+import type { Monaco, OnMount } from '@monaco-editor/react';
 
 type MonacoProps = {
   language?: string;
-  height?: number | "auto";
+  height?: number | 'auto';
   value: string;
   schemas?: any[];
   boxStyle?: { [key: string]: string | number };
@@ -18,8 +18,8 @@ type MonacoProps = {
 };
 
 const Monaco = ({
-  language = "json",
-  height = "auto",
+  language = 'json',
+  height = 'auto',
   value,
   boxStyle,
   schemas,
@@ -37,7 +37,7 @@ const Monaco = ({
     const container = editor.getDomNode();
     const contentWidth = editor.getContainerDomNode().clientWidth;
     const contentHeight =
-      typeof height === "string"
+      typeof height === 'string'
         ? editor.getContentHeight()
         : Math.min(height, editor.getContentHeight() ?? height);
 
@@ -66,16 +66,16 @@ const Monaco = ({
   return (
     <Box
       sx={{
-        position: "relative",
+        position: 'relative',
         pb: 3,
-        borderRadius: "4px",
-        overflow: "hidden",
-        background: "#1e1e1e",
+        borderRadius: '4px',
+        overflow: 'hidden',
+        background: '#1e1e1e',
         ...boxStyle,
       }}
     >
       <Editor
-        theme={"vs-dark"}
+        theme={'vs-dark'}
         loading={<CircularProgress thickness={5} />}
         defaultLanguage={language}
         value={value}
@@ -93,7 +93,7 @@ const Monaco = ({
           scrollBeyondLastLine: false,
           ...options,
         }}
-        {...(height !== "auto" && { height })}
+        {...(height !== 'auto' && { height })}
       />
     </Box>
   );

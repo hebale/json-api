@@ -7,7 +7,7 @@
     {
       "method": "GET",
       "delay": 0,
-      "status": 200,
+      "status": 304,
       "code": {
         "isActive": false,
         "value": "function pipeline(request, response) {\n  const { query, body} = request;\n  // code goes here\n\n\n  return response;\n}"

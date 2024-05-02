@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import {
   Stack,
   Box,
@@ -7,18 +7,18 @@ import {
   FormControl,
   Typography,
   Chip,
-} from "@mui/material";
+} from '@mui/material';
 
-import Monaco from "~/features/Monaco";
-import DropBox from "~/features/DropBox";
+import Monaco from '~/features/Monaco';
+import DropBox from '~/features/DropBox';
 
-import schema from "~/schema";
-import { DialogContentContext } from "~/features/Dialogs";
+import schema from '~/schema';
+import { DialogContentContext } from '~/features/Dialogs';
 
-import type { DropFile } from "~/types/features";
+import type { DropFile } from '~/types/features';
 
 const UploadForm = () => {
-  const [code, setCode] = useState<string>("");
+  const [code, setCode] = useState<string>('');
   const [uploadData, setUploadData] = useState<DropFile | null>(null);
   const inputFile = useRef<null | HTMLInputElement>(null);
   const setDatas = useContext(DialogContentContext);
@@ -29,7 +29,7 @@ const UploadForm = () => {
 
   const onInputFileClear = () => {
     setUploadData(null);
-    (inputFile.current as HTMLInputElement).value = "";
+    (inputFile.current as HTMLInputElement).value = '';
   };
 
   return (
@@ -44,7 +44,7 @@ const UploadForm = () => {
                   <Stack flexDirection="row" alignItems="center">
                     {uploadData.name}
                     <Typography
-                      sx={{ ml: 0.2, fontSize: "10px", fontWeight: 300 }}
+                      sx={{ ml: 0.2, fontSize: '10px', fontWeight: 300 }}
                     >
                       ({uploadData.size}byte)
                     </Typography>
@@ -67,7 +67,7 @@ const UploadForm = () => {
               onChange={(data) => data && setCode(data)}
             />
           ) : (
-            <DropBox allow={["json"]} onDrop={(data) => setUploadData(data)} />
+            <DropBox allow={['json']} onDrop={(data) => setUploadData(data)} />
           )}
         </FormControl>
       </FormGroup>

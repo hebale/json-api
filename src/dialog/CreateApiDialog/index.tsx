@@ -1,11 +1,11 @@
-import React from "react";
-import { Button } from "@mui/material";
+import React from 'react';
+import { Button } from '@mui/material';
 
-import useAlert from "~/hooks/useAlert";
-import useDialog from "~/hooks/useDialog";
+import useAlert from '~/hooks/useAlert';
+import useDialog from '~/hooks/useDialog';
 
-import Contents from "./Contents";
-import { postJson } from "~/api";
+import Contents from './Contents';
+import { postJson } from '~/api';
 
 const CreateApiDialog = ({ title }: { title: string }) => {
   const { openAlert } = useAlert();
@@ -17,10 +17,9 @@ const CreateApiDialog = ({ title }: { title: string }) => {
       content: <Contents />,
       actions: [
         {
-          text: "등록",
-          variant: "contained",
+          text: '등록',
+          variant: 'contained',
           onAction: async (closeFn, contents) => {
-
             console.log(contents);
 
             const data = JSON.parse(contents);
@@ -31,21 +30,21 @@ const CreateApiDialog = ({ title }: { title: string }) => {
 
             if (!response) {
               return openAlert({
-                type: "error",
-                message: "등록중 오류가 발생했습니다.",
+                type: 'error',
+                message: '등록중 오류가 발생했습니다.',
               });
             }
 
             openAlert({
-              type: "success",
-              message: "등록 되었습니다.",
+              type: 'success',
+              message: '등록 되었습니다.',
             });
 
             closeFn();
           },
         },
         {
-          text: "취소",
+          text: '취소',
           onAction: (closeFn) => closeFn(),
         },
       ],

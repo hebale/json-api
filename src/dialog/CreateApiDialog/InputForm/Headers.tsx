@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -8,8 +8,8 @@ import {
   Checkbox,
   OutlinedInput,
   IconButton,
-} from "@mui/material";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+} from '@mui/material';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 type HeadersProps = {
   onChange: (headers: { [key: string]: string }) => void;
@@ -24,14 +24,14 @@ type HeaderData = {
 };
 
 const tableContainerStyle = {
-  border: "1px solid rgba(0, 0, 0, 0.23)",
-  borderRadius: "4px",
-  "& .MuiTableCell-root": {
+  border: '1px solid rgba(0, 0, 0, 0.23)',
+  borderRadius: '4px',
+  '& .MuiTableCell-root': {
     p: 0.5,
-    border: "none",
+    border: 'none',
   },
-  "& .MuiInputBase-root": {
-    fontSize: "14px",
+  '& .MuiInputBase-root': {
+    fontSize: '14px',
   },
 };
 
@@ -58,7 +58,7 @@ const Headers = ({ onChange }: HeadersProps) => {
   const addHeader = () => {
     const id = count + 1;
 
-    setHeaders((prev) => [...prev, { id, status: false, key: "", value: "" }]);
+    setHeaders((prev) => [...prev, { id, status: false, key: '', value: '' }]);
     setCount(id);
   };
 
@@ -121,8 +121,8 @@ const Headers = ({ onChange }: HeadersProps) => {
                     size="small"
                     placeholder="key"
                     defaultValue={key}
-                    sx={{ width: "100%" }}
-                    onChange={(e) => onChangeData(e, { id, type: "key" })}
+                    sx={{ width: '100%' }}
+                    onChange={(e) => onChangeData(e, { id, type: 'key' })}
                   />
                 </TableCell>
                 <TableCell>
@@ -130,8 +130,8 @@ const Headers = ({ onChange }: HeadersProps) => {
                     size="small"
                     placeholder="value"
                     defaultValue={value}
-                    sx={{ width: "100%" }}
-                    onChange={(e) => onChangeData(e, { id, type: "value" })}
+                    sx={{ width: '100%' }}
+                    onChange={(e) => onChangeData(e, { id, type: 'value' })}
                   />
                 </TableCell>
                 <TableCell>

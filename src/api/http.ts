@@ -1,4 +1,4 @@
-import { objectToString } from "~/utils";
+import { objectToString } from '~/utils';
 
 type Options = {
   headers?: {
@@ -21,19 +21,19 @@ class Http {
   constructor() {
     this.port = `${process.env.SERVER_PORT}`;
     this.headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
     };
   }
 
   get: HttpMethod = async (path, options) => {
     try {
       const response = await fetch(
-        `${path ?? ""}${
-          options?.queries ? `&${objectToString(options.queries)}` : ""
+        `${path ?? ''}${
+          options?.queries ? `&${objectToString(options.queries)}` : ''
         }`,
         {
-          method: "GET",
+          method: 'GET',
           headers: this.headers,
         }
       );
@@ -46,7 +46,7 @@ class Http {
       const data = await (() => {
         if (
           !this.headers ||
-          this.headers["Content-Type"].indexOf("json") > -1
+          this.headers['Content-Type'].indexOf('json') > -1
         ) {
           return response.json();
         }
@@ -55,7 +55,7 @@ class Http {
 
       return data;
     } catch (err) {
-      let message = "Unknown Error!";
+      let message = 'Unknown Error!';
       if (err instanceof Error) message = err.message;
 
       // console.error(err);
@@ -64,10 +64,10 @@ class Http {
 
   post: HttpMethod = async (path, options) => {
     try {
-      const response = await fetch(`${path ?? ""}`, {
-        method: "POST",
+      const response = await fetch(`${path ?? ''}`, {
+        method: 'POST',
         headers: this.headers,
-        body: JSON.stringify(options?.body || ""),
+        body: JSON.stringify(options?.body || ''),
       });
 
       if (!response.ok) {
@@ -78,7 +78,7 @@ class Http {
       const data = await (() => {
         if (
           !this.headers ||
-          this.headers["Content-Type"].indexOf("json") > -1
+          this.headers['Content-Type'].indexOf('json') > -1
         ) {
           return response.json();
         }
@@ -87,7 +87,7 @@ class Http {
 
       return data;
     } catch (err) {
-      let message = "Unknown Error!";
+      let message = 'Unknown Error!';
       if (err instanceof Error) message = err.message;
 
       // console.error(err);
@@ -95,10 +95,10 @@ class Http {
   };
   patch: HttpMethod = async (path, options) => {
     try {
-      const response = await fetch(`${path ?? ""}`, {
-        method: "PATCH",
+      const response = await fetch(`${path ?? ''}`, {
+        method: 'PATCH',
         headers: this.headers,
-        body: JSON.stringify(options?.body || ""),
+        body: JSON.stringify(options?.body || ''),
       });
 
       if (!response.ok) {
@@ -109,7 +109,7 @@ class Http {
       const data = await (() => {
         if (
           !this.headers ||
-          this.headers["Content-Type"].indexOf("json") > -1
+          this.headers['Content-Type'].indexOf('json') > -1
         ) {
           return response.json();
         }
@@ -118,7 +118,7 @@ class Http {
 
       return data;
     } catch (err) {
-      let message = "Unknown Error!";
+      let message = 'Unknown Error!';
       if (err instanceof Error) message = err.message;
 
       // console.error(err);
@@ -126,10 +126,10 @@ class Http {
   };
   put: HttpMethod = async (path, options) => {
     try {
-      const response = await fetch(`${path ?? ""}`, {
-        method: "PUT",
+      const response = await fetch(`${path ?? ''}`, {
+        method: 'PUT',
         headers: this.headers,
-        body: JSON.stringify(options?.body || ""),
+        body: JSON.stringify(options?.body || ''),
       });
 
       if (!response.ok) {
@@ -140,7 +140,7 @@ class Http {
       const data = await (() => {
         if (
           !this.headers ||
-          this.headers["Content-Type"].indexOf("json") > -1
+          this.headers['Content-Type'].indexOf('json') > -1
         ) {
           return response.json();
         }
@@ -149,7 +149,7 @@ class Http {
 
       return data;
     } catch (err) {
-      let message = "Unknown Error!";
+      let message = 'Unknown Error!';
       if (err instanceof Error) message = err.message;
 
       // console.error(err);
@@ -157,10 +157,10 @@ class Http {
   };
   delete: HttpMethod = async (path, options) => {
     try {
-      const response = await fetch(`${path ?? ""}`, {
-        method: "DELETE",
+      const response = await fetch(`${path ?? ''}`, {
+        method: 'DELETE',
         headers: this.headers,
-        body: JSON.stringify(options?.body || ""),
+        body: JSON.stringify(options?.body || ''),
       });
 
       if (!response.ok) {
@@ -171,7 +171,7 @@ class Http {
       const data = await (() => {
         if (
           !this.headers ||
-          this.headers["Content-Type"].indexOf("json") > -1
+          this.headers['Content-Type'].indexOf('json') > -1
         ) {
           return response.json();
         }
@@ -180,7 +180,7 @@ class Http {
 
       return data;
     } catch (err) {
-      let message = "Unknown Error!";
+      let message = 'Unknown Error!';
       if (err instanceof Error) message = err.message;
 
       // console.error(err);

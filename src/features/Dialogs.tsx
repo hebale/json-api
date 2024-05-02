@@ -1,4 +1,4 @@
-import React, { useContext, useState, createContext } from "react";
+import React, { useContext, useState, createContext } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -6,15 +6,15 @@ import {
   DialogActions,
   Button,
   IconButton,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 import {
   DialogStatusContext,
   DialogDispatchContext,
-} from "~/contexts/DialogContext";
+} from '~/contexts/DialogContext';
 
-import type { ActionProps } from "~/types/features";
+import type { ActionProps } from '~/types/features';
 
 export const DialogContentContext = createContext<React.Dispatch<any> | null>(
   null
@@ -46,14 +46,14 @@ const Dialogs = () => {
             key={id}
             open={open as boolean}
             fullWidth={true}
-            maxWidth={"lg"}
+            maxWidth={'lg'}
             onClose={() => onCloseDialog()}
             {...props}
           >
             <DialogTitle>{title}</DialogTitle>
             <IconButton
               sx={{
-                position: "absolute",
+                position: 'absolute',
                 top: 10,
                 right: 10,
               }}

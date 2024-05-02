@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Stack,
@@ -6,18 +6,18 @@ import {
   Tooltip,
   IconButton,
   InputLabel,
-} from "@mui/material";
+} from '@mui/material';
 
-import RefreshIcon from "@mui/icons-material/Refresh";
-import SaveIcon from "@mui/icons-material/Save";
+import RefreshIcon from '@mui/icons-material/Refresh';
+import SaveIcon from '@mui/icons-material/Save';
 
-import CopyButton from "~/features/CopyButton";
-import Monaco from "~/features/Monaco";
+import CopyButton from '~/features/CopyButton';
+import Monaco from '~/features/Monaco';
 
-import useAlert from "~/hooks/useAlert";
-import { patchJsonResponse } from "~/api";
+import useAlert from '~/hooks/useAlert';
+import { patchJsonResponse } from '~/api';
 
-import type { editor } from "monaco-editor";
+import type { editor } from 'monaco-editor';
 
 type EditorProps = {
   path: string;
@@ -26,9 +26,9 @@ type EditorProps = {
 };
 
 const Editor = ({ path, value, height }: EditorProps) => {
-  const [code, setCode] = useState<string>(value ?? "");
+  const [code, setCode] = useState<string>(value ?? '');
   const [validate, setValidate] = useState<
-    Pick<editor.IMarker, "endColumn" | "endLineNumber" | "message">[]
+    Pick<editor.IMarker, 'endColumn' | 'endLineNumber' | 'message'>[]
   >([]);
   const [isChanged, setIsChanged] = useState(false);
 
@@ -41,7 +41,7 @@ const Editor = ({ path, value, height }: EditorProps) => {
   const onSaveCode = async () => {
     if (validate.length) {
       return openAlert({
-        type: "error",
+        type: 'error',
         message: `JSON 양식을 확인해주세요.\n${validate
           .map(
             ({ endLineNumber, endColumn, message }) =>
@@ -55,10 +55,10 @@ const Editor = ({ path, value, height }: EditorProps) => {
     const response = await patchJsonResponse({ path, response: code });
 
     response
-      ? openAlert({ type: "success", message: "저장 되었습니다" })
+      ? openAlert({ type: 'success', message: '저장 되었습니다' })
       : openAlert({
-          type: "error",
-          message: "오류가 발생했습니다. 다시 시도해 주세요.",
+          type: 'error',
+          message: '오류가 발생했습니다. 다시 시도해 주세요.',
         });
   };
 
@@ -68,34 +68,34 @@ const Editor = ({ path, value, height }: EditorProps) => {
 
   return (
     <Box sx={{ mt: 4 }}>
-      <InputLabel sx={{ fontSize: "14px" /* color: "#1976d2" */ }} shrink>
+      <InputLabel sx={{ fontSize: '14px' /* color: "#1976d2" */ }} shrink>
         Response
       </InputLabel>
       <Stack
         flexDirection="row"
         justifyContent="flex-end"
         alignItems="center"
-        sx={{ zIndex: -1, borderRadius: "4px 4px 0 0", background: "#1e1e1e" }}
+        sx={{ zIndex: -1, borderRadius: '4px 4px 0 0', background: '#1e1e1e' }}
       >
         <ButtonGroup
           variant="outlined"
           size="small"
           sx={{
-            "> .MuiIconButton-root": { color: "#fff" },
-            "> .MuiIconButton-root.Mui-disabled": { color: "#ffffff55" },
+            '> .MuiIconButton-root': { color: '#fff' },
+            '> .MuiIconButton-root.Mui-disabled': { color: '#ffffff55' },
           }}
         >
           <CopyButton
             text={code}
             tooltip={{
-              title: "Copy",
-              placement: "top",
+              title: 'Copy',
+              placement: 'top',
               arrow: true,
             }}
             onCopied={() =>
               openAlert({
-                type: "info",
-                message: "클립보드에 복사 되었습니다.",
+                type: 'info',
+                message: '클립보드에 복사 되었습니다.',
               })
             }
           />
@@ -118,7 +118,7 @@ const Editor = ({ path, value, height }: EditorProps) => {
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
         }}
-        onChange={(data) => setCode(data ?? "")}
+        onChange={(data) => setCode(data ?? '')}
         onValidate={(makers) => onValidateCode(makers)}
       />
     </Box>

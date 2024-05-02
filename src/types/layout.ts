@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ReactElement } from 'react';
 
 export type HeaderProps = {
   left?: ReactElement;
@@ -6,5 +6,6 @@ export type HeaderProps = {
 };
 
 export type ContentsProps = {
-  children?: ReactElement | ReactElement[];
+  head?: ReactElement;
+  body?: ReactElement | ReactElement[];
 };

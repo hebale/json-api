@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { FormControl, OutlinedInput, InputAdornment } from "@mui/material";
-import CancelIcon from "@mui/icons-material/Cancel";
+import React, { useState, useEffect } from 'react';
+import { FormControl, OutlinedInput, InputAdornment } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 type ApiSearchBarProps = {
   onSearch: (str: string) => void;
 };
 
-const ApiSearchBar = ({ onSearch }: ApiSearchBarProps) => {
-  const [searchText, setSearchText] = useState("");
+const SearchBar = ({ onSearch }: ApiSearchBarProps) => {
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     onSearch(searchText);
@@ -20,10 +20,10 @@ const ApiSearchBar = ({ onSearch }: ApiSearchBarProps) => {
         value={searchText}
         placeholder="path"
         onChange={(e) => setSearchText((e.target as HTMLInputElement).value)}
-        sx={{ minWidth: "360px", alignItems: "center" }}
+        sx={{ minWidth: '360px', alignItems: 'center' }}
         endAdornment={
           <InputAdornment position="end">
-            <CancelIcon onClick={() => setSearchText("")} />
+            <CancelIcon fontSize="small" onClick={() => setSearchText('')} />
           </InputAdornment>
         }
       />
@@ -31,4 +31,4 @@ const ApiSearchBar = ({ onSearch }: ApiSearchBarProps) => {
   );
 };
 
-export default ApiSearchBar;
+export default SearchBar;

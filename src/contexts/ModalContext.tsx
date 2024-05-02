@@ -1,8 +1,8 @@
-import React, { createContext, useState } from "react";
-import Modals from "~/features/Modals";
+import React, { createContext, useState } from 'react';
+import Modals from '~/features/Modals';
 
-import type { ReactNode } from "react";
-import type { ModalProps, ModalDispatchProps } from "~/types/features";
+import type { ReactNode } from 'react';
+import type { ModalProps, ModalDispatchProps } from '~/types/features';
 
 export const ModalStatusContext = createContext<ModalProps[]>([]);
 export const ModalDispatchContext = createContext<ModalDispatchProps>({
