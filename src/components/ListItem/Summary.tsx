@@ -5,9 +5,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { highlightMarker } from '~/utils';
 import { ApiContext } from '~/components/ListItem';
 
+import EditApiDialog from '~/dialog/EditApiDialog';
 import CopyButton from '~/features/CopyButton';
 import DownloadButton from '~/features/DownloadButton';
-import EditApiDialog from '~/dialog/EditApiDialog';
 
 import useAlert from '~/hooks/useAlert';
 import { ApiData } from '~/types/components';
@@ -61,17 +61,9 @@ const Summary = ({
         {onMarkedPath()}
         <Box sx={{ ml: 'auto' }}>
           <CopyButton
-            text={path}
-            iconButtonStyle={{
-              p: 0,
-              color: 'inherit',
-            }}
-            tooltip={{
-              title: 'Copy',
-              placement: 'top',
-              arrow: true,
-            }}
-            onCopied={() =>
+            title="Copy"
+            data={path}
+            onSuccess={() =>
               openAlert({
                 type: 'info',
                 message: '클립보드에 복사 되었습니다.',
@@ -82,13 +74,9 @@ const Summary = ({
       </Stack>
       <Stack flexDirection="row" sx={{ mr: 2 }}>
         <DownloadButton
+          title="Down"
           url={`/api/v1/download?path=${path}`}
           fileName={`api${path.split('/').join('_')}`}
-          tooltip={{
-            title: 'JSON Download',
-            placement: 'top',
-            arrow: true,
-          }}
         />
         <EditApiDialog path={path} />
       </Stack>

@@ -39,9 +39,9 @@ json-api
     │   │   ├── Methods.tsx
     │   │   └── Summary.tsx
     │   └── ApiSearchBar # API 검색바
-    ├── config
-    │   └── webpack.config.cjs # 웹팩 번들러 config
-    ├── context
+    ├── config # 번들 config
+    │   └── webpack.config.cjs
+    ├── context # 전역적으로 선어된 context모
     │   ├── AlertContext.tsx # Action의 결과 상태(success, info, error, warning) 메시지 표시 UI
     │   ├── DialogContext.tsx # Dialog 모달|비모달 데이터 표현&수정 화면 UI
     │   └── ModalContext.tsx # 사용자의 의사 확인(alert, prompt, comfirm) 모달 UI(Promise 객체반환)
@@ -54,7 +54,7 @@ json-api
     │   └── EdidtApiDialog # API 수정 Dialog UI
     │       ├── Editor.tsx
     │       └── index.tsx
-    ├── feature # 기능 단위의 최소 화면구성 UI
+    ├── feature # 최소 기능 단위 UI
     │   ├── Alerts.tsx
     │   ├── CopyButton.tsx
     │   ├── Dialogs.tsx
@@ -66,12 +66,12 @@ json-api
     │   ├── useAlert.ts
     │   ├── useDialog.ts
     │   └── useModal.ts
-    ├── json # DB용 json 데이터 저장경로
+    ├── json # API json 데이터 저장경로
     │   └── ...
     ├── layout # 화면 레이아웃 구성 UI
     │   ├── Body.tsx
     │   └── Header.tsx
-    ├── loader #
+    ├── loader # express 초기로더 모음
     │   └── index.cjs
     ├── schema # JSON 파일 스키마 정의
     │   └── index.ts
@@ -92,11 +92,12 @@ json-api
 ## 작업필요사항
 
 ### test
+
 - validation 작업
 - monaco 스키마 설정 확인
 - 다운로드 버튼 기능확인
 
 ### ui
+
 - pipeline 구성 ui 제작
 - monaco 커스텀스타일 작성
-

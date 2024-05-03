@@ -22,7 +22,7 @@
         "consistentHash": {
           "httpHeaderName": null,
           "httpCookie": {
-            "name": "httpname",
+            "name": "httpname2",
             "path": "httppath",
             "ttl": "ttl"
           },

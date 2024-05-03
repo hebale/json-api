@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactEventHandler } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { FormControl, OutlinedInput, InputAdornment } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 
@@ -8,10 +9,21 @@ type ApiSearchBarProps = {
 
 const SearchBar = ({ onSearch }: ApiSearchBarProps) => {
   const [searchText, setSearchText] = useState('');
+  const [searchParam, setSearchParam] = useSearchParams();
 
   useEffect(() => {
-    onSearch(searchText);
-  }, [searchText]);
+    const param = searchParam.get('search') ?? '';
+    setSearchText(param);
+    onSearch(param);
+  }, []);
+
+  const onChangeSearch = (value: string) => {
+    searchParam.set('search', value);
+    setSearchParam(searchParam);
+
+    setSearchText(value);
+    onSearch(value);
+  };
 
   return (
     <FormControl variant="outlined" size="small">
@@ -19,12 +31,14 @@ const SearchBar = ({ onSearch }: ApiSearchBarProps) => {
         type="text"
         value={searchText}
         placeholder="path"
-        onChange={(e) => setSearchText((e.target as HTMLInputElement).value)}
+        onChange={(e) => onChangeSearch((e.target as HTMLInputElement).value)}
         sx={{ minWidth: '360px', alignItems: 'center' }}
         endAdornment={
-          <InputAdornment position="end">
-            <CancelIcon fontSize="small" onClick={() => setSearchText('')} />
-          </InputAdornment>
+          searchText && (
+            <InputAdornment position="end">
+              <CancelIcon fontSize="small" onClick={() => onChangeSearch('')} />
+            </InputAdornment>
+          )
         }
       />
     </FormControl>

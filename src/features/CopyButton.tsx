@@ -1,30 +1,37 @@
-import Reacr from 'react';
-import { IconButton, Tooltip } from '@mui/material';
+import React from 'react';
+import { Stack, IconButton, Typography } from '@mui/material';
 
 import CopyAllIcon from '@mui/icons-material/CopyAll';
 import type { CopyButtonProps } from '~/types/features';
 
 const CopyButton = ({
-  text,
-  tooltip,
-  iconButtonStyle,
-  onCopied,
+  title,
+  data,
+  disabled,
+  onSuccess,
+  onError,
 }: CopyButtonProps) => {
-  const onCopyClipboard = (path: string) => {
-    navigator.clipboard.writeText(path);
-    onCopied && onCopied(path);
+  const onCopyClipboard = (data: string) => {
+    try {
+      navigator.clipboard.writeText(data);
+      onSuccess && onSuccess();
+    } catch (err) {
+      let msg = 'Unknown Error';
+      if (err instanceof Error) msg = err.message;
+      onError && onError(msg);
+    }
   };
 
   return (
-    <Tooltip {...tooltip}>
-      <IconButton
-        sx={{ ...iconButtonStyle }}
-        onClick={() => text && onCopyClipboard(text)}
-        disabled={!text}
-      >
+    <IconButton
+      onClick={() => data && onCopyClipboard(data)}
+      disabled={disabled}
+    >
+      <Stack sx={{ alignItems: 'center' }}>
         <CopyAllIcon />
-      </IconButton>
-    </Tooltip>
+        {title && <Typography sx={{ fontSize: '0.6rem' }}>{title}</Typography>}
+      </Stack>
+    </IconButton>
   );
 };
 

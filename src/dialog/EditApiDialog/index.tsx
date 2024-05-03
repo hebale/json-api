@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip, IconButton } from '@mui/material';
+import { Stack, IconButton, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 import useAlert from '~/hooks/useAlert';
@@ -8,7 +8,6 @@ import useDialog from '~/hooks/useDialog';
 
 import Contents from './Contents';
 import { deleteJson } from '~/api';
-import Contents from './Contents/index';
 
 const EditApiDialog = ({ path }: { path: string }) => {
   const { openAlert } = useAlert();
@@ -69,11 +68,12 @@ const EditApiDialog = ({ path }: { path: string }) => {
   };
 
   return (
-    <Tooltip title="JSON Edit" placement="top" arrow>
-      <IconButton onClick={open}>
+    <IconButton onClick={open}>
+      <Stack sx={{ alignItems: 'center' }}>
         <SettingsIcon />
-      </IconButton>
-    </Tooltip>
+        <Typography sx={{ fontSize: '0.6rem' }}>Edit</Typography>
+      </Stack>
+    </IconButton>
   );
 };
 

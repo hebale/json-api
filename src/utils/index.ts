@@ -61,8 +61,7 @@ export const highlightMarker = (
   str: string,
   word: string
 ): (string | React.ReactElement)[] => {
-  if (str.indexOf(word) === -1) return [str];
-
+  if (str.indexOf(word) === -1 || !word) return [str];
   const splitStr = str.split(word);
 
   return splitStr.reduce(

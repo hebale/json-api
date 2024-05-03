@@ -100,20 +100,30 @@ export type DropBoxProps = {
 };
 
 /**
- * CopyButton
- */
-export type CopyButtonProps = {
-  text: string | null;
-  tooltip: Omit<TooltipProps, 'children'>;
-  iconButtonStyle?: { [key: string]: string | number };
-  onCopied?: (text: string) => void;
-};
-
-/**
- * DownloadButton
+ * Function buttons
  */
 export type DownloadButtonProps = {
+  title?: string;
   url: string;
-  fileName: string;
-  tooltip: Omit<TooltipProps, 'children'>;
+  fileName?: string;
+};
+
+export type CopyButtonProps = {
+  title?: string;
+  data: string;
+  disabled?: boolean;
+  onSuccess?: () => void;
+  onError?: (msg: string) => void;
+};
+
+export type SaveButtonProps = {
+  title?: string;
+  disabled?: boolean;
+  onClick: () => void;
+};
+
+export type RefreshButtonProps = {
+  title?: string;
+  disabled?: boolean;
+  onClick: () => void;
 };

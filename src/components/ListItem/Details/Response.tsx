@@ -1,31 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Stack,
-  ButtonGroup,
-  Tooltip,
-  IconButton,
-  InputLabel,
-} from '@mui/material';
+import { Box, Stack, ButtonGroup } from '@mui/material';
 
-import RefreshIcon from '@mui/icons-material/Refresh';
-import SaveIcon from '@mui/icons-material/Save';
-
-import CopyButton from '~/features/CopyButton';
 import Monaco from '~/features/Monaco';
+import CopyButton from '~/features/CopyButton';
+import SaveButton from '~/features/SaveButton';
 
 import useAlert from '~/hooks/useAlert';
 import { patchJsonResponse } from '~/api';
 
 import type { editor } from 'monaco-editor';
+import RefreshButton from '~/features/RefreshButton';
 
-type EditorProps = {
+type ResponseProps = {
   path: string;
   value: string;
   height: number;
 };
 
-const Editor = ({ path, value, height }: EditorProps) => {
+const Response = ({ path, value, height }: ResponseProps) => {
   const [code, setCode] = useState<string>(value ?? '');
   const [validate, setValidate] = useState<
     Pick<editor.IMarker, 'endColumn' | 'endLineNumber' | 'message'>[]
@@ -38,6 +30,7 @@ const Editor = ({ path, value, height }: EditorProps) => {
     setIsChanged(value === code);
   }, [code]);
 
+  const onRefreshCode = () => setCode(value);
   const onSaveCode = async () => {
     if (validate.length) {
       return openAlert({
@@ -67,10 +60,7 @@ const Editor = ({ path, value, height }: EditorProps) => {
   };
 
   return (
-    <Box sx={{ mt: 4 }}>
-      <InputLabel sx={{ fontSize: '14px' /* color: "#1976d2" */ }} shrink>
-        Response
-      </InputLabel>
+    <Box>
       <Stack
         flexDirection="row"
         justifyContent="flex-end"
@@ -86,29 +76,27 @@ const Editor = ({ path, value, height }: EditorProps) => {
           }}
         >
           <CopyButton
-            text={code}
-            tooltip={{
-              title: 'Copy',
-              placement: 'top',
-              arrow: true,
-            }}
-            onCopied={() =>
+            title="Copy"
+            data={path}
+            onSuccess={() =>
               openAlert({
                 type: 'info',
                 message: '클립보드에 복사 되었습니다.',
               })
             }
+            onError={(msg) =>
+              openAlert({
+                type: 'error',
+                message: `${msg}\n복사 중 오류가 발생했습니다. 다시 시도해 주세요.`,
+              })
+            }
           />
-          <Tooltip title="Refresh" placement="top" arrow>
-            <IconButton onClick={() => setCode(value)} disabled={isChanged}>
-              <RefreshIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Save" placement="top" arrow>
-            <IconButton onClick={onSaveCode} disabled={isChanged}>
-              <SaveIcon />
-            </IconButton>
-          </Tooltip>
+          <RefreshButton
+            title="Refresh"
+            disabled={isChanged}
+            onClick={onRefreshCode}
+          />
+          <SaveButton title="Save" disabled={isChanged} onClick={onSaveCode} />
         </ButtonGroup>
       </Stack>
       <Monaco
@@ -125,4 +113,4 @@ const Editor = ({ path, value, height }: EditorProps) => {
   );
 };
 
-export default Editor;
+export default Response;

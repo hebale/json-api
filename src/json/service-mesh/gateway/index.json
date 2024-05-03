@@ -22,7 +22,7 @@
         "kiali.test.com"
       ],
       "port": [
-        80
+        800
       ],
       "connSvc": null,
       "selector": {
