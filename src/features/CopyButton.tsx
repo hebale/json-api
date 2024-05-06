@@ -24,8 +24,9 @@ const CopyButton = ({
 
   return (
     <IconButton
-      onClick={() => data && onCopyClipboard(data)}
       disabled={disabled}
+      disableRipple={true}
+      onClick={() => data && onCopyClipboard(data)}
     >
       <Stack sx={{ alignItems: 'center' }}>
         <CopyAllIcon />

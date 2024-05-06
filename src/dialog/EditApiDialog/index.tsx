@@ -68,7 +68,7 @@ const EditApiDialog = ({ path }: { path: string }) => {
   };
 
   return (
-    <IconButton onClick={open}>
+    <IconButton onClick={open} disableRipple={true}>
       <Stack sx={{ alignItems: 'center' }}>
         <SettingsIcon />
         <Typography sx={{ fontSize: '0.6rem' }}>Edit</Typography>

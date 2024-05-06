@@ -6,7 +6,7 @@ import type { RefreshButtonProps } from '~/types/features';
 
 const RefreshButton = ({ title, onClick, disabled }: RefreshButtonProps) => {
   return (
-    <IconButton onClick={onClick} disabled={disabled}>
+    <IconButton disabled={disabled} disableRipple={true} onClick={onClick}>
       <Stack sx={{ alignItems: 'center' }}>
         <RefreshIcon />
         {title && <Typography sx={{ fontSize: '0.6rem' }}>{title}</Typography>}

@@ -22,7 +22,7 @@ const DownloadButton = ({
   };
 
   return (
-    <IconButton onClick={onClick}>
+    <IconButton disableRipple={true} onClick={onClick}>
       <Stack sx={{ alignItems: 'center' }}>
         <DownloadIcon />
         {title && <Typography sx={{ fontSize: '0.6rem' }}>{title}</Typography>}

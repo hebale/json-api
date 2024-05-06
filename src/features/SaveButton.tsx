@@ -6,7 +6,7 @@ import type { SaveButtonProps } from '~/types/features';
 
 const SaveButton = ({ title, onClick, disabled }: SaveButtonProps) => {
   return (
-    <IconButton onClick={onClick} disabled={disabled}>
+    <IconButton disabled={disabled} disableRipple={true} onClick={onClick}>
       <Stack sx={{ alignItems: 'center' }}>
         <SaveIcon />
         {title && <Typography sx={{ fontSize: '0.6rem' }}>{title}</Typography>}

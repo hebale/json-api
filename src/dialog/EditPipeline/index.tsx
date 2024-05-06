@@ -44,7 +44,11 @@ const EditPipeline = ({ path, method }: EditPipelineProps) => {
 
   return (
     <Tooltip title="Inject JS" placement="top" arrow>
-      <IconButton onClick={open} {...(code?.isActive && { color: 'primary' })}>
+      <IconButton
+        disableRipple={true}
+        onClick={open}
+        {...(code?.isActive && { color: 'primary' })}
+      >
         <CodeIcon />
       </IconButton>
     </Tooltip>
