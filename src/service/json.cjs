@@ -270,13 +270,13 @@ const json = ({ app }) => {
    */
   app.delete('/api/v1/json', (req, res) => {
     try {
-      const { path } = req.body;
-      if (!path) throw new Error('Unvalid Parameters');
+      // const { path } = req.body;
+      // if (!path) throw new Error('Unvalid Parameters');
 
-      $fs.rmSync($path.join(root, path, '/index.json'));
-      /**
-       * ※추가※ 폴더정리 함수필요
-       */
+      // $fs.rmSync($path.join(root, path, '/index.json'));
+      // /**
+      //  * ※추가※ 폴더정리 함수필요
+      //  */
       res.send({
         code: 200,
         message: 'Ok',

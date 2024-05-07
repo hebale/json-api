@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Divider, Typography } from '@mui/material';
-import { getAllApiLists } from '~/api';
+import { getAllApis } from '~/api';
 
 import Header from '~/layout/Header';
 import Contents from '~/layout/Contents';
@@ -10,7 +10,7 @@ import SearchBar from '~/components/SearchBar';
 import CreateApiDialog from '~/dialog/CreateApiDialog';
 
 const Main = () => {
-  const { data: datas, isPending } = getAllApiLists();
+  const { data: datas, isPending } = getAllApis();
   const [keyword, setKeyword] = useState('');
 
   const onSearchApi = (str: string) => {

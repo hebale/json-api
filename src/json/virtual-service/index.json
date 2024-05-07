@@ -1,5 +1,5 @@
 {
-  "path": "/traffic-policy/detail",
+  "path": "/virtual-service",
   "headers": {
     "X-service": "gateway"
   },
@@ -37,12 +37,7 @@
           "minimumRingSize": null
         },
         "localityLbSetting": {
-          "distribute": [
-            "123",
-            "124",
-            "125215",
-            "64624"
-          ],
+          "distribute": ["123", "124", "125215", "64624"],
           "failover": [],
           "failoverPriority": [],
           "enabled": null

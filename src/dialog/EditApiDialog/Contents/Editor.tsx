@@ -16,7 +16,7 @@ import Monaco from '~/features/Monaco';
 
 import useAlert from '~/hooks/useAlert';
 import schemas from '~/schema';
-import { getApiList, putJson } from '~/api';
+import { getApi, putJson } from '~/api';
 
 import type { editor } from 'monaco-editor';
 
@@ -35,7 +35,7 @@ const Editor = ({ path, value, height }: EditorProps) => {
   const [isChanged, setIsChanged] = useState(false);
   const { openAlert } = useAlert();
 
-  const { data, isPending } = getApiList(path);
+  const { data, isPending } = getApi(path);
 
   // useEffect(() => {
   //   getJsonData();

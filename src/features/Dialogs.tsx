@@ -37,8 +37,6 @@ const Dialogs = () => {
           props,
         } = dialog;
 
-        console.log(dialog);
-
         const onCloseDialog: () => void = () => close(id);
 
         return (

@@ -1,20 +1,22 @@
 import http from './http';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import queryKeys from './key';
 
 import type { ApiListItemProps } from '~/types/components';
 
-export const getAllApiLists = () =>
+/* useQuery */
+export const getAllApis = () =>
   useQuery({
-    queryKey: ['allApiLists'],
+    queryKey: queryKeys.all,
     queryFn: async () => {
       const response = await http.get('/api/v1/all');
       if (response?.code === 200) return response.data as ApiListItemProps[];
     },
   });
 
-export const getApiList = (params: string) =>
+export const getApi = (params: string) =>
   useQuery({
-    queryKey: ['apiList'],
+    queryKey: queryKeys.list(params),
     queryFn: async () => {
       const response = await http.get(`/api/v1/json?path=${params}`);
       if (response?.code === 200) return response.data as ApiListItemProps;
@@ -53,7 +55,31 @@ export const patchJsonMethods = async (params: any) => {
   if (response?.code === 200) return response;
 };
 
-export const deleteJson = async (params: any) => {
-  const response = await http.delete(`/api/v1/json`, { body: params });
-  if (response?.code === 200) return response;
+/* useMutation */
+export const postApi = () =>
+  useMutation({
+    mutationFn: (params: any) => http.post('/api/v1/json', { body: params }),
+  });
+
+export const putApi = () =>
+  useMutation({
+    mutationFn: (params: any) => http.put('/api/v1/json', { body: params }),
+  });
+
+export const patchApi = () =>
+  useMutation({
+    mutationFn: (params: any) => http.patch('/api/v1/json', { body: params }),
+  });
+
+export const deleteApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (params: string) =>
+      http.delete('/api/v1/json', { body: { path: params } }),
+    onSuccess: (_, variables) => {
+      console.log(variables);
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    },
+  });
 };

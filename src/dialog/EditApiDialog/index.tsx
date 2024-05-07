@@ -1,4 +1,5 @@
 import React from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Stack, IconButton, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 
@@ -7,12 +8,13 @@ import useModal from '~/hooks/useModal';
 import useDialog from '~/hooks/useDialog';
 
 import Contents from './Contents';
-import { deleteJson } from '~/api';
+import { deleteApi } from '~/api';
 
 const EditApiDialog = ({ path }: { path: string }) => {
   const { openAlert } = useAlert();
   const { openModal } = useModal();
   const { openDialog } = useDialog();
+  const { mutate } = deleteApi();
 
   const open = () => {
     openDialog({
@@ -31,21 +33,21 @@ const EditApiDialog = ({ path }: { path: string }) => {
             });
 
             if (flag) {
-              const response = await deleteJson({ path });
-
-              if (!response) {
-                return openAlert({
-                  type: 'error',
-                  message: '삭제중 오류가 발생했습니다.',
-                });
-              }
-
-              openAlert({
-                type: 'success',
-                message: '삭제 되었습니다.',
+              mutate(path, {
+                onSuccess: () => {
+                  openAlert({
+                    type: 'success',
+                    message: '삭제 되었습니다.',
+                  });
+                  closeFn();
+                },
+                onError: () => {
+                  openAlert({
+                    type: 'error',
+                    message: '삭제중 오류가 발생했습니다.',
+                  });
+                },
               });
-
-              closeFn();
             }
           },
         },
