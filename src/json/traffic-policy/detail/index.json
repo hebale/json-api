@@ -6,7 +6,7 @@
   "methods": [
     {
       "method": "GET",
-      "delay": 0,
+      "delay": 1500,
       "status": 200,
       "code": {
         "isActive": false,

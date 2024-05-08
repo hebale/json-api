@@ -8,17 +8,24 @@ import type { ApiData } from '~/types/components';
 
 export const ApiContext = createContext<ApiData | null>(null);
 
+export const ApiUpdateContext = createContext({ setApi: () => {} });
+
 const ListItems = ({ filter, data }: { filter: string; data: ApiData }) => {
   const [expand, setExpand] = useState(false);
+
+  const updater = { setApi: () => {} };
+
   const onToggleExpand = () => {
     setExpand((prev) => !prev);
   };
   return (
     <ApiContext.Provider value={data}>
-      <Accordion expanded={expand}>
-        <Summary filter={filter} onToggleExpand={onToggleExpand} />
-        <Details />
-      </Accordion>
+      <ApiUpdateContext.Provider value={updater}>
+        <Accordion expanded={expand}>
+          <Summary filter={filter} onToggleExpand={onToggleExpand} />
+          <Details />
+        </Accordion>
+      </ApiUpdateContext.Provider>
     </ApiContext.Provider>
   );
 };

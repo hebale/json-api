@@ -198,7 +198,10 @@ const json = ({ app }) => {
   app.patch('/api/v1/json/methods', (req, res) => {
     try {
       const { path, method, delay, status } = req.body;
-
+      res.status(500).send({
+        code: 200,
+        message: 'Ok',
+      });
       if (!method && (!delay || !status)) throw new Error('Unvalid Parameters');
 
       const basePath = getBasePath(path);
@@ -227,7 +230,7 @@ const json = ({ app }) => {
         JSON.stringify(jsonData, null, 2)
       );
 
-      res.send({
+      res.status(500).send({
         code: 200,
         message: 'Ok',
       });

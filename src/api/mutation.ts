@@ -22,12 +22,13 @@ export const putApi = () => {
   });
 };
 
-export const patchApi = () => {
+export const patchApiMethods = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (params: any) => http.patch('/api/v1/json', { body: params }),
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.list(variables) });
+    mutationFn: (params: any) =>
+      http.patch('/api/v1/json/methods', { body: params }),
+    onSuccess: (_, { path }) => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.list(path) });
     },
   });
 };
