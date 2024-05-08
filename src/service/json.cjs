@@ -270,13 +270,24 @@ const json = ({ app }) => {
    */
   app.delete('/api/v1/json', (req, res) => {
     try {
-      // const { path } = req.body;
-      // if (!path) throw new Error('Unvalid Parameters');
+      const { path } = req.body;
+      if (!path) throw new Error('Unvalid Parameters');
 
-      // $fs.rmSync($path.join(root, path, '/index.json'));
-      // /**
-      //  * ※추가※ 폴더정리 함수필요
-      //  */
+      $fs.rmSync($path.join(root, path, '/index.json'));
+
+      const fullPath = $path.join(root, path);
+      cleanFolder(fullPath);
+
+      function cleanFolder(path) {
+        const files = $fs.readdirSync(path);
+
+        if (path === root || files.length > 0) return;
+        $fs.rmdirSync(path);
+
+        const parentPath = $path.resolve(path, '..');
+        cleanFolder(parentPath);
+      }
+
       res.send({
         code: 200,
         message: 'Ok',
@@ -291,30 +302,3 @@ const json = ({ app }) => {
 };
 
 module.exports = json;
-
-// function cleanEmptyFoldersRecursively(folder) {
-//   var fs = require('fs');
-//   var path = require('path');
-
-//   var isDir = $fs.statSync(folder).isDirectory();
-//   if (!isDir) {
-//     return;
-//   }
-//   var files = $fs.readdirSync(folder);
-//   if (files.length > 0) {
-//     files.forEach(function(file) {
-//       var fullPath = $path.join(folder, file);
-//       cleanEmptyFoldersRecursively(fullPath);
-//     });
-
-//     // re-evaluate files; after deleting subfolder
-//     // we may have parent folder empty now
-//     files = $fs.readdirSync(folder);
-//   }
-
-//   if (files.length == 0) {
-//     console.log("removing: ", folder);
-//     $fs.rmdirSync(folder);
-//     return;
-//   }
-// }

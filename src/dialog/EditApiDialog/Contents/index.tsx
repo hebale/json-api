@@ -13,7 +13,7 @@ const Contents = ({ path }: { path: string }) => {
 
   useEffect(() => {
     setDatas && setDatas(data);
-  }, []);
+  }, [setDatas]);
 
   return (
     <>

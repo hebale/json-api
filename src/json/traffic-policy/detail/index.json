@@ -1,0 +1,55 @@
+{
+  "path": "/traffic-policy/detail",
+  "headers": {
+    "X-service": "gateway"
+  },
+  "methods": [
+    {
+      "method": "GET",
+      "delay": 0,
+      "status": 200,
+      "code": {
+        "isActive": false,
+        "value": "function pipeline(request, response) {\n  const { query, body} = request;\n  // code goes here\n\n\n  return response;\n}"
+      }
+    }
+  ],
+  "response": [
+    {
+      "name": "v1",
+      "loadBalancer": {
+        "simple": "ROUND_ROBIN",
+        "consistentHash": null,
+        "localityLbSetting": {
+          "distribute": [
+            {
+              "from": "us-west/zone1/*",
+              "to": {
+                "us-west/zone1/*": 80,
+                "us-west/zone2/*": 20
+              }
+            },
+            {
+              "from": "us-west/zone2/*",
+              "to": {
+                "us-west/zone1/*": 20,
+                "us-west/zone2/*": 80
+              }
+            }
+          ],
+          "failover": null,
+          "failoverPriority": [
+            "failoverPriority1",
+            "failoverPriority2",
+            "failoverPriority3"
+          ],
+          "enabled": true
+        },
+        "warmupDurationSecs": "30s"
+      },
+      "connectionPoolSetting": null,
+      "outlierDetection": null,
+      "tls": "test"
+    }
+  ]
+}
