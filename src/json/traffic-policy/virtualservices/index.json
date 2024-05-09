@@ -6,7 +6,7 @@
   "methods": [
     {
       "method": "GET",
-      "delay": 1500,
+      "delay": 3000,
       "status": 200,
       "code": {
         "isActive": false,
@@ -27,7 +27,7 @@
       ],
       "appliedServicesCount": 1,
       "selectors": [],
-      "createdTimeStamp": "2024-05-03T06:11:26Z"
+      "createdTimeStamp": "2024-05-03T06:11:2sad6Z"
     }
   ]
 }

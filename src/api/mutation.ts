@@ -34,16 +34,38 @@ export const patchApiMethods = () => {
       http.patch('/api/v1/json/methods', { body: params }),
     onSuccess: (_, variables) => {
       const { path, method, delay, status } = variables;
-
-      !queryClient.setQueryData(queryKeys.all, (oldDatas: ApiData[]) => {
+      queryClient.setQueryData(queryKeys.all, (oldDatas: ApiData[]) => {
         oldDatas.map((oldData) => {
           if (oldData.path !== path) return oldData;
           oldData.methods = oldData.methods.map((_method) => {
             if (method === _method.method) {
-              _method = { ..._method, delay, status };
+              _method = {
+                ..._method,
+                ...(delay !== undefined && { delay }),
+                ...(status && { status }),
+              };
             }
             return _method;
           });
+        });
+        return oldDatas;
+      });
+    },
+  });
+};
+
+export const patchApiResponse = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (params: any) =>
+      http.patch('/api/v1/json/response', { body: params }),
+    onSuccess: (_, variables) => {
+      const { path, response } = variables;
+
+      !queryClient.setQueryData(queryKeys.all, (oldDatas: ApiData[]) => {
+        oldDatas.map((oldData) => {
+          if (oldData.path !== path) return oldData;
+          oldData.response = JSON.parse(response);
         });
         return oldDatas;
       });

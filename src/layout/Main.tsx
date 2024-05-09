@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Divider, Typography } from '@mui/material';
 import { getAllApis } from '~/api';
 
@@ -10,8 +10,13 @@ import SearchBar from '~/components/SearchBar';
 import CreateApiDialog from '~/dialog/CreateApiDialog';
 
 const Main = () => {
-  const { data: datas, isPending } = getAllApis();
+  const { data, isPending, dataUpdatedAt } = getAllApis();
+  const [apis, setApis] = useState(data);
   const [keyword, setKeyword] = useState('');
+
+  useEffect(() => {
+    setApis(data);
+  }, [dataUpdatedAt]);
 
   const onSearchApi = (str: string) => {
     setKeyword(str);
@@ -24,27 +29,29 @@ const Main = () => {
         right={<CreateApiDialog title={'API 등록'} />}
       />
       <Divider />
-      <Contents
-        head={
-          <Typography>{`Base URL: http://localhost:${process.env.SERVER_PORT}/`}</Typography>
-        }
-        body={
-          isPending ? (
-            <>Pending....</>
-          ) : (
-            datas &&
-            datas
-              .filter((data) => data.path.indexOf(keyword) > -1)
-              .map((data) => (
-                <ListItem
-                  key={data.path}
-                  filter={keyword}
-                  data={data}
-                ></ListItem>
-              ))
-          )
-        }
-      />
+
+      {apis && (
+        <Contents
+          head={
+            <Typography>{`Base URL: http://localhost:${process.env.SERVER_PORT}/`}</Typography>
+          }
+          body={
+            isPending ? (
+              <>Pending....</>
+            ) : (
+              apis
+                .filter((api) => api.path.indexOf(keyword) > -1)
+                .map((api) => (
+                  <ListItem
+                    key={api.path}
+                    filter={keyword}
+                    data={api}
+                  ></ListItem>
+                ))
+            )
+          }
+        />
+      )}
     </Container>
   );
 };

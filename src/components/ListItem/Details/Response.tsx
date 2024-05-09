@@ -6,7 +6,7 @@ import CopyButton from '~/features/CopyButton';
 import SaveButton from '~/features/SaveButton';
 
 import useAlert from '~/hooks/useAlert';
-import { patchJsonResponse } from '~/api';
+import { patchApiResponse } from '~/api';
 
 import type { editor } from 'monaco-editor';
 import RefreshButton from '~/features/RefreshButton';
@@ -18,6 +18,7 @@ type ResponseProps = {
 };
 
 const Response = ({ path, value, height }: ResponseProps) => {
+  const { mutate } = patchApiResponse();
   const [code, setCode] = useState<string>(value ?? '');
   const [validate, setValidate] = useState<
     Pick<editor.IMarker, 'endColumn' | 'endLineNumber' | 'message'>[]
@@ -28,7 +29,7 @@ const Response = ({ path, value, height }: ResponseProps) => {
 
   useEffect(() => {
     setIsChanged(value === code);
-  }, [code]);
+  }, [code, value]);
 
   const onRefreshCode = () => setCode(value);
   const onSaveCode = async () => {
@@ -45,14 +46,20 @@ const Response = ({ path, value, height }: ResponseProps) => {
       });
     }
 
-    const response = await patchJsonResponse({ path, response: code });
-
-    response
-      ? openAlert({ type: 'success', message: '저장 되었습니다' })
-      : openAlert({
-          type: 'error',
-          message: '오류가 발생했습니다. 다시 시도해 주세요.',
-        });
+    mutate(
+      { path, response: code },
+      {
+        onSuccess: () => {
+          openAlert({ type: 'success', message: '저장 되었습니다' });
+        },
+        onError: () => {
+          openAlert({
+            type: 'error',
+            message: '오류가 발생했습니다. 다시 시도해 주세요.',
+          });
+        },
+      }
+    );
   };
 
   const onValidateCode = (makers: editor.IMarker[]) => {

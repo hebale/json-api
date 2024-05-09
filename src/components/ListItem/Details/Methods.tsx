@@ -105,7 +105,7 @@ const Methods = ({
             <OutlinedInput
               type="number"
               label="delay"
-              defaultValue={delay}
+              value={delay ?? ''}
               inputProps={{
                 min: 0,
                 step: 500,
@@ -128,7 +128,7 @@ const Methods = ({
             <InputLabel>status</InputLabel>
             <Select
               label="status"
-              defaultValue={status}
+              value={status}
               sx={{ height: '34px', fontSize: '13px', background: '#fff' }}
               onChange={(e) => onChangeStatus(e, method)}
             >

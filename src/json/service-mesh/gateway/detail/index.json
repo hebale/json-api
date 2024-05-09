@@ -6,18 +6,18 @@
   "methods": [
     {
       "method": "POST",
-      "delay": 500,
+      "delay": 2000,
       "status": 200
     },
     {
       "method": "GET",
       "delay": 0,
-      "status": 200
+      "status": 304
     }
   ],
   "response": [
     {
-      "test": "테스트 값입력",
+      "test": "테스트 값입력3",
       "bannerid": "486824",
       "creativeid": "557538",
       "description": "Get 10 Free Images From Adobe Stock.sd Start Now.",

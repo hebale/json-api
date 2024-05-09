@@ -38,15 +38,3 @@ export const putJson = async (params: any) => {
   const response = await http.put('/api/v1/json', { body: params });
   if (response?.code === 200) return response;
 };
-
-export const patchJsonResponse = async (params: any) => {
-  const response = await http.patch('/api/v1/json/response', {
-    body: params,
-  });
-  if (response?.code === 200) return response;
-};
-
-export const patchJsonMethods = async (params: any) => {
-  const response = await http.patch('/api/v1/json/methods', { body: params });
-  if (response?.code === 200) return response;
-};
