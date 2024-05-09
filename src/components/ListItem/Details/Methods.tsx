@@ -111,7 +111,8 @@ const Methods = ({
                 step: 500,
               }}
               sx={{
-                height: '30px',
+                height: '34px',
+                fontSize: '13px',
                 '& .MuiInputBase-input': {
                   pr: 1,
                   background: '#fff',
@@ -128,7 +129,7 @@ const Methods = ({
             <Select
               label="status"
               defaultValue={status}
-              sx={{ height: '30px', background: '#fff' }}
+              sx={{ height: '34px', fontSize: '13px', background: '#fff' }}
               onChange={(e) => onChangeStatus(e, method)}
             >
               {statusCode.map((code) => (

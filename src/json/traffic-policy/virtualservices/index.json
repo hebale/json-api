@@ -1,0 +1,33 @@
+{
+  "path": "/traffic-policy/virtualservices",
+  "headers": {
+    "X-service": "gateway"
+  },
+  "methods": [
+    {
+      "method": "GET",
+      "delay": 1500,
+      "status": 200,
+      "code": {
+        "isActive": false,
+        "value": "function pipeline(request, response) {\n  const { query, body} = request;\n  // code goes here\n\n\n  return response;\n}"
+      }
+    }
+  ],
+  "response": [
+    {
+      "name": "front-end",
+      "namespace": "service-mesh-example",
+      "port": [],
+      "gateway": [
+        "sockshop-gateway"
+      ],
+      "appliedServices": [
+        "front-end"
+      ],
+      "appliedServicesCount": 1,
+      "selectors": [],
+      "createdTimeStamp": "2024-05-03T06:11:26Z"
+    }
+  ]
+}

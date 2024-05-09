@@ -5,6 +5,7 @@ type Method = {
   method: string;
   delay: number;
   status: number;
+  code: string;
 };
 
 export type ApiListItemProps = {

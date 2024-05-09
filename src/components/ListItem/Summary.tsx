@@ -55,7 +55,7 @@ const Summary = ({
           borderRadius: '4px',
           fontSize: '16px',
           fontWeight: 600,
-          backgroundColor: '#f4f4f4',
+          // backgroundColor: '#f4f4f4',
         }}
       >
         {onMarkedPath()}

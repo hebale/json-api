@@ -6,26 +6,35 @@ import Details from './Details';
 
 import type { ApiData } from '~/types/components';
 
-export const ApiContext = createContext<ApiData | null>(null);
+type ApiDispatchProps = {
+  update: (key: string, value: any) => void;
+};
 
-export const ApiUpdateContext = createContext({ setApi: () => {} });
+export const ApiContext = createContext<ApiData | null>(null);
+export const ApiDispatchContext = createContext<ApiDispatchProps>({
+  update: () => {},
+});
 
 const ListItems = ({ filter, data }: { filter: string; data: ApiData }) => {
   const [expand, setExpand] = useState(false);
+  const [api, setApi] = useState(data);
 
-  const updater = { setApi: () => {} };
+  const dispatch = {
+    update: (key: string, value: any) =>
+      setApi((prev) => ({ ...prev, [key]: value })),
+  };
 
   const onToggleExpand = () => {
     setExpand((prev) => !prev);
   };
   return (
-    <ApiContext.Provider value={data}>
-      <ApiUpdateContext.Provider value={updater}>
+    <ApiContext.Provider value={api}>
+      <ApiDispatchContext.Provider value={dispatch}>
         <Accordion expanded={expand}>
           <Summary filter={filter} onToggleExpand={onToggleExpand} />
           <Details />
         </Accordion>
-      </ApiUpdateContext.Provider>
+      </ApiDispatchContext.Provider>
     </ApiContext.Provider>
   );
 };

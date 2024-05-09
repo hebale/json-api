@@ -96,8 +96,10 @@ json-api
 - validation 작업
 - monaco 스키마 설정 확인
 - 다운로드 버튼 기능확인
+- 다중등록 -> json파일 스카마 작성
 
 ### ui
 
 - pipeline 구성 ui 제작
 - monaco 커스텀스타일 작성
+- 탭구조 확장
