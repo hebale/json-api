@@ -35,33 +35,31 @@ const Summary = ({
         </IconButton>
       }
       sx={{
-        py: 1,
-        '.Mui-expanded': {
-          m: 0,
-        },
         '.MuiAccordionSummary-content': {
           m: 0,
           alignItems: 'center',
           justifyContent: 'space-between',
         },
+        '.MuiAccordionSummary-content.Mui-expanded': {
+          m: 0,
+          minHeight: 0,
+        },
       }}
     >
       <Stack
         direction="row"
+        alignItems="center"
         sx={{
           width: '70%',
           px: 1.5,
-          py: 1,
           borderRadius: '4px',
-          fontSize: '16px',
+          fontSize: '14px',
           fontWeight: 600,
-          // backgroundColor: '#f4f4f4',
         }}
       >
         {onMarkedPath()}
-        <Box sx={{ ml: 'auto' }}>
+        <Box sx={{ ml: 1 }}>
           <CopyButton
-            title="Copy"
             data={path}
             onSuccess={() =>
               openAlert({

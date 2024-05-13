@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { Box } from '@mui/material';
+import { Stack, Box } from '@mui/material';
 import Editor, { useMonaco } from '@monaco-editor/react';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -11,21 +11,21 @@ type MonacoProps = {
   height?: number | 'auto';
   value: string;
   schemas?: any[];
-  boxStyle?: { [key: string]: string | number };
   options?: editor.IStandaloneEditorConstructionOptions;
   onChange?: (value?: string) => void;
   onValidate?: (marker: editor.IMarker[], value?: string) => void;
+  children?: any;
 };
 
 const Monaco = ({
   language = 'json',
   height = 'auto',
   value,
-  boxStyle,
   schemas,
+  options,
   onChange,
   onValidate,
-  options,
+  children,
 }: MonacoProps) => {
   const editorRef = useRef<null | editor.IStandaloneCodeEditor>(null);
   const monaco = useMonaco();
@@ -67,15 +67,22 @@ const Monaco = ({
     <Box
       sx={{
         position: 'relative',
-        pb: 3,
+        py: children ? 0 : 3,
         borderRadius: '4px',
         overflow: 'hidden',
-        background: '#1e1e1e',
-        ...boxStyle,
       }}
     >
+      {children && (
+        <Stack
+          flexDirection="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          sx={{ zIndex: -1, borderRadius: '4px 4px 0 0' }}
+        >
+          {children}
+        </Stack>
+      )}
       <Editor
-        theme={'vs-dark'}
         loading={<CircularProgress thickness={5} />}
         defaultLanguage={language}
         value={value}

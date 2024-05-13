@@ -68,23 +68,16 @@ const Response = ({ path, value, height }: ResponseProps) => {
 
   return (
     <Box>
-      <Stack
-        flexDirection="row"
-        justifyContent="flex-end"
-        alignItems="center"
-        sx={{ zIndex: -1, borderRadius: '4px 4px 0 0', background: '#1e1e1e' }}
+      <Monaco
+        value={code}
+        height={height}
+        onChange={(data) => setCode(data ?? '')}
+        onValidate={(makers) => onValidateCode(makers)}
       >
-        <ButtonGroup
-          variant="outlined"
-          size="small"
-          sx={{
-            '> .MuiIconButton-root': { color: '#fff' },
-            '> .MuiIconButton-root.Mui-disabled': { color: '#ffffff55' },
-          }}
-        >
+        <ButtonGroup variant="outlined" size="small">
           <CopyButton
             title="Copy"
-            data={path}
+            data={code}
             onSuccess={() =>
               openAlert({
                 type: 'info',
@@ -105,17 +98,7 @@ const Response = ({ path, value, height }: ResponseProps) => {
           />
           <SaveButton title="Save" disabled={isChanged} onClick={onSaveCode} />
         </ButtonGroup>
-      </Stack>
-      <Monaco
-        value={code}
-        height={height}
-        boxStyle={{
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-        }}
-        onChange={(data) => setCode(data ?? '')}
-        onValidate={(makers) => onValidateCode(makers)}
-      />
+      </Monaco>
     </Box>
   );
 };

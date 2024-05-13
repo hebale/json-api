@@ -1,6 +1,5 @@
 import http from './http';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { getApi } from '~/api';
 import queryKeys from './key';
 
 import type { ApiData } from '~/types/components';
