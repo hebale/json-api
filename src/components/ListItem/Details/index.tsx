@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { AccordionDetails, Divider } from '@mui/material';
 import { ApiContext } from '~/components/ListItem';
 
+import Headers from './Headers';
 import Methods from './Methods';
 import Response from './Response';
 
@@ -14,8 +15,8 @@ const Details = () => {
 
   return (
     <AccordionDetails>
-      {/* <Headers /> */}
       <Divider sx={{ my: 1 }} />
+      <Headers />
       <Methods {...{ path: path as string, headers, methods }} />
       <Divider sx={{ my: 1 }} />
       <Response
