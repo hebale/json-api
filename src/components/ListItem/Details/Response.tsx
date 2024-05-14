@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Stack, ButtonGroup } from '@mui/material';
+import React, { useState, useEffect, useContext } from 'react';
+import { Box, ButtonGroup } from '@mui/material';
 
 import Monaco from '~/features/Monaco';
 import CopyButton from '~/features/CopyButton';
 import SaveButton from '~/features/SaveButton';
+
+import { ApiContext } from '~/components/ListItem';
+import { ApiData } from '~/types/components';
 
 import useAlert from '~/hooks/useAlert';
 import { patchApiResponse } from '~/api';
@@ -11,27 +14,23 @@ import { patchApiResponse } from '~/api';
 import type { editor } from 'monaco-editor';
 import RefreshButton from '~/features/RefreshButton';
 
-type ResponseProps = {
-  path: string;
-  value: string;
-  height: number;
-};
-
-const Response = ({ path, value, height }: ResponseProps) => {
-  const { mutate } = patchApiResponse();
-  const [code, setCode] = useState<string>(value ?? '');
+const Response = () => {
+  const { path, response } = useContext(ApiContext) as ApiData;
+  const [code, setCode] = useState<string>(JSON.stringify(response, null, 2));
+  const [isChanged, setIsChanged] = useState(false);
   const [validate, setValidate] = useState<
     Pick<editor.IMarker, 'endColumn' | 'endLineNumber' | 'message'>[]
   >([]);
-  const [isChanged, setIsChanged] = useState(false);
 
+  const { mutate } = patchApiResponse();
   const { openAlert } = useAlert();
 
   useEffect(() => {
-    setIsChanged(value === code);
-  }, [code, value]);
+    setIsChanged(JSON.stringify(response, null, 2) === code);
+  }, [code, response]);
 
-  const onRefreshCode = () => setCode(value);
+  const onRefreshCode = () => setCode(JSON.stringify(response, null, 2));
+
   const onSaveCode = async () => {
     if (validate.length) {
       return openAlert({
@@ -70,7 +69,7 @@ const Response = ({ path, value, height }: ResponseProps) => {
     <Box>
       <Monaco
         value={code}
-        height={height}
+        height={450}
         onChange={(data) => setCode(data ?? '')}
         onValidate={(makers) => onValidateCode(makers)}
       >

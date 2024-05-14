@@ -1,15 +1,24 @@
 {
   "path": "/traffic-policy/detail",
-  "headers": {
-    "X-service": "gateway"
-  },
+  "headers": [
+    {
+      "isActive": false,
+      "key": "X-service",
+      "value": "gateway"
+    },
+    {
+      "isActive": true,
+      "key": "test-header",
+      "value": "it is test"
+    }
+  ],
   "methods": [
     {
       "method": "GET",
       "delay": 0,
       "status": 200,
       "code": {
-        "isActive": false,
+        "isactive": false,
         "value": "function pipeline(request, response) {\n  const { query, body} = request;\n  // code goes here\n\n\n  return response;\n}"
       }
     }

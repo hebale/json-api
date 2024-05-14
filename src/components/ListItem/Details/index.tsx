@@ -1,29 +1,43 @@
-import React, { useContext } from 'react';
-import { AccordionDetails, Divider } from '@mui/material';
-import { ApiContext } from '~/components/ListItem';
+import React, { useState } from 'react';
+import { AccordionDetails, Tab } from '@mui/material';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 
 import Headers from './Headers';
 import Methods from './Methods';
 import Response from './Response';
 
-import { ApiData } from '~/types/components';
+const tabConfig = [
+  {
+    label: 'headers',
+    component: <Headers />,
+  },
+  {
+    label: 'methods',
+    component: <Methods />,
+  },
+  {
+    label: 'response',
+    component: <Response />,
+  },
+];
 
 const Details = () => {
-  const { path, headers, methods, response } = useContext(
-    ApiContext
-  ) as ApiData;
+  const [tabValue, setTabValue] = useState('response');
 
   return (
     <AccordionDetails>
-      <Divider sx={{ my: 1 }} />
-      <Headers />
-      <Methods {...{ path: path as string, headers, methods }} />
-      <Divider sx={{ my: 1 }} />
-      <Response
-        {...{ path: path as string }}
-        value={JSON.stringify(response, null, 2)}
-        height={450}
-      />
+      <TabContext value={tabValue}>
+        <TabList onChange={(e, value) => setTabValue(value)}>
+          {tabConfig.map((config) => (
+            <Tab key={config.label} label={config.label} value={config.label} />
+          ))}
+        </TabList>
+        {tabConfig.map((config) => (
+          <TabPanel key={config.label} value={config.label}>
+            {config.component}
+          </TabPanel>
+        ))}
+      </TabContext>
     </AccordionDetails>
   );
 };

@@ -8,21 +8,16 @@ type Method = {
   code: string;
 };
 
-export type ApiListItemProps = {
-  path: string;
-  headers: {
-    [key: string]: string | number;
-  };
-  methods: Method[];
-  response: any;
-  searchText?: string;
+type Header = {
+  id: string;
+  isActive: boolean;
+  key: string;
+  value: string;
 };
 
 export type ApiData = {
   path: string;
-  headers: {
-    [key: string]: string | number;
-  };
+  headers: Header[];
   methods: Method[];
   response: any;
   searchText?: string;

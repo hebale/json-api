@@ -27,6 +27,7 @@ const ListItems = ({ filter, data }: { filter: string; data: ApiData }) => {
   const onToggleExpand = () => {
     setExpand((prev) => !prev);
   };
+
   return (
     <ApiContext.Provider value={api}>
       <ApiDispatchContext.Provider value={dispatch}>

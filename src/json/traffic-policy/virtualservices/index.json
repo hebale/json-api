@@ -1,12 +1,41 @@
 {
   "path": "/traffic-policy/virtualservices",
-  "headers": {
-    "X-service": "gateway"
-  },
+  "headers": [
+    {
+      "isActive": false,
+      "key": "X-service",
+      "value": "gateway",
+      "id": "X-service_gateway"
+    },
+    {
+      "isActive": true,
+      "key": "test-headerdfsdffdsfsd",
+      "value": "it is test",
+      "id": "test-headerdfsdf_it is test"
+    },
+    {
+      "id": "_",
+      "isActive": false,
+      "key": "",
+      "value": ""
+    },
+    {
+      "id": "_",
+      "isActive": false,
+      "key": "",
+      "value": ""
+    },
+    {
+      "id": "1715677570539",
+      "isActive": false,
+      "key": "",
+      "value": ""
+    }
+  ],
   "methods": [
     {
       "method": "GET",
-      "delay": 3000,
+      "delay": 1000,
       "status": 200,
       "code": {
         "isActive": false,
@@ -16,18 +45,157 @@
   ],
   "response": [
     {
-      "name": "front-end",
-      "namespace": "service-mesh-example",
-      "port": [],
-      "gateway": [
-        "sockshop-gateway"
-      ],
-      "appliedServices": [
-        "front-end"
-      ],
-      "appliedServicesCount": 1,
-      "selectors": [],
-      "createdTimeStamp": "2024-05-03T06:11:2sad6Z"
+      "name": "reviews.prod.svc.cluster.local",
+      "subset": "v2",
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "reviews.prod.svc.cluster.local",
+      "subset": "v1",
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "mongo.backup.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "login.prod.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "reviews.prod.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "reviews.prod.svc.cluster.local",
+      "subset": "v1",
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "mongo.backup.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "login.prod.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "reviews.prod.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "reviews.prod.svc.cluster.local",
+      "subset": "v1",
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "mongo.backup.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "login.prod.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "reviews.prod.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "reviews.prod.svc.cluster.local",
+      "subset": "v1",
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "mongo.backup.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "login.prod.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
+    },
+    {
+      "name": "reviews.prod.svc.cluster.local",
+      "subset": null,
+      "label": null,
+      "podSelector": null,
+      "clusterIp": null,
+      "portRoute": null,
+      "createdTimeStamp": null
     }
   ]
 }

@@ -1,8 +1,17 @@
 {
   "path": "/service-mesh/gateway/detail",
-  "headers": {
-    "Content-Type": "application/json"
-  },
+  "headers": [
+    {
+      "isActive": false,
+      "key": "X-service",
+      "value": "gateway"
+    },
+    {
+      "isActive": true,
+      "key": "test-header",
+      "value": "it is test"
+    }
+  ],
   "methods": [
     {
       "method": "POST",

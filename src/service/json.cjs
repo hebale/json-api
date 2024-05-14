@@ -82,37 +82,6 @@ const json = ({ app }) => {
   });
 
   /**
-   * 단일 JSON 메소드 데이터 검색
-   */
-  app.get('/api/v1/json/method', async (req, res) => {
-    try {
-      const { path, method } = req.query;
-      const response = $fs.readFileSync(
-        $path.resolve(process.cwd(), `src/json${path}/index.json`),
-        {
-          encoding: 'utf-8',
-          flag: 'r',
-        }
-      );
-      const data = JSON.parse(response);
-
-      res.send({
-        code: 200,
-        message: 'Ok',
-        data: data.methods.filter(
-          ({ method: _method }) => _method === method
-        )[0],
-      });
-    } catch (err) {
-      res.status(500).send({
-        code: 500,
-        message: 'Internal Server Error',
-        err,
-      });
-    }
-  });
-
-  /**
    * 단일 JSON파일 다운로드
    */
   app.get('/api/v1/download', (req, res) => {
@@ -159,21 +128,21 @@ const json = ({ app }) => {
   });
 
   /**
-   *  단일 JSON파일 response값 수정
+   *  단일 JSON파일 headers값 수정
    */
-  app.patch('/api/v1/json/response', (req, res) => {
+  app.patch('/api/v1/json/headers', (req, res) => {
     try {
-      const { path, response } = req.body;
-      if (!response) throw new Error('data is not defined');
+      const { path, headers } = req.body;
+      if (!headers) throw new Error('data is not defined');
 
       const basePath = getBasePath(path);
-      const data = $fs.readFileSync(`${basePath}/index.json`, {
+      const response = $fs.readFileSync(`${basePath}/index.json`, {
         encoding: 'utf-8',
         flag: 'r',
       });
-      const jsonData = JSON.parse(data);
+      const jsonData = JSON.parse(response);
 
-      jsonData.response = JSON.parse(response);
+      jsonData.headers = headers;
 
       $fs.writeFileSync(
         $path.join(basePath, '/index.json'),
@@ -220,6 +189,40 @@ const json = ({ app }) => {
           return _;
         });
       }
+
+      $fs.writeFileSync(
+        $path.join(basePath, '/index.json'),
+        JSON.stringify(jsonData, null, 2)
+      );
+
+      res.status(404).send({
+        code: 200,
+        message: 'Ok',
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: 'Internal Server Error',
+      });
+    }
+  });
+
+  /**
+   *  단일 JSON파일 response값 수정
+   */
+  app.patch('/api/v1/json/response', (req, res) => {
+    try {
+      const { path, response } = req.body;
+      if (!response) throw new Error('data is not defined');
+
+      const basePath = getBasePath(path);
+      const data = $fs.readFileSync(`${basePath}/index.json`, {
+        encoding: 'utf-8',
+        flag: 'r',
+      });
+      const jsonData = JSON.parse(data);
+
+      jsonData.response = JSON.parse(response);
 
       $fs.writeFileSync(
         $path.join(basePath, '/index.json'),

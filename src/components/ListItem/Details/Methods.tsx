@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import {
   Stack,
   FormGroup,
@@ -11,12 +11,12 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 
-import { patchApiMethods } from '~/api';
+import { patchApiMethod } from '~/api';
 import { ApiContext } from '~/components/ListItem';
 import useAlert from '~/hooks/useAlert';
 
+import type { ApiData } from '~/types/components';
 import type { ApiListItemProps } from '~/types/components';
-// import EditPipeline from '~/dialog/EditPipeline';
 
 type FormData = {
   delay: number;
@@ -25,11 +25,10 @@ type FormData = {
 
 const statusCode = [200, 304, 400, 401, 403, 405, 408, 500, 501, 505];
 
-const Methods = ({
-  path,
-  methods,
-}: Omit<ApiListItemProps, 'response'>): JSX.Element[] => {
-  const { mutate } = patchApiMethods();
+const Methods = () => {
+  const { path, methods } = useContext(ApiContext) as ApiData;
+
+  const { mutate } = patchApiMethod();
   const { openAlert } = useAlert();
 
   const onChangeDelay = async (
@@ -39,12 +38,11 @@ const Methods = ({
     mutate(
       { path, method, delay: Number(e.target.value) },
       {
-        onError: () => {
+        onError: () =>
           openAlert({
             type: 'error',
             message: '오류가 발생했습니다. 다시 시도해 주세요.',
-          });
-        },
+          }),
       }
     );
   };
@@ -85,10 +83,6 @@ const Methods = ({
       </Typography>
 
       <Stack flexDirection="row" alignItems="center">
-        {/* <FormGroup sx={{ mr: 1 }}>
-          <EditPipeline path={path} method={method} />
-        </FormGroup> */}
-
         <FormGroup
           row={true}
           sx={{

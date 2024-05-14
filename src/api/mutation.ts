@@ -2,6 +2,7 @@ import http from './http';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import queryKeys from './key';
 
+import useAlert from '~/hooks/useAlert';
 import type { ApiData } from '~/types/components';
 
 export const postApi = () => {
@@ -26,8 +27,30 @@ export const putApi = () => {
   });
 };
 
-export const patchApiMethods = () => {
+export const patchApiHeaders = () => {
   const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (params: any) =>
+      http.patch('api/v1/json/headers', { body: params }),
+    onSuccess: (_, variables) => {
+      const { path, headers } = variables;
+
+      queryClient.setQueryData(queryKeys.all, (oldDatas: ApiData[]) => {
+        oldDatas.map((oldData) => {
+          if (oldData.path !== path) return oldData;
+          oldData.headers = headers;
+          return oldData;
+        });
+      });
+    },
+  });
+};
+
+export const patchApiMethod = () => {
+  const queryClient = useQueryClient();
+  const { openAlert } = useAlert();
+
   return useMutation({
     mutationFn: (params: any) =>
       http.patch('/api/v1/json/methods', { body: params }),
@@ -48,6 +71,13 @@ export const patchApiMethods = () => {
           });
         });
         return oldDatas;
+      });
+    },
+    onError: () => {
+      console.log('waht');
+      openAlert({
+        type: 'error',
+        message: '오류가 발생했습니다. 다시 시도해 주세요.',
       });
     },
   });

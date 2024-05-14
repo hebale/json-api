@@ -5,6 +5,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Stack,
   Checkbox,
   OutlinedInput,
   IconButton,
@@ -12,39 +13,50 @@ import {
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 type KeyValueInputProps = {
+  datas?: KeyValueData[];
   onChange: (datas: KeyValueData[]) => void;
 };
+
 type KeyValueData = {
-  id: number;
-  status: boolean;
+  id: string;
+  isActive: boolean;
   key: string;
   value: string;
-  [key: string]: string | number | boolean;
+  [key: string]: string | boolean;
 };
 
-const KeyValueInput = ({ onChange }: KeyValueInputProps) => {
-  const [datas, setDatas] = useState<KeyValueData[]>([]);
+const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
+  const [headers, setHeaders] = useState<KeyValueData[]>(
+    datas
+      ?.map((data) => ({ ...data, id: `${data.key}_${data.value}` }))
+      .concat({
+        id: '' + new Date().getTime(),
+        isActive: false,
+        key: '',
+        value: '',
+      }) ?? []
+  );
 
   useEffect(() => {
-    if (!datas.length) addTableRow();
+    if (!headers.length) addTableRow();
 
-    onChange(datas);
-  }, [datas]);
+    onChange(headers);
+  }, [headers]);
 
   const addTableRow = () => {
-    setDatas((prev) => [
+    setHeaders((prev) => [
       ...prev,
-      { id: new Date().getTime(), status: false, key: '', value: '' },
+      { id: '' + new Date().getTime(), isActive: false, key: '', value: '' },
     ]);
   };
 
   const onChangeUsage = (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: number
+    id: string
   ) => {
-    setDatas((prev) =>
+    setHeaders((prev) =>
       prev.map((data) => {
-        if (data.id === id) data.status = e.target.checked;
+        if (data.id === id) data.isActive = e.target.checked;
         return data;
       })
     );
@@ -52,10 +64,10 @@ const KeyValueInput = ({ onChange }: KeyValueInputProps) => {
 
   const onChangeData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    id: number,
+    id: string,
     key: string
   ) => {
-    setDatas((prev) =>
+    setHeaders((prev) =>
       prev.map((data) => {
         if (data.id === id) {
           data[key] = e.target.value;
@@ -64,60 +76,58 @@ const KeyValueInput = ({ onChange }: KeyValueInputProps) => {
       })
     );
 
-    if (datas.at(-1)?.id === id) addTableRow();
+    if (headers.at(-1)?.id === id) addTableRow();
   };
 
-  const onRemoveTableRow = (id: number) => {
-    setDatas((prev) => prev.filter((data) => data.id !== id));
+  const onRemoveTableRow = (id: string) => {
+    setHeaders((prev) => prev.filter((data) => data.id !== id));
   };
 
   return (
     <TableContainer>
       <Table
         padding="none"
-        sx={{ '& .MuiTableCell-root': { p: 0.6, border: '1px solid #ddd' } }}
+        sx={{ '& .MuiTableCell-root': { p: 1, border: '1px solid #ddd' } }}
       >
         <TableBody>
-          {datas.map(({ id, status, key, value }, index) => {
+          {headers.map(({ id, isActive, key, value }, index) => {
             return (
               <TableRow key={id}>
-                <TableCell>
+                <TableCell sx={{ width: '40px' }}>
                   <Checkbox
                     tabIndex={-1}
-                    checked={status}
-                    disabled={datas.at(-1)?.id === id}
+                    checked={isActive}
+                    disabled={headers.at(-1)?.id === id}
                     onChange={(e) => onChangeUsage(e, id)}
                   />
                 </TableCell>
                 <TableCell>
-                  <OutlinedInput
-                    size="small"
-                    placeholder="key"
-                    defaultValue={key}
-                    onChange={(e) => onChangeData(e, id, 'key')}
-                    sx={{ width: '100%' }}
-                  />
+                  <Stack direction="row">
+                    <OutlinedInput
+                      size="small"
+                      placeholder="key"
+                      defaultValue={key}
+                      onChange={(e) => onChangeData(e, id, 'key')}
+                      sx={{ width: 'calc(50% - 24px)' }}
+                    />
+                    <OutlinedInput
+                      size="small"
+                      placeholder="value"
+                      defaultValue={value}
+                      onChange={(e) => onChangeData(e, id, 'value')}
+                      sx={{ ml: 1, width: 'calc(50% - 24px)' }}
+                    />
+                    {headers.length - 1 > index && (
+                      <IconButton
+                        tabIndex={-1}
+                        color="error"
+                        onClick={() => onRemoveTableRow(id)}
+                      >
+                        <RemoveCircleIcon />
+                      </IconButton>
+                    )}
+                  </Stack>
                 </TableCell>
-                <TableCell>
-                  <OutlinedInput
-                    size="small"
-                    placeholder="value"
-                    defaultValue={value}
-                    onChange={(e) => onChangeData(e, id, 'value')}
-                    sx={{ width: '100%' }}
-                  />
-                </TableCell>
-                {datas.length > 1 && (
-                  <TableCell>
-                    <IconButton
-                      tabIndex={-1}
-                      color="error"
-                      onClick={() => onRemoveTableRow(id)}
-                    >
-                      <RemoveCircleIcon />
-                    </IconButton>
-                  </TableCell>
-                )}
               </TableRow>
             );
           })}
