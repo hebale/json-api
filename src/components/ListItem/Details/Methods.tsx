@@ -13,10 +13,8 @@ import {
 
 import { patchApiMethod } from '~/api';
 import { ApiContext } from '~/components/ListItem';
-import useAlert from '~/hooks/useAlert';
 
 import type { ApiData } from '~/types/components';
-import type { ApiListItemProps } from '~/types/components';
 
 type FormData = {
   delay: number;
@@ -29,39 +27,19 @@ const Methods = () => {
   const { path, methods } = useContext(ApiContext) as ApiData;
 
   const { mutate } = patchApiMethod();
-  const { openAlert } = useAlert();
 
   const onChangeDelay = async (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     method: string
   ) => {
-    mutate(
-      { path, method, delay: Number(e.target.value) },
-      {
-        onError: () =>
-          openAlert({
-            type: 'error',
-            message: '오류가 발생했습니다. 다시 시도해 주세요.',
-          }),
-      }
-    );
+    mutate({ path, method, delay: Number(e.target.value) });
   };
 
   const onChangeStatus = async (
     e: SelectChangeEvent<number>,
     method: string
   ) => {
-    mutate(
-      { path, method, status: e.target.value },
-      {
-        onError: () => {
-          openAlert({
-            type: 'error',
-            message: '오류가 발생했습니다. 다시 시도해 주세요.',
-          });
-        },
-      }
-    );
+    mutate({ path, method, status: e.target.value });
   };
 
   return methods.map(({ method, delay, status }, index) => (

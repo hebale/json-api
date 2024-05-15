@@ -1,15 +1,15 @@
 /**
  * ApiListItem
  */
-type Method = {
+export type Method = {
   method: string;
   delay: number;
   status: number;
   code: string;
 };
 
-type Header = {
-  id: string;
+export type Header = {
+  id: number;
   isActive: boolean;
   key: string;
   value: string;

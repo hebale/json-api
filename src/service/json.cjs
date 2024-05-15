@@ -42,8 +42,6 @@ const json = ({ app }) => {
         data: allJson,
       });
     } catch (err) {
-      console.log(err);
-
       res.status(500).send({
         code: 500,
         message: 'Internal Server Error',
@@ -195,7 +193,7 @@ const json = ({ app }) => {
         JSON.stringify(jsonData, null, 2)
       );
 
-      res.status(404).send({
+      res.send({
         code: 200,
         message: 'Ok',
       });

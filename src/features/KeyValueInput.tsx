@@ -17,45 +17,67 @@ type KeyValueInputProps = {
   onChange: (datas: KeyValueData[]) => void;
 };
 
-type KeyValueData = {
-  id: string;
+export type KeyValueData = {
   isActive: boolean;
   key: string;
   value: string;
-  [key: string]: string | boolean;
+  [key: string]: string | number | boolean;
+};
+
+const defaultForm = {
+  isActive: false,
+  key: '',
+  value: '',
 };
 
 const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
-  const [headers, setHeaders] = useState<KeyValueData[]>(
-    datas
-      ?.map((data) => ({ ...data, id: `${data.key}_${data.value}` }))
-      .concat({
-        id: '' + new Date().getTime(),
-        isActive: false,
-        key: '',
-        value: '',
-      }) ?? []
-  );
+  const [headers, setHeaders] = useState<(KeyValueData & { id: number })[]>([]);
 
   useEffect(() => {
-    if (!headers.length) addTableRow();
+    setHeaders(
+      datas
+        ?.map((data, index) => ({
+          ...data,
+          id: new Date().getTime() + (index + 1),
+        }))
+        .concat({ id: new Date().getTime(), ...defaultForm }) ?? []
+    );
+  }, [datas]);
 
-    onChange(headers);
-  }, [headers]);
+  // useEffect(() => {
+  //   if (!headers.length) addTableRow();
+  //   onChange(
+  //     headers.map((header) => {
+  //       delete header.id;
+  //       return header;
+  //     })
+  //   );
+  // }, [headers]);
+
+  const exportDatas = (datas: KeyValueData[]) => {
+    onChange(
+      datas
+        .map((data) => {
+          delete data.id;
+          return data;
+        })
+        .slice(0, -1)
+    );
+  };
 
   const addTableRow = () => {
     setHeaders((prev) => [
       ...prev,
-      { id: '' + new Date().getTime(), isActive: false, key: '', value: '' },
+      { id: new Date().getTime(), isActive: false, key: '', value: '' },
     ]);
   };
 
   const onChangeUsage = (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string
+    id: number
   ) => {
-    setHeaders((prev) =>
-      prev.map((data) => {
+    exportDatas(
+      headers.map((data) => {
         if (data.id === id) data.isActive = e.target.checked;
         return data;
       })
@@ -64,11 +86,11 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
 
   const onChangeData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    id: string,
+    id: number,
     key: string
   ) => {
-    setHeaders((prev) =>
-      prev.map((data) => {
+    exportDatas(
+      headers.map((data) => {
         if (data.id === id) {
           data[key] = e.target.value;
         }
@@ -79,8 +101,8 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
     if (headers.at(-1)?.id === id) addTableRow();
   };
 
-  const onRemoveTableRow = (id: string) => {
-    setHeaders((prev) => prev.filter((data) => data.id !== id));
+  const onRemoveTableRow = (id: number) => {
+    exportDatas(headers.filter((data) => data.id !== id));
   };
 
   return (
@@ -92,7 +114,7 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
         <TableBody>
           {headers.map(({ id, isActive, key, value }, index) => {
             return (
-              <TableRow key={id}>
+              <TableRow key={index}>
                 <TableCell sx={{ width: '40px' }}>
                   <Checkbox
                     tabIndex={-1}

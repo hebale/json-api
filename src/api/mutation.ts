@@ -21,14 +21,14 @@ export const putApi = () => {
     mutationFn: (params: any) => http.put('/api/v1/json', { body: params }),
     onSuccess: (_, variables) => {
       // queryClient.invalidateQueries({ queryKey: queryKeys.list(variables) });
-
-      console.log(queryClient.getQueryData(queryKeys.list(variables)));
+      // console.log(queryClient.getQueryData(queryKeys.list(variables)));
     },
   });
 };
 
 export const patchApiHeaders = () => {
   const queryClient = useQueryClient();
+  const { openAlert } = useAlert();
 
   return useMutation({
     mutationFn: (params: any) =>
@@ -42,6 +42,12 @@ export const patchApiHeaders = () => {
           oldData.headers = headers;
           return oldData;
         });
+      });
+    },
+    onError: (err: { status: number; message: string }) => {
+      openAlert({
+        type: 'error',
+        message: `오류가 발생했습니다. 다시 시도해 주세요.\nstatus: ${err.status}\nmessage: ${err.message}`,
       });
     },
   });
@@ -73,11 +79,10 @@ export const patchApiMethod = () => {
         return oldDatas;
       });
     },
-    onError: () => {
-      console.log('waht');
+    onError: (err: { status: number; message: string }) => {
       openAlert({
         type: 'error',
-        message: '오류가 발생했습니다. 다시 시도해 주세요.',
+        message: `오류가 발생했습니다. 다시 시도해 주세요.\nstatus: ${err.status}\nmessage: ${err.message}`,
       });
     },
   });
@@ -85,6 +90,8 @@ export const patchApiMethod = () => {
 
 export const patchApiResponse = () => {
   const queryClient = useQueryClient();
+  const { openAlert } = useAlert();
+
   return useMutation({
     mutationFn: (params: any) =>
       http.patch('/api/v1/json/response', { body: params }),
@@ -97,6 +104,12 @@ export const patchApiResponse = () => {
           oldData.response = JSON.parse(response);
         });
         return oldDatas;
+      });
+    },
+    onError: (err: { status: number; message: string }) => {
+      openAlert({
+        type: 'error',
+        message: `오류가 발생했습니다.\nstatus: ${err.status}\nmessage: ${err.message}`,
       });
     },
   });

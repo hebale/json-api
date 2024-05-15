@@ -2,41 +2,16 @@
   "path": "/traffic-policy/virtualservices",
   "headers": [
     {
-      "isActive": false,
-      "key": "X-service",
-      "value": "gateway",
-      "id": "X-service_gateway"
-    },
-    {
       "isActive": true,
-      "key": "test-headerdfsdffdsfsd",
-      "value": "it is test",
-      "id": "test-headerdfsdf_it is test"
-    },
-    {
-      "id": "_",
-      "isActive": false,
-      "key": "",
-      "value": ""
-    },
-    {
-      "id": "_",
-      "isActive": false,
-      "key": "",
-      "value": ""
-    },
-    {
-      "id": "1715677570539",
-      "isActive": false,
-      "key": "",
+      "key": "saddddfsdfsdfsdjkli",
       "value": ""
     }
   ],
   "methods": [
     {
       "method": "GET",
-      "delay": 1000,
-      "status": 200,
+      "delay": 500,
+      "status": 403,
       "code": {
         "isActive": false,
         "value": "function pipeline(request, response) {\n  const { query, body} = request;\n  // code goes here\n\n\n  return response;\n}"
