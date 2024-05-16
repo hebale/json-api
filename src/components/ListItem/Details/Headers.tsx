@@ -20,11 +20,17 @@ const Headers = () => {
   );
 
   const onChange = (datas: KeyValueData[]) => {
-    if (headers.length === datas.length) {
-      fetchCall(datas);
-    } else {
-      mutate({ path, headers: datas });
-    }
+    // console.log('>>>>>> headers ', datas);
+    // console.log(datas);
+    // console.log(
+    //   headers.map((header) => header.isActive).join(','),
+    //   datas.map((data) => data.isActive).join(',')
+    // );
+    // if (headers.length === datas.length) {
+    // fetchCall(datas);
+    // } else {
+    // mutate({ path, headers: datas });
+    // }
   };
 
   return <KeyValueInput datas={headers} onChange={onChange} />;

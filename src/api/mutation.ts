@@ -26,6 +26,9 @@ export const putApi = () => {
   });
 };
 
+/**
+ * issue tracking - Optimistic Updates
+ */
 export const patchApiHeaders = () => {
   const queryClient = useQueryClient();
   const { openAlert } = useAlert();
@@ -33,22 +36,33 @@ export const patchApiHeaders = () => {
   return useMutation({
     mutationFn: (params: any) =>
       http.patch('api/v1/json/headers', { body: params }),
-    onSuccess: (_, variables) => {
-      const { path, headers } = variables;
+    onMutate: async (newHeaders) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.all });
 
-      queryClient.setQueryData(queryKeys.all, (oldDatas: ApiData[]) => {
-        oldDatas.map((oldData) => {
-          if (oldData.path !== path) return oldData;
-          oldData.headers = headers;
-          return oldData;
+      const prevData = queryClient.getQueryData(queryKeys.all);
+      const { path, headers } = newHeaders;
+
+      console.log('>>>>>>>>>>>> prev data', prevData);
+      queryClient.setQueryData(queryKeys.all, (oldValue) => {
+        return oldValue.map((value) => {
+          if (value.path === path) {
+            return { ...value, headers: [...headers] };
+          }
+          return value;
         });
       });
+
+      return { prevData };
     },
-    onError: (err: { status: number; message: string }) => {
+    onError: (err: { status: number; message: string }, _, context) => {
+      queryClient.setQueryData(queryKeys.all, context?.prevData);
       openAlert({
         type: 'error',
         message: `오류가 발생했습니다. 다시 시도해 주세요.\nstatus: ${err.status}\nmessage: ${err.message}`,
       });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
     },
   });
 };

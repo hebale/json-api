@@ -23,6 +23,13 @@ const json = ({ app }) => {
       const jsonFilesPath = $glob.sync(`${root}/**/*.json`);
       const allJson = [];
 
+      if (_?.body?.error) {
+        res.status(500).send({
+          code: 500,
+          message: 'error 다',
+        });
+      }
+
       jsonFilesPath.forEach((filePath) => {
         const response = $fs.readFileSync(
           $path.resolve(process.cwd(), filePath),

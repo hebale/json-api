@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import { Accordion } from '@mui/material';
 
 import Summary from './Summary';
@@ -19,9 +19,13 @@ const ListItems = ({ filter, data }: { filter: string; data: ApiData }) => {
   const [expand, setExpand] = useState(false);
   const [api, setApi] = useState(data);
 
+  useEffect(() => {
+    setApi(data);
+  }, [data]);
+
   const dispatch = {
     update: (key: string, value: any) =>
-      setApi((prev) => ({ ...prev, [key]: value })),
+      api && setApi((prev: ApiData) => ({ ...prev, [key]: value })),
   };
 
   const onToggleExpand = () => {
