@@ -98,3 +98,14 @@ export const debounce = (cb: (data: any) => void, delay: number) => {
     }, delay);
   };
 };
+
+export const deepClone = (data: any) => {
+  if (typeof data !== 'object') return data;
+
+  let base = Array.isArray(data) ? [] : {};
+
+  for (let key of Object.keys(data)) {
+    base[key] = deepClone(data[key]);
+  }
+  return base;
+};
