@@ -106,3 +106,29 @@ json-api
 - pipeline 구성 ui 제작
 - monaco 커스텀스타일 작성
 - 탭구조 확장
+
+- MapInput 컴포넌트 기능정의
+
+1. 자료구조
+   {
+   isActive: boolean;
+   key: string;
+   value: string | number;
+   }
+
+2. 기능
+
+   - create : 하위에 항목추가 (default: false, "", "" ) - onChange(x)
+   - read : 항목 로드
+   - update : key, value 업데이트 시 - onChange(o) debounce
+     : isActive - onChange(o) - immediately
+   - delete : 선택된 항목제거 - onChange(o) - immediately
+
+3. 상세 UI
+
+   - update 행위가 일어나도 focus된 항목은 유지
+   - 동일한 key가 입력될시 onChange(x) 오류 표시
+   - 반복적인 호출로 인한 optimistic update 값이 오염되지 않음
+
+4. 이슈사항
+   - 리스트의 key값을 유지해야하는지 따로 업데이트가 필요한 값으로 대체할지 선택(ex. cryto.randomUUID());

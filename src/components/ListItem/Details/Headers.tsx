@@ -15,22 +15,22 @@ const Headers = () => {
   const fetchCall = useCallback(
     debounce((datas: Pick<ApiData, 'headers'>) => {
       mutate({ path, headers: datas });
-    }, 1000),
+    }, 500),
     []
   );
 
   const onChange = (datas: KeyValueData[]) => {
-    // console.log('>>>>>> headers ', datas);
-    // console.log(datas);
-    // console.log(
-    //   headers.map((header) => header.isActive).join(','),
-    //   datas.map((data) => data.isActive).join(',')
-    // );
-    // if (headers.length === datas.length) {
-    // fetchCall(datas);
-    // } else {
-    // mutate({ path, headers: datas });
-    // }
+    console.log(datas);
+
+    if (
+      headers.length !== datas.length ||
+      headers.map((header) => header.isActive).join() !==
+        datas.map((data) => data.isActive).join()
+    ) {
+      mutate({ path, headers: datas });
+    } else {
+      fetchCall(datas);
+    }
   };
 
   return <KeyValueInput datas={headers} onChange={onChange} />;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   TableContainer,
   Table,
@@ -13,12 +13,15 @@ import {
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
+import { deepClone } from '~/utils';
+
 type KeyValueInputProps = {
   datas?: KeyValueData[];
   onChange: (datas: KeyValueData[]) => void;
 };
 
 export type KeyValueData = {
+  tempKey?: number;
   isActive: boolean;
   key: string;
   value: string;
@@ -26,22 +29,37 @@ export type KeyValueData = {
 };
 
 const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
-  const [headers, setHeaders] = useState<KeyValueData[]>(datas ?? []);
-  console.log(datas);
+  const [headers, setHeaders] = useState<KeyValueData[]>(
+    deepClone(datas) ?? []
+  );
+
+  const focusInput = useRef<HTMLInputElement[] | []>([]);
+  const focusIndex = useRef<number | null>(null);
+
   useEffect(() => {
-    setHeaders(datas ?? []);
+    setHeaders(deepClone(datas) ?? []);
+
+    if (focusIndex.current !== null) {
+      focusInput.current[focusIndex.current].focus();
+      focusIndex.current = null;
+    }
   }, [datas]);
 
   const beforeOnChange = (headers: KeyValueData[]) => {
-    console.log(datas[0] === headers[0]);
-    onChange(headers);
+    onChange(
+      headers
+        .filter((header) => !!header.key)
+        .map((header) => {
+          if (header.tempKey) delete header.tempKey;
+          return header;
+        })
+    );
   };
 
   const onChangeUsage = (
     e: React.ChangeEvent<HTMLInputElement>,
     key: string
   ) => {
-    console.log(e.target.checked);
     beforeOnChange(
       headers.map((data) => {
         if (data.key === key) data.isActive = e.target.checked;
@@ -65,12 +83,33 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
     );
   };
 
-  const onAddRow = () => {
-    setHeaders((prev) => [...prev, { isActive: false, key: '', value: '' }]);
+  const onFocusData = (index: number) => {
+    focusIndex.current = index;
   };
 
-  const onRemoveRow = (key: string) => {
-    beforeOnChange(headers.filter((data) => data.key !== key));
+  const onBlurData = () => {
+    focusIndex.current = null;
+  };
+
+  const onAddRow = () => {
+    setHeaders((prev) => [
+      ...prev,
+      { tempKey: new Date().getTime(), isActive: false, key: '', value: '' },
+    ]);
+  };
+
+  const onRemoveRow = (key?: string | number) => {
+    const isTemp = typeof key === 'number';
+
+    setHeaders((prev) => {
+      const newValue = prev.filter(
+        (data) => data[isTemp ? 'tempKey' : 'key'] !== key
+      );
+
+      if (!isTemp) beforeOnChange(newValue);
+
+      return newValue;
+    });
   };
 
   return (
@@ -81,44 +120,62 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
           sx={{ '& .MuiTableCell-root': { p: 1, border: '1px solid #ddd' } }}
         >
           <TableBody>
-            {headers.map(({ isActive, key, value }, index) => (
-              <TableRow key={key ? key : new Date().getTime() + index}>
-                <TableCell sx={{ width: '40px' }}>
-                  <Checkbox
-                    tabIndex={-1}
-                    checked={isActive}
-                    onChange={(e) => onChangeUsage(e, key)}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Stack direction="row">
-                    <OutlinedInput
-                      size="small"
-                      placeholder="key"
-                      defaultValue={key}
-                      onChange={(e) => onChangeData(e, index, 'key')}
-                      sx={{ width: 'calc(50% - 24px)' }}
+            {headers.map(({ tempKey, isActive, key, value }, index) => {
+              // console.log(key, tempKey);
+              return (
+                <TableRow key={key ? key : tempKey}>
+                  <TableCell sx={{ width: '40px' }}>
+                    <Checkbox
+                      tabIndex={-1}
+                      checked={isActive}
+                      disabled={!key}
+                      onChange={(e) => onChangeUsage(e, key)}
                     />
-                    <OutlinedInput
-                      size="small"
-                      placeholder="value"
-                      defaultValue={value}
-                      onChange={(e) => onChangeData(e, index, 'value')}
-                      sx={{ ml: 1, width: 'calc(50% - 24px)' }}
-                    />
-                    {headers.length - 1 > index && (
-                      <IconButton
-                        tabIndex={-1}
-                        color="error"
-                        onClick={() => onRemoveRow(key)}
-                      >
-                        <RemoveCircleIcon />
-                      </IconButton>
-                    )}
-                  </Stack>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell>
+                    <Stack direction="row">
+                      <OutlinedInput
+                        inputRef={(element) => {
+                          if (element) {
+                            focusInput.current[index * 2] = element;
+                          }
+                        }}
+                        size="small"
+                        placeholder="key"
+                        defaultValue={key}
+                        onFocus={() => onFocusData(index * 2)}
+                        onChange={(e) => onChangeData(e, index, 'key')}
+                        onBlur={onBlurData}
+                        sx={{ width: 'calc(50% - 24px)' }}
+                      />
+                      <OutlinedInput
+                        inputRef={(element) => {
+                          if (element) {
+                            focusInput.current[index * 2 + 1] = element;
+                          }
+                        }}
+                        size="small"
+                        placeholder="value"
+                        defaultValue={value}
+                        onFocus={() => onFocusData(index * 2 + 1)}
+                        onChange={(e) => onChangeData(e, index, 'value')}
+                        onBlur={onBlurData}
+                        sx={{ ml: 1, width: 'calc(50% - 24px)' }}
+                      />
+                      {headers.length !== 1 && (
+                        <IconButton
+                          tabIndex={-1}
+                          color="error"
+                          onClick={() => onRemoveRow(key ? key : tempKey)}
+                        >
+                          <RemoveCircleIcon />
+                        </IconButton>
+                      )}
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

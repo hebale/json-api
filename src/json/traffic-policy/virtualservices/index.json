@@ -2,14 +2,19 @@
   "path": "/traffic-policy/virtualservices",
   "headers": [
     {
-      "isActive": false,
-      "key": "test-5-optimistic",
-      "value": "gatewaydsaf"
+      "isActive": true,
+      "key": "optimistic-update-test",
+      "value": "gateway"
     },
     {
-      "isActive": true,
-      "key": "test-4",
-      "value": "it is test"
+      "isActive": false,
+      "key": "cvxcvxdfvcxvdxvceedfsdf",
+      "value": ""
+    },
+    {
+      "isActive": false,
+      "key": "zXC",
+      "value": ""
     }
   ],
   "methods": [

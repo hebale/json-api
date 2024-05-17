@@ -15,7 +15,6 @@ const Main = () => {
   const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
-    console.log(data);
     setApis(data);
   }, [dataUpdatedAt]);
 
