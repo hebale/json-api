@@ -22,7 +22,7 @@ const tabConfig = [
 ];
 
 const Details = () => {
-  const [tabValue, setTabValue] = useState('response');
+  const [tabValue, setTabValue] = useState('method');
 
   return (
     <AccordionDetails>

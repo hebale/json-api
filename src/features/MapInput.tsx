@@ -15,29 +15,26 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import { deepClone } from '~/utils';
 
-type KeyValueInputProps = {
-  datas?: KeyValueData[];
-  onChange: (datas: KeyValueData[]) => void;
+type MapInputProps = {
+  datas?: MapData[];
+  onChange: (datas: MapData[]) => void;
 };
 
-export type KeyValueData = {
-  tempKey?: number;
+export type MapData = {
+  uuid: string;
   isActive: boolean;
   key: string;
   value: string;
-  [key: string]: string | number | boolean;
+  [key: string]: string | boolean;
 };
 
-const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
-  const [headers, setHeaders] = useState<KeyValueData[]>(
-    deepClone(datas) ?? []
-  );
-
-  const focusInput = useRef<HTMLInputElement[] | []>([]);
+const MapInput = ({ datas, onChange }: MapInputProps) => {
+  const [mapData, setMapData] = useState<MapData[]>(deepClone(datas) ?? []);
+  const focusInput = useRef<HTMLInputElement[]>([]);
   const focusIndex = useRef<number | null>(null);
 
   useEffect(() => {
-    setHeaders(deepClone(datas) ?? []);
+    setMapData(deepClone(datas) ?? []);
 
     if (focusIndex.current !== null) {
       focusInput.current[focusIndex.current].focus();
@@ -45,15 +42,16 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
     }
   }, [datas]);
 
-  const beforeOnChange = (headers: KeyValueData[]) => {
-    onChange(
-      headers
-        .filter((header) => !!header.key)
-        .map((header) => {
-          if (header.tempKey) delete header.tempKey;
-          return header;
-        })
-    );
+  const beforeOnChange = (mapData: MapData[]) => {
+    console.log(mapData);
+    // onChange(
+    //   mapData
+    //     .filter((header) => !!header.key)
+    //     .map((header) => {
+    //       if (header.uuid) delete header.uuid;
+    //       return header;
+    //     })
+    // );
   };
 
   const onChangeUsage = (
@@ -61,7 +59,7 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
     key: string
   ) => {
     beforeOnChange(
-      headers.map((data) => {
+      mapData.map((data) => {
         if (data.key === key) data.isActive = e.target.checked;
         return data;
       })
@@ -74,7 +72,7 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
     key: string
   ) => {
     beforeOnChange(
-      headers.map((data, _index) => {
+      mapData.map((data, _index) => {
         if (index === _index) {
           data[key] = e.target.value;
         }
@@ -92,24 +90,14 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
   };
 
   const onAddRow = () => {
-    setHeaders((prev) => [
+    setMapData((prev) => [
       ...prev,
-      { tempKey: new Date().getTime(), isActive: false, key: '', value: '' },
+      { uuid: crypto.randomUUID(), isActive: false, key: '', value: '' },
     ]);
   };
 
-  const onRemoveRow = (key?: string | number) => {
-    const isTemp = typeof key === 'number';
-
-    setHeaders((prev) => {
-      const newValue = prev.filter(
-        (data) => data[isTemp ? 'tempKey' : 'key'] !== key
-      );
-
-      if (!isTemp) beforeOnChange(newValue);
-
-      return newValue;
-    });
+  const onRemoveRow = (uuid: string) => {
+    setMapData((prev) => prev.filter((data) => data.uuid !== uuid));
   };
 
   return (
@@ -120,10 +108,10 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
           sx={{ '& .MuiTableCell-root': { p: 1, border: '1px solid #ddd' } }}
         >
           <TableBody>
-            {headers.map(({ tempKey, isActive, key, value }, index) => {
-              // console.log(key, tempKey);
+            {mapData.map(({ uuid, isActive, key, value }, index) => {
+              console.log(uuid);
               return (
-                <TableRow key={key ? key : tempKey}>
+                <TableRow key={uuid}>
                   <TableCell sx={{ width: '40px' }}>
                     <Checkbox
                       tabIndex={-1}
@@ -162,11 +150,11 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
                         onBlur={onBlurData}
                         sx={{ ml: 1, width: 'calc(50% - 24px)' }}
                       />
-                      {headers.length !== 1 && (
+                      {mapData.length !== 1 && (
                         <IconButton
                           tabIndex={-1}
                           color="error"
-                          onClick={() => onRemoveRow(key ? key : tempKey)}
+                          onClick={() => onRemoveRow(uuid)}
                         >
                           <RemoveCircleIcon />
                         </IconButton>
@@ -188,4 +176,4 @@ const KeyValueInput = ({ datas, onChange }: KeyValueInputProps) => {
   );
 };
 
-export default KeyValueInput;
+export default MapInput;

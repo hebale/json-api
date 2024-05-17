@@ -1,6 +1,6 @@
 import React, { useContext, useCallback } from 'react';
 
-import KeyValueInput, { KeyValueData } from '~/features/KeyValueInput';
+import MapInput, { KeyValueData } from '~/features/MapInput';
 
 import { ApiContext } from '~/components/ListItem';
 import { ApiData } from '~/types/components';
@@ -33,7 +33,7 @@ const Headers = () => {
     }
   };
 
-  return <KeyValueInput datas={headers} onChange={onChange} />;
+  return <MapInput datas={headers} onChange={onChange} />;
 };
 
 export default Headers;

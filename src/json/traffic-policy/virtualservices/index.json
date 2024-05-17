@@ -2,16 +2,19 @@
   "path": "/traffic-policy/virtualservices",
   "headers": [
     {
+      "uuid": "eicnmv-ekvieknmvld",
       "isActive": true,
       "key": "optimistic-update-test",
       "value": "gateway"
     },
     {
+      "uuid": "eicnmv-e123ddasd",
       "isActive": false,
       "key": "cvxcvxdfvcxvdxvceedfsdf",
       "value": ""
     },
     {
+      "uuid": "123dfxc-ekvieknmvld",
       "isActive": false,
       "key": "zXC",
       "value": ""
