@@ -2,35 +2,23 @@
   "path": "/traffic-policy/virtualservices",
   "headers": [
     {
-      "uuid": "eicnmv-ekvieknmvld",
+      "uuid": "72d33570-0d74-40d1-9314-6fa1eb187e96",
       "isActive": true,
-      "key": "optimistic-update-test",
-      "value": "gateway"
-    },
-    {
-      "uuid": "eicnmv-e123ddasd",
-      "isActive": false,
-      "key": "cvxcvxdfvcxvdxvceedfsdf",
-      "value": ""
-    },
-    {
-      "uuid": "123dfxc-ekvieknmvld",
-      "isActive": false,
-      "key": "zXC",
-      "value": ""
+      "key": "Content-type",
+      "value": "false"
     }
   ],
-  "methods": [
-    {
-      "method": "GET",
-      "delay": 500,
-      "status": 403,
-      "code": {
-        "isActive": false,
-        "value": "function pipeline(request, response) {\n  const { query, body} = request;\n  // code goes here\n\n\n  return response;\n}"
-      }
+  "methods": {
+    "DELETE": {
+      "delay": 0,
+      "status": 401
+    },
+    "GET": {
+      "delay": 1500,
+      "status": 501
     }
-  ],
+  },
+  "pipeline": [],
   "response": [
     {
       "name": "reviews.prod.svc.cluster.local",

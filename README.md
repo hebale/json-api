@@ -126,9 +126,10 @@ json-api
 
 3. 상세 UI
 
-   - update 행위가 일어나도 focus된 항목은 유지
+   - update 행위가 일어나도 focus된 항목은 유지 (header)
    - 동일한 key가 입력될시 onChange(x) 오류 표시
-   - 반복적인 호출로 인한 optimistic update 값이 오염되지 않음
+   - 반복적인 호출로 인한 optimistic update 값이 오염되지 않음 ((처리)
+   -
 
 4. 이슈사항
    - 리스트의 key값을 유지해야하는지 따로 업데이트가 필요한 값으로 대체할지 선택(ex. cryto.randomUUID());

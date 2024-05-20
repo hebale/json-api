@@ -4,6 +4,7 @@ import queryKeys from './key';
 
 import useAlert from '~/hooks/useAlert';
 import type { ApiData } from '~/types/components';
+import Headers from '../components/ListItem/Details/Headers';
 
 export const postApi = () => {
   const queryClient = useQueryClient();
@@ -42,7 +43,6 @@ export const patchApiHeaders = () => {
       const prevData = queryClient.getQueryData(queryKeys.all);
       const { path, headers } = newHeaders;
 
-      console.log('>>>>>>>>>>>> prev data', prevData);
       queryClient.setQueryData(queryKeys.all, (oldValue) => {
         return oldValue.map((value) => {
           if (value.path === path) {
@@ -74,30 +74,112 @@ export const patchApiMethod = () => {
   return useMutation({
     mutationFn: (params: any) =>
       http.patch('/api/v1/json/methods', { body: params }),
-    onSuccess: (_, variables) => {
-      const { path, method, delay, status } = variables;
-      queryClient.setQueryData(queryKeys.all, (oldDatas: ApiData[]) => {
-        oldDatas.map((oldData) => {
-          if (oldData.path !== path) return oldData;
-          oldData.methods = oldData.methods.map((_method) => {
-            if (method === _method.method) {
-              _method = {
-                ..._method,
-                ...(delay !== undefined && { delay }),
-                ...(status && { status }),
-              };
-            }
-            return _method;
-          });
+    onMutate: async (newMethod) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.all });
+
+      const prevData = queryClient.getQueryData(queryKeys.all);
+      const { path, method } = newMethod;
+
+      queryClient.setQueryData(queryKeys.all, (oldValue) => {
+        return oldValue.map((value) => {
+          if (value.path === path) {
+            value.methods[method] = { delay: 0, status: 200 };
+          }
+          return value;
         });
-        return oldDatas;
       });
+
+      return { prevData };
     },
-    onError: (err: { status: number; message: string }) => {
+    onError: (err: { status: number; message: string }, _, context) => {
+      queryClient.setQueryData(queryKeys.all, context?.prevData);
       openAlert({
         type: 'error',
         message: `오류가 발생했습니다. 다시 시도해 주세요.\nstatus: ${err.status}\nmessage: ${err.message}`,
       });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    },
+  });
+};
+
+export const putApiMethod = () => {
+  const queryClient = useQueryClient();
+  const { openAlert } = useAlert();
+
+  return useMutation({
+    mutationFn: (params: {
+      path: string;
+      method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
+    }) => http.put('/api/v1/json/methods', { body: params }),
+    onMutate: async (newMethod) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.all });
+
+      const prevData = queryClient.getQueryData(queryKeys.all);
+      const { path, method } = newMethod;
+
+      queryClient.setQueryData(queryKeys.all, (oldValue) => {
+        return oldValue.map((value) => {
+          if (value.path === path) {
+            value.methods[method] = { delay: 0, status: 200 };
+          }
+          return value;
+        });
+      });
+
+      console.log('>>>> prev data', prevData);
+
+      return { prevData };
+    },
+    onError: (err: { status: number; message: string }, _, context) => {
+      queryClient.setQueryData(queryKeys.all, context?.prevData);
+      openAlert({
+        type: 'error',
+        message: `오류가 발생했습니다. 다시 시도해 주세요.\nstatus: ${err.status}\nmessage: ${err.message}`,
+      });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    },
+  });
+};
+
+export const deleteApiMethod = () => {
+  const queryClient = useQueryClient();
+  const { openAlert } = useAlert();
+
+  return useMutation({
+    mutationFn: (params: {
+      path: string;
+      method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
+    }) => http.delete('/api/v1/json/methods', { body: params }),
+    onMutate: async (newMethod) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.all });
+
+      const prevData = queryClient.getQueryData(queryKeys.all);
+      const { path, method } = newMethod;
+
+      queryClient.setQueryData(queryKeys.all, (oldValue) => {
+        return oldValue.map((value) => {
+          if (value.path === path) {
+            delete value.methods[method];
+          }
+          return value;
+        });
+      });
+
+      return { prevData };
+    },
+    onError: (err: { status: number; message: string }, _, context) => {
+      queryClient.setQueryData(queryKeys.all, context?.prevData);
+      openAlert({
+        type: 'error',
+        message: `오류가 발생했습니다. 다시 시도해 주세요.\nstatus: ${err.status}\nmessage: ${err.message}`,
+      });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
     },
   });
 };

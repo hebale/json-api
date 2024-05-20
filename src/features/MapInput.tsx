@@ -11,7 +11,6 @@ import {
   IconButton,
 } from '@mui/material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import { deepClone } from '~/utils';
 
@@ -29,12 +28,28 @@ export type MapData = {
 };
 
 const MapInput = ({ datas, onChange }: MapInputProps) => {
-  const [mapData, setMapData] = useState<MapData[]>(deepClone(datas) ?? []);
+  const [mapData, setMapData] = useState<MapData[]>([]);
   const focusInput = useRef<HTMLInputElement[]>([]);
   const focusIndex = useRef<number | null>(null);
 
   useEffect(() => {
-    setMapData(deepClone(datas) ?? []);
+    if (!datas?.length && !mapData.length) return onAddRow();
+
+    setMapData((prev) => {
+      let clonedData = deepClone(datas);
+
+      prev.forEach((data, index) => {
+        if (!data.key) {
+          clonedData = [
+            ...clonedData.slice(0, index),
+            data,
+            ...clonedData.slice(index),
+          ];
+        }
+      });
+
+      return clonedData ?? [];
+    });
 
     if (focusIndex.current !== null) {
       focusInput.current[focusIndex.current].focus();
@@ -42,25 +57,24 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
     }
   }, [datas]);
 
-  const beforeOnChange = (mapData: MapData[]) => {
-    console.log(mapData);
-    // onChange(
-    //   mapData
-    //     .filter((header) => !!header.key)
-    //     .map((header) => {
-    //       if (header.uuid) delete header.uuid;
-    //       return header;
-    //     })
-    // );
+  useEffect(() => {
+    if (!!mapData.at(-1)?.key) onAddRow();
+  }, [mapData]);
+
+  const exportData = (datas: MapData[]) => {
+    setMapData(() => {
+      onChange(datas.filter((data) => !!data.key));
+      return datas;
+    });
   };
 
   const onChangeUsage = (
     e: React.ChangeEvent<HTMLInputElement>,
-    key: string
+    uuid: string
   ) => {
-    beforeOnChange(
+    exportData(
       mapData.map((data) => {
-        if (data.key === key) data.isActive = e.target.checked;
+        if (data.uuid === uuid) data.isActive = e.target.checked;
         return data;
       })
     );
@@ -68,12 +82,12 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
 
   const onChangeData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number,
+    uuid: string,
     key: string
   ) => {
-    beforeOnChange(
-      mapData.map((data, _index) => {
-        if (index === _index) {
+    exportData(
+      mapData.map((data) => {
+        if (data.uuid === uuid) {
           data[key] = e.target.value;
         }
         return data;
@@ -90,14 +104,17 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
   };
 
   const onAddRow = () => {
-    setMapData((prev) => [
-      ...prev,
+    setMapData([
+      ...mapData,
       { uuid: crypto.randomUUID(), isActive: false, key: '', value: '' },
     ]);
   };
 
   const onRemoveRow = (uuid: string) => {
-    setMapData((prev) => prev.filter((data) => data.uuid !== uuid));
+    const isOnChange = !mapData.some((data) => data.uuid === uuid && !data.key);
+    const removedData = mapData.filter((data) => data.uuid !== uuid);
+
+    isOnChange ? exportData(removedData) : setMapData(removedData);
   };
 
   return (
@@ -108,49 +125,48 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
           sx={{ '& .MuiTableCell-root': { p: 1, border: '1px solid #ddd' } }}
         >
           <TableBody>
-            {mapData.map(({ uuid, isActive, key, value }, index) => {
-              console.log(uuid);
-              return (
-                <TableRow key={uuid}>
-                  <TableCell sx={{ width: '40px' }}>
-                    <Checkbox
-                      tabIndex={-1}
-                      checked={isActive}
-                      disabled={!key}
-                      onChange={(e) => onChangeUsage(e, key)}
+            {mapData.map(({ uuid, isActive, key, value }, index) => (
+              <TableRow key={uuid}>
+                <TableCell sx={{ width: '40px' }}>
+                  <Checkbox
+                    tabIndex={-1}
+                    checked={isActive}
+                    disabled={!key}
+                    onChange={(e) => onChangeUsage(e, uuid)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Stack direction="row">
+                    <OutlinedInput
+                      inputRef={(element) => {
+                        if (element) {
+                          focusInput.current[index * 2] = element;
+                        }
+                      }}
+                      size="small"
+                      placeholder="key"
+                      defaultValue={key}
+                      onFocus={() => onFocusData(index * 2)}
+                      onChange={(e) => onChangeData(e, uuid, 'key')}
+                      onBlur={onBlurData}
+                      sx={{ width: 'calc(50% - 24px)' }}
                     />
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="row">
-                      <OutlinedInput
-                        inputRef={(element) => {
-                          if (element) {
-                            focusInput.current[index * 2] = element;
-                          }
-                        }}
-                        size="small"
-                        placeholder="key"
-                        defaultValue={key}
-                        onFocus={() => onFocusData(index * 2)}
-                        onChange={(e) => onChangeData(e, index, 'key')}
-                        onBlur={onBlurData}
-                        sx={{ width: 'calc(50% - 24px)' }}
-                      />
-                      <OutlinedInput
-                        inputRef={(element) => {
-                          if (element) {
-                            focusInput.current[index * 2 + 1] = element;
-                          }
-                        }}
-                        size="small"
-                        placeholder="value"
-                        defaultValue={value}
-                        onFocus={() => onFocusData(index * 2 + 1)}
-                        onChange={(e) => onChangeData(e, index, 'value')}
-                        onBlur={onBlurData}
-                        sx={{ ml: 1, width: 'calc(50% - 24px)' }}
-                      />
-                      {mapData.length !== 1 && (
+                    <OutlinedInput
+                      inputRef={(element) => {
+                        if (element) {
+                          focusInput.current[index * 2 + 1] = element;
+                        }
+                      }}
+                      size="small"
+                      placeholder="value"
+                      defaultValue={value}
+                      onFocus={() => onFocusData(index * 2 + 1)}
+                      onChange={(e) => onChangeData(e, uuid, 'value')}
+                      onBlur={onBlurData}
+                      sx={{ ml: 1, width: 'calc(50% - 24px)' }}
+                    />
+                    <div style={{ width: '40px' }}>
+                      {mapData.length !== 1 && mapData.length - 1 !== index && (
                         <IconButton
                           tabIndex={-1}
                           color="error"
@@ -159,19 +175,14 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
                           <RemoveCircleIcon />
                         </IconButton>
                       )}
-                    </Stack>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                    </div>
+                  </Stack>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Stack alignItems="center">
-        <IconButton tabIndex={-1} color="info" onClick={onAddRow}>
-          <AddCircleIcon />
-        </IconButton>
-      </Stack>
     </>
   );
 };

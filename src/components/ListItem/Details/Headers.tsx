@@ -1,6 +1,6 @@
 import React, { useContext, useCallback } from 'react';
 
-import MapInput, { KeyValueData } from '~/features/MapInput';
+import MapInput, { MapData } from '~/features/MapInput';
 
 import { ApiContext } from '~/components/ListItem';
 import { ApiData } from '~/types/components';
@@ -8,29 +8,29 @@ import { ApiData } from '~/types/components';
 import { patchApiHeaders } from '~/api';
 import { debounce } from '~/utils';
 
+const isDebounceChange = (origin: MapData[], mutation: MapData[]) => {
+  if (origin.length > mutation.length) return false;
+  if (origin.length < mutation.length) return true;
+
+  return !origin.every(
+    (data, index) =>
+      data.key === mutation[index].key && data.value === mutation[index].value
+  );
+};
+
 const Headers = () => {
   const { path, headers } = useContext(ApiContext) as ApiData;
   const { mutate } = patchApiHeaders();
 
-  const fetchCall = useCallback(
-    debounce((datas: Pick<ApiData, 'headers'>) => {
-      mutate({ path, headers: datas });
-    }, 500),
+  const onDebounceMutate = useCallback(
+    debounce((params: Pick<ApiData, 'headers'>) => mutate(params), 1500),
     []
   );
 
-  const onChange = (datas: KeyValueData[]) => {
-    console.log(datas);
-
-    if (
-      headers.length !== datas.length ||
-      headers.map((header) => header.isActive).join() !==
-        datas.map((data) => data.isActive).join()
-    ) {
-      mutate({ path, headers: datas });
-    } else {
-      fetchCall(datas);
-    }
+  const onChange = (datas: MapData[]) => {
+    isDebounceChange(headers, datas)
+      ? onDebounceMutate({ path, headers: datas })
+      : mutate({ path, headers: datas });
   };
 
   return <MapInput datas={headers} onChange={onChange} />;

@@ -11,7 +11,6 @@ const hasDir = (path) => {
 };
 
 const root = $path.resolve(process.cwd(), './src/json');
-
 const getBasePath = (path) => $path.resolve(process.cwd(), `./src/json${path}`);
 
 const json = ({ app }) => {
@@ -167,52 +166,6 @@ const json = ({ app }) => {
   });
 
   /**
-   *  단일 JSON파일 methods값 수정
-   */
-  app.patch('/api/v1/json/methods', (req, res) => {
-    try {
-      const { path, method, delay, status } = req.body;
-      if (!method && (!delay || !status)) throw new Error('Unvalid Parameters');
-
-      const basePath = getBasePath(path);
-      const response = $fs.readFileSync(`${basePath}/index.json`, {
-        encoding: 'utf-8',
-        flag: 'r',
-      });
-      const jsonData = JSON.parse(response);
-
-      if (delay === 0 || delay) {
-        jsonData.methods = jsonData.methods.map((_) => {
-          if (_.method === method) _.delay = delay;
-          return _;
-        });
-      }
-
-      if (status) {
-        jsonData.methods = jsonData.methods.map((_) => {
-          if (_.method === method) _.status = status;
-          return _;
-        });
-      }
-
-      $fs.writeFileSync(
-        $path.join(basePath, '/index.json'),
-        JSON.stringify(jsonData, null, 2)
-      );
-
-      res.send({
-        code: 200,
-        message: 'Ok',
-      });
-    } catch (err) {
-      res.status(500).send({
-        code: 500,
-        message: 'Internal Server Error',
-      });
-    }
-  });
-
-  /**
    *  단일 JSON파일 response값 수정
    */
   app.patch('/api/v1/json/response', (req, res) => {
@@ -306,6 +259,146 @@ const json = ({ app }) => {
       });
     }
   });
+
+  /**
+   * JSON METHODS API
+   */
+  app.use('/api/v1/json/methods', (req, res) => {
+    try {
+      const { path, method, delay, status } = req.body;
+
+      const basePath = getBasePath(path);
+      const response = $fs.readFileSync(`${basePath}/index.json`, {
+        encoding: 'utf-8',
+        flag: 'r',
+      });
+      const jsonData = JSON.parse(response);
+
+      switch (req.method) {
+        case 'PATCH':
+          jsonData.methods[method] = {
+            ...jsonData.methods[method],
+            ...(delay && { delay }),
+            ...(status && { status }),
+          };
+          break;
+        case 'PUT':
+          jsonData.methods[method] = { delay: 0, status: 200 };
+          break;
+        case 'DELETE':
+          delete jsonData.methods[method];
+          break;
+      }
+
+      $fs.writeFileSync(
+        $path.join(basePath, '/index.json'),
+        JSON.stringify(jsonData, null, 2)
+      );
+
+      res.send({
+        code: 200,
+        message: 'Ok',
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: 'Internal Server Error',
+      });
+    }
+  });
 };
+
+// app.patch('/api/v1/json/methods', (req, res) => {
+//   try {
+//     const { path, method, delay, status } = req.body;
+//     if (!method && (!delay || !status)) throw new Error('Unvalid Parameters');
+
+//     const basePath = getBasePath(path);
+//     const response = $fs.readFileSync(`${basePath}/index.json`, {
+//       encoding: 'utf-8',
+//       flag: 'r',
+//     });
+//     const jsonData = JSON.parse(response);
+
+//     jsonData.methods[method] = {
+//       ...jsonData.methods[method],
+//       ...(delay && { delay }),
+//       ...(status && { status }),
+//     };
+
+//     $fs.writeFileSync(
+//       $path.join(basePath, '/index.json'),
+//       JSON.stringify(jsonData, null, 2)
+//     );
+
+//     res.send({
+//       code: 200,
+//       message: 'Ok',
+//     });
+//   } catch (err) {
+//     res.status(500).send({
+//       code: 500,
+//       message: 'Internal Server Error',
+//     });
+//   }
+// });
+// app.put('/api/v1/json/methods', (req, res) => {
+//   try {
+//     const { path, method } = req.body;
+
+//     const basePath = getBasePath(path);
+//     const response = $fs.readFileSync(`${basePath}/index.json`, {
+//       encoding: 'utf-8',
+//       flag: 'r',
+//     });
+//     const jsonData = JSON.parse(response);
+
+//     jsonData.methods[method] = { delay: 0, status: 200 };
+
+//     $fs.writeFileSync(
+//       $path.join(basePath, '/index.json'),
+//       JSON.stringify(jsonData, null, 2)
+//     );
+
+//     res.send({
+//       code: 200,
+//       message: 'Ok',
+//     });
+//   } catch (err) {
+//     res.status(500).send({
+//       code: 500,
+//       message: 'Internal Server Error',
+//     });
+//   }
+// });
+// app.delete('/api/v1/json/methods', (req, res) => {
+//   try {
+//     const { path, method } = req.body;
+
+//     const basePath = getBasePath(path);
+//     const response = $fs.readFileSync(`${basePath}/index.json`, {
+//       encoding: 'utf-8',
+//       flag: 'r',
+//     });
+//     const jsonData = JSON.parse(response);
+
+//     delete jsonData.methods[method];
+
+//     $fs.writeFileSync(
+//       $path.join(basePath, '/index.json'),
+//       JSON.stringify(jsonData, null, 2)
+//     );
+
+//     res.send({
+//       code: 200,
+//       message: 'Ok',
+//     });
+//   } catch (err) {
+//     res.status(500).send({
+//       code: 500,
+//       message: 'Internal Server Error',
+//     });
+//   }
+// });
 
 module.exports = json;
