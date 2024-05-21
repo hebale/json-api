@@ -2,23 +2,31 @@
   "path": "/traffic-policy/virtualservices",
   "headers": [
     {
-      "uuid": "72d33570-0d74-40d1-9314-6fa1eb187e96",
       "isActive": true,
-      "key": "Content-type",
-      "value": "false"
+      "key": "optimistic-update-test",
+      "value": "gateway"
+    },
+    {
+      "isActive": false,
+      "key": "cvxcvxdfvcxvdxvceedfsdf",
+      "value": ""
+    },
+    {
+      "isActive": false,
+      "key": "zXC",
+      "value": ""
     }
   ],
   "methods": {
-    "DELETE": {
-      "delay": 0,
-      "status": 401
-    },
     "GET": {
-      "delay": 1500,
-      "status": 501
+      "delay": 0,
+      "status": 304
+    },
+    "DELETE": {
+      "delay": 100,
+      "status": 200
     }
   },
-  "pipeline": [],
   "response": [
     {
       "name": "reviews.prod.svc.cluster.local",

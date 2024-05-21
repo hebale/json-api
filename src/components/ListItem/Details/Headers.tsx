@@ -27,10 +27,10 @@ const Headers = () => {
     []
   );
 
-  const onChange = (datas: MapData[]) => {
-    isDebounceChange(headers, datas)
-      ? onDebounceMutate({ path, headers: datas })
-      : mutate({ path, headers: datas });
+  const onChange = (data: MapData[]) => {
+    isDebounceChange(headers, data)
+      ? onDebounceMutate({ path, data })
+      : mutate({ path, data });
   };
 
   return <MapInput datas={headers} onChange={onChange} />;
