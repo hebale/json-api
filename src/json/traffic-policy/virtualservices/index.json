@@ -1,22 +1,6 @@
 {
   "path": "/traffic-policy/virtualservices",
-  "headers": [
-    {
-      "isActive": true,
-      "key": "optimistic-update-test",
-      "value": "gateway"
-    },
-    {
-      "isActive": false,
-      "key": "cvxcvxdfvcxvdxvceedfsdf",
-      "value": ""
-    },
-    {
-      "isActive": false,
-      "key": "zXC",
-      "value": ""
-    }
-  ],
+  "headers": [],
   "methods": {
     "GET": {
       "delay": 0,

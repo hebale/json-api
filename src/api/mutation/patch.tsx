@@ -6,7 +6,7 @@ import useAlert from '~/hooks/useAlert';
 
 import type { ApiParam, ApiData, Header, Method, Response, Error } from '~/api';
 
-export const patchApiHeaders = () => {
+export const patchApiHeader = () => {
   const queryClient = useQueryClient();
   const { openAlert } = useAlert();
 
