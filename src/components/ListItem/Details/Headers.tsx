@@ -29,33 +29,35 @@ const Headers = () => {
   const onChange = (datas: MapData[]) => {
     if (!datas.length) return;
 
+    console.log(datas, headers);
+
     if (headers.length > datas.length) {
       const key = headers.findIndex(
-        (data, index) => data.uuid !== datas[index].uuid
+        (data, index) => data.uuid !== datas[index]?.uuid
       );
-      deleteMutate({ path, key });
+
+      return deleteMutate({ path, key });
     }
 
-    if (datas.length < headers.length) {
+    if (datas.length > headers.length) {
       const key = datas.findIndex(
-        (data, index) => data.uuid !== headers[index].uuid
+        (data, index) => data.uuid !== headers[index]?.uuid
       );
-      postMutate({ path, key, data: datas[key] });
+      const count = datas.length - headers.length;
+
+      return onDebounceMutate(
+        { path, key, data: datas.slice(key, key + count) },
+        postMutate
+      );
     }
 
     datas.every((data, index) => {
-      const isSame =
-        data.isActive === headers[index].isActive &&
-        data.key === headers[index].key &&
-        data.value === headers[index].value;
+      const isSameKeyValue =
+        data.key === headers[index].key && data.value === headers[index].value;
 
-      if (!isSame) {
-        data.isActive === headers[index].isActive
-          ? patchMutate({ path, key: index, data })
-          : onDebounceMutate({ path, key: index, data }, patchMutate);
-      }
-
-      return isSame;
+      isSameKeyValue
+        ? patchMutate({ path, key: index, data })
+        : onDebounceMutate({ path, key: index, data }, patchMutate);
     });
   };
 

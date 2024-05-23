@@ -41,9 +41,9 @@ export const postApiHeader = () => {
   const { openAlert } = useAlert();
 
   return useMutation({
-    mutationFn: (params: ApiParam<Header>) =>
+    mutationFn: (params: ApiParam<Header[]>) =>
       http.post('api/v1/json/headers', { body: params }),
-    onMutate: async (params: ApiParam<Header>) => {
+    onMutate: async (params: ApiParam<Header[]>) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.all });
       const origin = queryClient.getQueryData(queryKeys.all);
 
@@ -56,7 +56,7 @@ export const postApiHeader = () => {
               ...api,
               headers: [
                 ...api.headers.slice(0, key as number),
-                data,
+                ...data,
                 ...api.headers.slice(key as number),
               ],
             };

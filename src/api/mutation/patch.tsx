@@ -25,7 +25,7 @@ export const patchApiHeader = () => {
             api.headers = [
               ...api.headers.slice(0, key as number),
               data,
-              ...api.headers.slice(key as number),
+              ...api.headers.slice((key as number) + 1),
             ];
           }
           return api;

@@ -124,13 +124,14 @@ const json = ({ app }) => {
       switch (req.method) {
         case 'POST':
         case 'PUT':
+        case 'PATCH':
           setJsonData(basePath, {
             ...jsonData,
             [id]: isDataTypeArray
               ? [
-                  ...jsonData.slice(0, key),
-                  data,
-                  ...jsonData.slice(key + (req.method === 'PUT')),
+                  ...jsonData[id].slice(0, key),
+                  ...(req.method === 'POST' ? data : [data]),
+                  ...jsonData[id].slice(key + (req.method !== 'POST')),
                 ]
               : { ...jsonData[id], [key]: data },
           });
@@ -140,7 +141,7 @@ const json = ({ app }) => {
           setJsonData(basePath, {
             ...jsonData,
             [id]: isDataTypeArray
-              ? [...jsonData.slice(0, key), ...jsonData.slice(key)]
+              ? [...jsonData[id].slice(0, key), ...jsonData[id].slice(key + 1)]
               : (() => {
                   delete jsonData[id][key];
                   return jsonData[id];

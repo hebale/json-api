@@ -27,6 +27,13 @@ export type MapData = {
   [key: string]: string | boolean;
 };
 
+const createDefaultMapInput = () => ({
+  uuid: crypto.randomUUID(),
+  isActive: false,
+  key: '',
+  value: '',
+});
+
 const MapInput = ({ datas, onChange }: MapInputProps) => {
   const [mapData, setMapData] = useState<MapData[]>([]);
   const focusInput = useRef<HTMLInputElement[]>([]);
@@ -34,23 +41,9 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
 
   useEffect(() => {
     if (!datas?.length && !mapData.length) return onAddRow();
+    setMapData(() => deepClone(datas).concat(createDefaultMapInput()));
 
-    setMapData((prev) => {
-      let clonedData = deepClone(datas);
-
-      prev.forEach((data, index) => {
-        if (!data.key) {
-          clonedData = [
-            ...clonedData.slice(0, index),
-            data,
-            ...clonedData.slice(index),
-          ];
-        }
-      });
-
-      return clonedData ?? [];
-    });
-
+    /* input focus */
     if (focusIndex.current !== null) {
       focusInput.current[focusIndex.current].focus();
       focusIndex.current = null;
@@ -58,12 +51,18 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
   }, [datas]);
 
   useEffect(() => {
-    if (!!mapData.at(-1)?.key) onAddRow();
+    if (!mapData.length) return;
+    const { key, value } = mapData?.at(-1) as MapData;
+    if (!!key || !!value) onAddRow();
   }, [mapData]);
+
+  const onAddRow = () => {
+    setMapData(() => [...mapData, createDefaultMapInput()]);
+  };
 
   const exportData = (datas: MapData[]) => {
     setMapData(() => {
-      onChange(datas.filter((data) => !!data.key));
+      onChange(datas);
       return datas;
     });
   };
@@ -103,18 +102,12 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
     focusIndex.current = null;
   };
 
-  const onAddRow = () => {
-    setMapData([
-      ...mapData,
-      { uuid: crypto.randomUUID(), isActive: false, key: '', value: '' },
-    ]);
-  };
-
   const onRemoveRow = (uuid: string) => {
-    const isOnChange = !mapData.some((data) => data.uuid === uuid && !data.key);
+    // const isOnChange = !mapData.some((data) => data.uuid === uuid && !data.key);
     const removedData = mapData.filter((data) => data.uuid !== uuid);
 
-    isOnChange ? exportData(removedData) : setMapData(removedData);
+    exportData(removedData.slice(0, removedData.length - 1));
+    // isOnChange ? exportData(removedData) : setMapData(removedData);
   };
 
   return (
@@ -165,6 +158,7 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
                       onBlur={onBlurData}
                       sx={{ ml: 1, width: 'calc(50% - 24px)' }}
                     />
+                    {/* <div>{uuid}</div> */}
                     <div style={{ width: '40px' }}>
                       {mapData.length !== 1 && mapData.length - 1 !== index && (
                         <IconButton
