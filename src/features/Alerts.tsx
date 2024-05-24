@@ -1,12 +1,10 @@
 import React, { useContext } from 'react';
 import { Box, Alert, Collapse } from '@mui/material';
 import { TransitionGroup } from 'react-transition-group';
-
 import {
   AlertStatusContext,
   AlertDispatchContext,
 } from '~/contexts/AlertContext';
-
 import type { AlertProps } from '~/types/features';
 
 const Alerts = () => {

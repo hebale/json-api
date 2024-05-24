@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-
 import { ApiContext } from '~/components/ListItem';
 import { patchApiMethod, putApiMethod, deleteApiMethod } from '~/api';
 import { debounce } from '~/utils';
-
 import Method from './Method';
-
 import type { ApiData } from '~/types/components';
 
 type MethodsProps = {

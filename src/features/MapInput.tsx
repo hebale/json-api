@@ -11,7 +11,6 @@ import {
   IconButton,
 } from '@mui/material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-
 import { deepClone } from '~/utils';
 
 type MapInputProps = {
@@ -27,7 +26,7 @@ export type MapData = {
   [key: string]: string | boolean;
 };
 
-const createDefaultMapInput = () => ({
+const createMapInput = () => ({
   uuid: crypto.randomUUID(),
   isActive: false,
   key: '',
@@ -40,33 +39,23 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
   const focusIndex = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!datas?.length && !mapData.length) return onAddRow();
-    setMapData(() => deepClone(datas).concat(createDefaultMapInput()));
-
-    /* input focus */
+    /* Focus Refs */
     if (focusIndex.current !== null) {
       focusInput.current[focusIndex.current].focus();
       focusIndex.current = null;
     }
+
+    setMapData(() => deepClone(datas).concat(createMapInput()));
   }, [datas]);
-
-  useEffect(() => {
-    if (!mapData.length) return;
-    const { key, value } = mapData?.at(-1) as MapData;
-    if (!!key || !!value) onAddRow();
-  }, [mapData]);
-
-  const onAddRow = () => {
-    setMapData(() => [...mapData, createDefaultMapInput()]);
-  };
 
   const exportData = (datas: MapData[]) => {
     setMapData(() => {
-      onChange(datas);
+      onChange(datas.slice(0, datas.length - 1));
       return datas;
     });
   };
 
+  /* Change Data */
   const onChangeUsage = (
     e: React.ChangeEvent<HTMLInputElement>,
     uuid: string
@@ -78,36 +67,43 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
       })
     );
   };
-
   const onChangeData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     uuid: string,
     key: string
   ) => {
+    const index = mapData.findIndex((data) => data.uuid === uuid);
+
     exportData(
-      mapData.map((data) => {
-        if (data.uuid === uuid) {
-          data[key] = e.target.value;
-        }
-        return data;
-      })
+      (() => {
+        const changedMapData = mapData.map((data) => {
+          if (data.uuid === uuid) {
+            data[key] = e.target.value;
+          }
+          return data;
+        });
+
+        return mapData.length - 1 === index
+          ? changedMapData.concat(createMapInput())
+          : changedMapData;
+      })()
     );
   };
 
+  /* Change Row */
+  const onAddRow = () => {
+    setMapData(() => [...mapData, createMapInput()]);
+  };
+  const onRemoveRow = (uuid: string) => {
+    exportData(mapData.filter((data) => data.uuid !== uuid));
+  };
+
+  /* Focus & Blur */
   const onFocusData = (index: number) => {
     focusIndex.current = index;
   };
-
   const onBlurData = () => {
     focusIndex.current = null;
-  };
-
-  const onRemoveRow = (uuid: string) => {
-    // const isOnChange = !mapData.some((data) => data.uuid === uuid && !data.key);
-    const removedData = mapData.filter((data) => data.uuid !== uuid);
-
-    exportData(removedData.slice(0, removedData.length - 1));
-    // isOnChange ? exportData(removedData) : setMapData(removedData);
   };
 
   return (
@@ -158,7 +154,6 @@ const MapInput = ({ datas, onChange }: MapInputProps) => {
                       onBlur={onBlurData}
                       sx={{ ml: 1, width: 'calc(50% - 24px)' }}
                     />
-                    {/* <div>{uuid}</div> */}
                     <div style={{ width: '40px' }}>
                       {mapData.length !== 1 && mapData.length - 1 !== index && (
                         <IconButton

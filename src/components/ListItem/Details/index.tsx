@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { AccordionDetails, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-
 import Headers from './Headers';
 import Methods from './Methods';
 import Response from './Response';

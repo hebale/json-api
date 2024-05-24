@@ -1,10 +1,7 @@
 import React, { useContext, useCallback } from 'react';
-
 import MapInput, { MapData } from '~/features/MapInput';
-
 import { ApiContext } from '~/components/ListItem';
 import { ApiData } from '~/types/components';
-
 import { postApiHeader, patchApiHeader, deleteApiHeader } from '~/api';
 import { debounce } from '~/utils';
 
@@ -25,12 +22,11 @@ const Headers = () => {
     []
   );
 
-  // fetching
   const onChange = (datas: MapData[]) => {
-    if (!datas.length) return;
+    // console.log('headers', headers);
+    // console.log('datas', datas);
 
-    console.log(datas, headers);
-
+    /* Data Remove */
     if (headers.length > datas.length) {
       const key = headers.findIndex(
         (data, index) => data.uuid !== datas[index]?.uuid
@@ -39,6 +35,7 @@ const Headers = () => {
       return deleteMutate({ path, key });
     }
 
+    /* Data Create */
     if (datas.length > headers.length) {
       const key = datas.findIndex(
         (data, index) => data.uuid !== headers[index]?.uuid
@@ -51,13 +48,21 @@ const Headers = () => {
       );
     }
 
+    /* Data Update */
     datas.every((data, index) => {
+      const isContinue =
+        data.isActive === headers[index].isActive &&
+        data.key === headers[index].key &&
+        data.value === headers[index].value;
+
       const isSameKeyValue =
         data.key === headers[index].key && data.value === headers[index].value;
 
-      isSameKeyValue
+      !isContinue && isSameKeyValue
         ? patchMutate({ path, key: index, data })
         : onDebounceMutate({ path, key: index, data }, patchMutate);
+
+      return isContinue;
     });
   };
 

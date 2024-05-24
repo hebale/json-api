@@ -8,12 +8,10 @@ import {
   IconButton,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-
 import {
   DialogStatusContext,
   DialogDispatchContext,
 } from '~/contexts/DialogContext';
-
 import type { ActionProps } from '~/types/features';
 
 export const DialogContentContext = createContext<React.Dispatch<any> | null>(

@@ -7,9 +7,7 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-
 import { deepClone } from '~/utils';
-
 import type { SelectChangeEvent } from '@mui/material';
 
 type MethodProps = {

@@ -1,7 +1,6 @@
 const $fs = require('fs');
 const $path = require('path');
 const { glob } = require('glob');
-
 const root = $path.resolve(process.cwd(), './src/json');
 
 const statusMessage = {

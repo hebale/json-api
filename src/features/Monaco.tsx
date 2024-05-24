@@ -2,7 +2,6 @@ import React, { useRef, useCallback } from 'react';
 import { Stack, Box } from '@mui/material';
 import Editor, { useMonaco } from '@monaco-editor/react';
 import CircularProgress from '@mui/material/CircularProgress';
-
 import type { editor } from 'monaco-editor';
 import type { Monaco, OnMount } from '@monaco-editor/react';
 

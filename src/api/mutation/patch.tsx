@@ -1,9 +1,8 @@
 import http from '~/api/http';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import queryKeys from '~/api/key';
-
 import useAlert from '~/hooks/useAlert';
-
+import { deepClone } from '~/utils';
 import type { ApiParam, ApiData, Header, Method, Response, Error } from '~/api';
 
 export const patchApiHeader = () => {
@@ -15,7 +14,7 @@ export const patchApiHeader = () => {
       http.patch('/api/v1/json/headers', { body: params }),
     onMutate: async (params: ApiParam<Header>) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.all });
-      const origin = queryClient.getQueryData(queryKeys.all);
+      const origin = deepClone(queryClient.getQueryData(queryKeys.all));
 
       queryClient.setQueryData(queryKeys.all, (origin: ApiData[]) => {
         const { path, key, data } = params;
@@ -32,10 +31,15 @@ export const patchApiHeader = () => {
         });
       });
 
+      console.dir(origin);
+
       return { origin };
     },
     onError: (err: Error, _, context) => {
       queryClient.setQueryData(queryKeys.all, context?.origin);
+
+      console.log('what!!!!!');
+
       openAlert({
         type: 'error',
         message: `오류가 발생했습니다.\nstatus: ${err.status}\nmessage: ${err.message}`,
