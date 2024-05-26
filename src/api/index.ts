@@ -1,7 +1,7 @@
 export type ApiParam<T = undefined> = {
   path: string;
   key?: string | number;
-  data: T;
+  data?: T;
 };
 
 export type ApiData = {

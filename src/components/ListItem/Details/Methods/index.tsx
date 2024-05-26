@@ -5,12 +5,12 @@ import { debounce } from '~/utils';
 import Method from './Method';
 import type { ApiData } from '~/types/components';
 
-type MethodsProps = {
+export type MethodProps = {
   data: MethodData;
   onChange: (data: MethodData) => void;
 };
 
-type MethodData = {
+export type MethodData = {
   isActive: boolean;
   name: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
   delay: number;
@@ -24,24 +24,38 @@ const Methods = () => {
   const { mutate: patchMutate } = patchApiMethod();
   const { mutate: putApiMutate } = putApiMethod();
   const { mutate: deleteMutate } = deleteApiMethod();
+  ``;
 
   const onDebounceMutate = useCallback(
-    debounce(
-      (params: Omit<MethodData, 'isActive'>) => patchMutate(params),
-      1500
-    ),
+    debounce((params, mutate: typeof patchMutate) => mutate(params), 1500),
     []
   );
 
   const onChange = (data: MethodData) => {
     const { isActive, name: method, delay, status } = data;
 
-    if (!methods[method]) return putApiMutate({ path, method });
-    if (methods[method] && !isActive) return deleteMutate({ path, method });
+    /* Data Remove */
+    if (!isActive) return deleteMutate({ path, key: method });
 
-    methods[method].delay === delay
-      ? patchMutate({ path, method, delay, status })
-      : onDebounceMutate({ path, method, delay, status });
+    /* Data Create */
+    if (!methods.hasOwnProperty(method))
+      return putApiMutate({
+        path,
+        key: method,
+        data: { delay: 0, status: 200 },
+      });
+
+    /* Data Update */
+    delay === methods[method].delay
+      ? patchMutate({ path, key: method, data: { ...methods[method], status } })
+      : onDebounceMutate(
+          {
+            path,
+            key: method,
+            data: { ...methods[method], delay },
+          },
+          patchMutate
+        );
   };
 
   return methodNames.map((name) => {

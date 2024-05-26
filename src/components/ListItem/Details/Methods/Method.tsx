@@ -8,19 +8,8 @@ import {
   Typography,
 } from '@mui/material';
 import { deepClone } from '~/utils';
+import type { MethodProps, MethodData } from '.';
 import type { SelectChangeEvent } from '@mui/material';
-
-type MethodProps = {
-  data: MethodData;
-  onChange: (data: MethodData) => void;
-};
-
-type MethodData = {
-  isActive: boolean;
-  name: string;
-  delay: number;
-  status: number;
-};
 
 const statusCodes = [200, 304, 400, 401, 403, 405, 408, 500, 501, 505];
 

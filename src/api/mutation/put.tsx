@@ -58,7 +58,7 @@ export const putApiHeader = () => {
               ...api.headers.slice(0, key as number),
               data,
               ...api.headers.slice((key as number) + 1),
-            ];
+            ] as Header[];
           }
           return api;
         });

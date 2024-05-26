@@ -21,7 +21,7 @@ const tabConfig = [
 ];
 
 const Details = () => {
-  const [tabValue, setTabValue] = useState('headers');
+  const [tabValue, setTabValue] = useState('methods');
 
   return (
     <AccordionDetails>

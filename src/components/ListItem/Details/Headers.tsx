@@ -14,7 +14,7 @@ const Headers = () => {
   const onDebounceMutate = useCallback(
     debounce(
       (
-        params: Pick<ApiData, 'headers'>,
+        params,
         mutate: typeof postMutate | typeof patchMutate | typeof deleteMutate
       ) => mutate(params),
       1500
@@ -23,9 +23,6 @@ const Headers = () => {
   );
 
   const onChange = (datas: MapData[]) => {
-    // console.log('headers', headers);
-    // console.log('datas', datas);
-
     /* Data Remove */
     if (headers.length > datas.length) {
       const key = headers.findIndex(
@@ -49,21 +46,20 @@ const Headers = () => {
     }
 
     /* Data Update */
-    datas.every((data, index) => {
+    for (let i = 0; i < datas.length; i++) {
       const isContinue =
-        data.isActive === headers[index].isActive &&
-        data.key === headers[index].key &&
-        data.value === headers[index].value;
+        datas[i].isActive === headers[i].isActive &&
+        datas[i].key === headers[i].key &&
+        datas[i].value === headers[i].value;
 
-      const isSameKeyValue =
-        data.key === headers[index].key && data.value === headers[index].value;
+      if (isContinue) continue;
 
-      !isContinue && isSameKeyValue
-        ? patchMutate({ path, key: index, data })
-        : onDebounceMutate({ path, key: index, data }, patchMutate);
+      const isSameKeyValue = datas[i].isActive !== headers[i].isActive;
 
-      return isContinue;
-    });
+      isSameKeyValue
+        ? patchMutate({ path, key: i, data: datas[i] })
+        : onDebounceMutate({ path, key: i, data: datas[i] }, patchMutate);
+    }
   };
 
   return <MapInput datas={headers} onChange={onChange} />;
