@@ -83,7 +83,7 @@ export const highlightMarker = (
 
 export const throttle = (cb: () => void, delay: number) => {};
 
-export const debounce = (cb: (data: any) => void, delay: number) => {
+export const debounce = (cb: (...args: any) => void, delay: number) => {
   let timer: ReturnType<typeof setTimeout> | null = null;
 
   return function (...args: any) {

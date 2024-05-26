@@ -46,7 +46,7 @@ const Response = () => {
     }
 
     mutate(
-      { path, response: code },
+      { path, data: code },
       {
         onSuccess: () => {
           openAlert({ type: 'success', message: '저장 되었습니다' });

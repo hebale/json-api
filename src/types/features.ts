@@ -19,14 +19,15 @@ export type JSONData = {
     [key: string]: string;
   };
   methods: {
-    method: 'GET' | 'POST' | 'PULL' | 'PATCH' | 'DELETE';
-    delay: number;
-    status: number;
-    code: {
-      isActive: boolean;
-      value: string | null;
+    [key in 'GET' | 'POST' | 'PATCH' | 'PULL' | 'DELETE']: {
+      delay: number;
+      status: number;
+      callback: {
+        isActive: boolean;
+        code: string | null;
+      };
     };
-  }[];
+  };
   response: any;
 };
 

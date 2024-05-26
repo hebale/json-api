@@ -1,36 +1,64 @@
 import React, { useContext, useCallback } from 'react';
 
-import MapInput, { KeyValueData } from '~/features/MapInput';
+import MapInput, { MapData } from '~/features/MapInput';
 
 import { ApiContext } from '~/components/ListItem';
 import { ApiData } from '~/types/components';
 
-import { patchApiHeaders } from '~/api';
+import { postApiHeader, patchApiHeader, deleteApiHeader } from '~/api';
 import { debounce } from '~/utils';
 
 const Headers = () => {
   const { path, headers } = useContext(ApiContext) as ApiData;
-  const { mutate } = patchApiHeaders();
+  const { mutate: postMutate } = postApiHeader();
+  const { mutate: patchMutate } = patchApiHeader();
+  const { mutate: deleteMutate } = deleteApiHeader();
 
-  const fetchCall = useCallback(
-    debounce((datas: Pick<ApiData, 'headers'>) => {
-      mutate({ path, headers: datas });
-    }, 500),
+  const onDebounceMutate = useCallback(
+    debounce(
+      (
+        params: Pick<ApiData, 'headers'>,
+        mutate: typeof postMutate | typeof patchMutate | typeof deleteMutate
+      ) => mutate(params),
+      1500
+    ),
     []
   );
 
-  const onChange = (datas: KeyValueData[]) => {
-    console.log(datas);
+  // fetching
+  const onChange = (datas: MapData[]) => {
+    if (!datas.length) return;
 
-    if (
-      headers.length !== datas.length ||
-      headers.map((header) => header.isActive).join() !==
-        datas.map((data) => data.isActive).join()
-    ) {
-      mutate({ path, headers: datas });
-    } else {
-      fetchCall(datas);
+    console.log(datas, headers);
+
+    if (headers.length > datas.length) {
+      const key = headers.findIndex(
+        (data, index) => data.uuid !== datas[index]?.uuid
+      );
+
+      return deleteMutate({ path, key });
     }
+
+    if (datas.length > headers.length) {
+      const key = datas.findIndex(
+        (data, index) => data.uuid !== headers[index]?.uuid
+      );
+      const count = datas.length - headers.length;
+
+      return onDebounceMutate(
+        { path, key, data: datas.slice(key, key + count) },
+        postMutate
+      );
+    }
+
+    datas.every((data, index) => {
+      const isSameKeyValue =
+        data.key === headers[index].key && data.value === headers[index].value;
+
+      isSameKeyValue
+        ? patchMutate({ path, key: index, data })
+        : onDebounceMutate({ path, key: index, data }, patchMutate);
+    });
   };
 
   return <MapInput datas={headers} onChange={onChange} />;

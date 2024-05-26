@@ -46,10 +46,11 @@ const api = ({ app }) => {
         ? eval(code.value)(req, json.response)
         : json.response;
 
-      for (let i = 0; i < Object.keys(headers).length; i++) {
-        const key = Object.keys(headers)[i];
-
-        res.append(key, headers[key]);
+      for (let i = 0; i < headers.length; i++) {
+        if (headers[i].isActive) {
+          const { key, value } = headers[i];
+          res.append(key, value);
+        }
       }
 
       setTimeout(() => {
