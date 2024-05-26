@@ -1,11 +1,9 @@
 import React from 'react';
 import { Stack, IconButton, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
-
 import useAlert from '~/hooks/useAlert';
 import useModal from '~/hooks/useModal';
 import useDialog from '~/hooks/useDialog';
-
 import Contents from './Contents';
 import { deleteApi } from '~/api';
 

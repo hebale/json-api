@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Box, ButtonGroup } from '@mui/material';
-
 import Monaco from '~/features/Monaco';
 import CopyButton from '~/features/CopyButton';
 import SaveButton from '~/features/SaveButton';
-
+import RefreshButton from '~/features/RefreshButton';
 import { ApiContext } from '~/components/ListItem';
 import { ApiData } from '~/types/components';
-
 import useAlert from '~/hooks/useAlert';
 import { patchApiResponse } from '~/api';
-
 import type { editor } from 'monaco-editor';
-import RefreshButton from '~/features/RefreshButton';
 
 const Response = () => {
   const { path, response } = useContext(ApiContext) as ApiData;

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { Accordion } from '@mui/material';
-
 import Summary from './Summary';
 import Details from './Details';
 

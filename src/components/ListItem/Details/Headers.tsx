@@ -1,10 +1,7 @@
 import React, { useContext, useCallback } from 'react';
-
 import MapInput, { MapData } from '~/features/MapInput';
-
 import { ApiContext } from '~/components/ListItem';
 import { ApiData } from '~/types/components';
-
 import { postApiHeader, patchApiHeader, deleteApiHeader } from '~/api';
 import { debounce } from '~/utils';
 
@@ -17,7 +14,7 @@ const Headers = () => {
   const onDebounceMutate = useCallback(
     debounce(
       (
-        params: Pick<ApiData, 'headers'>,
+        params,
         mutate: typeof postMutate | typeof patchMutate | typeof deleteMutate
       ) => mutate(params),
       1500
@@ -25,12 +22,8 @@ const Headers = () => {
     []
   );
 
-  // fetching
   const onChange = (datas: MapData[]) => {
-    if (!datas.length) return;
-
-    console.log(datas, headers);
-
+    /* Data Remove */
     if (headers.length > datas.length) {
       const key = headers.findIndex(
         (data, index) => data.uuid !== datas[index]?.uuid
@@ -39,6 +32,7 @@ const Headers = () => {
       return deleteMutate({ path, key });
     }
 
+    /* Data Create */
     if (datas.length > headers.length) {
       const key = datas.findIndex(
         (data, index) => data.uuid !== headers[index]?.uuid
@@ -51,14 +45,21 @@ const Headers = () => {
       );
     }
 
-    datas.every((data, index) => {
-      const isSameKeyValue =
-        data.key === headers[index].key && data.value === headers[index].value;
+    /* Data Update */
+    for (let i = 0; i < datas.length; i++) {
+      const isContinue =
+        datas[i].isActive === headers[i].isActive &&
+        datas[i].key === headers[i].key &&
+        datas[i].value === headers[i].value;
+
+      if (isContinue) continue;
+
+      const isSameKeyValue = datas[i].isActive !== headers[i].isActive;
 
       isSameKeyValue
-        ? patchMutate({ path, key: index, data })
-        : onDebounceMutate({ path, key: index, data }, patchMutate);
-    });
+        ? patchMutate({ path, key: i, data: datas[i] })
+        : onDebounceMutate({ path, key: i, data: datas[i] }, patchMutate);
+    }
   };
 
   return <MapInput datas={headers} onChange={onChange} />;

@@ -1,9 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Typography } from '@mui/material';
-
 import { DialogContentContext } from '~/features/Dialogs';
 import Monaco from '~/features/Monaco';
-
 import { getApi } from '~/api';
 import schemas from '~/schema';
 

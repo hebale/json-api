@@ -1,14 +1,11 @@
 import React, { useContext, useCallback } from 'react';
 import { Stack, Box, AccordionSummary, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import { highlightMarker } from '~/utils';
 import { ApiContext } from '~/components/ListItem';
-
 import EditApiDialog from '~/dialog/EditApiDialog';
 import CopyButton from '~/features/CopyButton';
 import DownloadButton from '~/features/DownloadButton';
-
 import useAlert from '~/hooks/useAlert';
 import { ApiData } from '~/types/components';
 

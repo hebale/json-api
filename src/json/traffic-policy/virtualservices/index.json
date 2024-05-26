@@ -2,35 +2,25 @@
   "path": "/traffic-policy/virtualservices",
   "headers": [
     {
-      "uuid": "e3135ef5-9af9-4134-ae08-f697c4867dc3",
-      "isActive": false,
-      "key": "s",
-      "value": "s"
+      "uuid": "8587e8dc-5a57-47b0-a2ad-c59abb96dbf6",
+      "isActive": true,
+      "key": "Content-Type ",
+      "value": "is Test"
     },
     {
-      "uuid": "6c20fa6f-ccdd-4400-8860-591dbd760391",
-      "isActive": false,
-      "key": "",
-      "value": ""
+      "uuid": "40cdf5a2-70f9-4408-9023-5cc5c9f3d33a",
+      "isActive": true,
+      "key": "isd",
+      "value": "tes"
     },
     {
-      "uuid": "68641199-b963-477f-b658-523bc9a9feb0",
-      "isActive": false,
-      "key": "",
-      "value": ""
-    },
-    {
-      "uuid": "ff251d7e-ecbc-47df-b2da-dbecb82c4247",
-      "isActive": false,
-      "key": "",
-      "value": ""
+      "uuid": "92a6233e-2447-45c9-bad2-ef4cb481a2f0",
+      "isActive": true,
+      "key": "second-test ",
+      "value": "is best"
     }
   ],
   "methods": {
-    "GET": {
-      "delay": 0,
-      "status": 304
-    },
     "DELETE": {
       "delay": 100,
       "status": 200

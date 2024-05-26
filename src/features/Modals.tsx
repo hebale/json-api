@@ -7,12 +7,10 @@ import {
   Button,
   Typography,
 } from '@mui/material';
-
 import {
   ModalStatusContext,
   ModalDispatchContext,
 } from '~/contexts/ModalContext';
-
 import type { ModalProps } from '~/types/features';
 
 const Modals = () => {

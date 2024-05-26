@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { AccordionDetails, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-
 import Headers from './Headers';
 import Methods from './Methods';
 import Response from './Response';
@@ -22,7 +21,7 @@ const tabConfig = [
 ];
 
 const Details = () => {
-  const [tabValue, setTabValue] = useState('headers');
+  const [tabValue, setTabValue] = useState('methods');
 
   return (
     <AccordionDetails>

@@ -100,7 +100,7 @@ export const debounce = (cb: (...args: any) => void, delay: number) => {
 };
 
 export const deepClone = (data: any) => {
-  if (typeof data !== 'object') return data;
+  if (typeof data !== 'object' || data === null) return data;
 
   let base = Array.isArray(data) ? [] : {};
 
@@ -108,4 +108,25 @@ export const deepClone = (data: any) => {
     base[key] = deepClone(data[key]);
   }
   return base;
+};
+
+export const isSameData = (a: any, b: any) => {
+  let status = true;
+
+  const checkData = (a: any, b: any) => {
+    if (typeof a !== 'object' || a === null) {
+      if (a !== b) status = false;
+      return;
+    }
+    for (let key of Object.keys(a)) {
+      if (!b.hasOwnProperty(key)) {
+        status = false;
+        return;
+      }
+      checkData(a[key], b[key]);
+    }
+  };
+
+  checkData(a, b);
+  return status;
 };
