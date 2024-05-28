@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Stack, Box, Button, Typography } from '@mui/material';
 
 export type LogProps = {
@@ -7,28 +7,25 @@ export type LogProps = {
   method: string;
   request: any;
   response: any;
+  timeStamp: number;
 };
 
 const Log = ({ data }: { data: LogProps }) => {
   const [open, setOpen] = useState(false);
-  const { method, path, request, response } = data;
-
-  console.log(data);
+  const { method, path, request, response, timeStamp } = data;
 
   return (
     <Stack>
-      <Stack>
+      <Stack direction="row" justifyContent="space-between">
+        <Button onClick={() => setOpen((prev) => !prev)}>more</Button>
         <Typography>
-          [{method}] {path}
+          [{method}] {path} {timeStamp}
         </Typography>
-        <Button onClick={() => setOpen((prev) => !prev)}>
-          {open ? 'detail' : 'simple'}
-        </Button>
       </Stack>
       {open && (
         <Stack>
-          <Box>{JSON.stringify(request)}</Box>
-          <Box>{JSON.stringify(response)}</Box>
+          <Box>request: {JSON.stringify(request)}</Box>
+          <Box>response: {JSON.stringify(response)}</Box>
         </Stack>
       )}
     </Stack>

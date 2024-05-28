@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Button } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 
 import Log from './Log';
 import type { LogProps } from './Log';
@@ -25,12 +25,11 @@ const LogBox = () => {
   }, []);
 
   return (
-    <div>
-      <p>로그</p>
+    <Paper>
       {logs.map((log, index) => (
         <Log key={index} data={log} />
       ))}
-    </div>
+    </Paper>
   );
 };
 

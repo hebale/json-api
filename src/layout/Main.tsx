@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Stack, Divider, Typography } from '@mui/material';
+import { Container, Grid, Stack, Divider, Typography } from '@mui/material';
 import { getAllApis } from '~/api';
 
 import Header from '~/layout/Header';
@@ -24,37 +24,45 @@ const Main = () => {
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth={false}>
       <Header
-        left={<SearchBar onSearch={onSearchApi} />}
-        right={<CreateApiDialog title={'API 등록'} />}
+        left={
+          <Typography>{`http://localhost:${process.env.SERVER_PORT}/`}</Typography>
+        }
+        right={
+          <>
+            <SearchBar onSearch={onSearchApi} />
+            <CreateApiDialog title={'API 등록'} />
+          </>
+        }
       />
       <Divider />
-      <Stack direction="row">
-        {apis && (
-          <Contents
-            head={
-              <Typography>{`Base URL: http://localhost:${process.env.SERVER_PORT}/`}</Typography>
-            }
-            body={
-              isPending ? (
-                <>Pending....</>
-              ) : (
-                apis
-                  .filter((api) => api.path.indexOf(keyword) > -1)
-                  .map((api) => (
-                    <ListItem
-                      key={api.path}
-                      filter={keyword}
-                      data={api}
-                    ></ListItem>
-                  ))
-              )
-            }
-          />
-        )}
-        <Aside />
-      </Stack>
+      <Grid spacing={2} container>
+        <Grid xs={5} item>
+          <Aside />
+        </Grid>
+        <Grid xs={7} item>
+          {apis && (
+            <Contents
+              body={
+                isPending ? (
+                  <>Pending....</>
+                ) : (
+                  apis
+                    .filter((api) => api.path.indexOf(keyword) > -1)
+                    .map((api) => (
+                      <ListItem
+                        key={api.path}
+                        filter={keyword}
+                        data={api}
+                      ></ListItem>
+                    ))
+                )
+              }
+            />
+          )}
+        </Grid>
+      </Grid>
     </Container>
   );
 };

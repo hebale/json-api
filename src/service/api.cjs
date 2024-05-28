@@ -68,6 +68,7 @@ const api = ({ app }) => {
           path: req.baseUrl,
           request: req.body,
           response: data ?? [],
+          timeStamp: new Date().toLocaleString(),
         };
 
         client.write(
