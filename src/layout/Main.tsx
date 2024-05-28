@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Divider, Typography } from '@mui/material';
+import { Container, Stack, Divider, Typography } from '@mui/material';
 import { getAllApis } from '~/api';
 
 import Header from '~/layout/Header';
 import Contents from '~/layout/Contents';
+import Aside from '~/layout/Aside';
 
 import ListItem from '~/components/ListItem';
 import SearchBar from '~/components/SearchBar';
@@ -23,35 +24,37 @@ const Main = () => {
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <Header
         left={<SearchBar onSearch={onSearchApi} />}
         right={<CreateApiDialog title={'API 등록'} />}
       />
       <Divider />
-
-      {apis && (
-        <Contents
-          head={
-            <Typography>{`Base URL: http://localhost:${process.env.SERVER_PORT}/`}</Typography>
-          }
-          body={
-            isPending ? (
-              <>Pending....</>
-            ) : (
-              apis
-                .filter((api) => api.path.indexOf(keyword) > -1)
-                .map((api) => (
-                  <ListItem
-                    key={api.path}
-                    filter={keyword}
-                    data={api}
-                  ></ListItem>
-                ))
-            )
-          }
-        />
-      )}
+      <Stack direction="row">
+        {apis && (
+          <Contents
+            head={
+              <Typography>{`Base URL: http://localhost:${process.env.SERVER_PORT}/`}</Typography>
+            }
+            body={
+              isPending ? (
+                <>Pending....</>
+              ) : (
+                apis
+                  .filter((api) => api.path.indexOf(keyword) > -1)
+                  .map((api) => (
+                    <ListItem
+                      key={api.path}
+                      filter={keyword}
+                      data={api}
+                    ></ListItem>
+                  ))
+              )
+            }
+          />
+        )}
+        <Aside />
+      </Stack>
     </Container>
   );
 };

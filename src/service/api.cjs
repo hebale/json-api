@@ -16,8 +16,19 @@ const statusMessage = {
   501: 'Not Implemented',
   505: 'HTTP Version Not Supported',
 };
+const clients = [];
 
 const api = ({ app }) => {
+  app.get('/sse', (req, res) => {
+    res.set({
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+      'Access-Control-Allow-Origin': '*',
+    });
+
+    clients.push(res);
+  });
   app.use('/*', (req, res) => {
     try {
       const filePath = glob.sync(`${$path.join(root, req.baseUrl)}/index.json`);
@@ -33,15 +44,13 @@ const api = ({ app }) => {
       );
 
       const json = JSON.parse(response);
-      const settings = json.methods.filter(
-        ({ method }) => method === req.method
-      )[0];
+      const settings = json.methods[req.method];
 
       if (!settings) throw { code: 405, message: statusMessage['405'] };
 
       const { headers } = json;
       const { delay, status, code } = settings;
-      const data = code.isActive
+      const data = code?.isActive
         ? eval(code.value)(req, json.response)
         : json.response;
 
@@ -51,6 +60,22 @@ const api = ({ app }) => {
           res.append(key, value);
         }
       }
+
+      clients.forEach((client) => {
+        const logData = {
+          ip: req.ip,
+          method: req.method,
+          path: req.baseUrl,
+          request: req.body,
+          response: data ?? [],
+        };
+
+        client.write(
+          `id: ${new Date().getTime()}\nevent: log\ndata: ${JSON.stringify(
+            logData
+          )}\n\n`
+        );
+      });
 
       setTimeout(() => {
         res.status(status).send({
