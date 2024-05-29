@@ -1,31 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Paper, Typography } from '@mui/material';
+import React, { useContext } from 'react';
+import { Paper } from '@mui/material';
+
+import { LogContext } from '~/contexts/LogContext';
 
 import Log from './Log';
-import type { LogProps } from './Log';
 
 const LogBox = () => {
-  const [logs, setLogs] = useState<LogProps[]>([]);
-
-  useEffect(() => {
-    const eventSource = new EventSource(`/sse`, { withCredentials: true });
-
-    eventSource.addEventListener('open', (event) => {
-      console.log('sse connected!!');
-    });
-
-    eventSource.addEventListener('log', (event) => {
-      console.log(JSON.parse(event.data));
-      setLogs((prev) => [...prev, JSON.parse(event.data)]);
-    });
-
-    eventSource.addEventListener('error', () => {
-      console.error('is Error!!');
-    });
-  }, []);
+  const logs = useContext(LogContext);
 
   return (
-    <Paper>
+    <Paper elevation={2} sx={{ p: 1 }}>
       {logs.map((log, index) => (
         <Log key={index} data={log} />
       ))}

@@ -94,7 +94,7 @@ export const patchApiResponse = () => {
 
   return useMutation({
     mutationFn: (params: ApiParam<Response>) =>
-      http.patch('/api/v1/json/Response', { body: params }),
+      http.patch('/api/v1/json/response', { body: params }),
     onMutate: async (params: ApiParam<Response>) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.all });
       const origin = queryClient.getQueryData(queryKeys.all);
@@ -121,6 +121,7 @@ export const patchApiResponse = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.all });
+      openAlert({ type: 'success', message: '저장 되었습니다' });
     },
   });
 };

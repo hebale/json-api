@@ -4,7 +4,7 @@
     {
       "uuid": "8587e8dc-5a57-47b0-a2ad-c59abb96dbf6",
       "isActive": true,
-      "key": "Content-",
+      "key": "testst",
       "value": "is Test"
     },
     {
@@ -21,168 +21,12 @@
     }
   ],
   "methods": {
-    "DELETE": {
-      "delay": 100,
-      "status": 200
-    },
-    "PATCH": {
-      "delay": 0,
-      "status": 200
-    },
-    "POST": {
-      "delay": 4500,
-      "status": 401
-    },
     "GET": {
       "delay": 0,
       "status": 200
     }
   },
   "response": [
-    {
-      "name": "reviews.prod.svc.cluster.local",
-      "subset": "v2",
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "reviews.prod.svc.cluster.local",
-      "subset": "v1",
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "mongo.backup.svc.cluster.local",
-      "subset": null,
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "login.prod.svc.cluster.local",
-      "subset": null,
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "reviews.prod.svc.cluster.local",
-      "subset": null,
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "reviews.prod.svc.cluster.local",
-      "subset": "v1",
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "mongo.backup.svc.cluster.local",
-      "subset": null,
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "login.prod.svc.cluster.local",
-      "subset": null,
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "reviews.prod.svc.cluster.local",
-      "subset": null,
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "reviews.prod.svc.cluster.local",
-      "subset": "v1",
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "mongo.backup.svc.cluster.local",
-      "subset": null,
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "login.prod.svc.cluster.local",
-      "subset": null,
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "reviews.prod.svc.cluster.local",
-      "subset": null,
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "reviews.prod.svc.cluster.local",
-      "subset": "v1",
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "mongo.backup.svc.cluster.local",
-      "subset": null,
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
-    {
-      "name": "login.prod.svc.cluster.local",
-      "subset": null,
-      "label": null,
-      "podSelector": null,
-      "clusterIp": null,
-      "portRoute": null,
-      "createdTimeStamp": null
-    },
     {
       "name": "reviews.prod.svc.cluster.local",
       "subset": null,

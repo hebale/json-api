@@ -90,29 +90,6 @@ const json = ({ app }) => {
   /**
    * JSON METHODS API
    */
-
-  // path 변경점 처리 방법 prev, next => prev copy to next => remove prev
-  // app.patch('/api/v1/json/:id', (req, res) => {
-  //   try {
-  //     const { path, data } = req.body;
-  //     console.log(basePath);
-  //     const basePath = getBasePath(path);
-  //     const jsonData = getJsonData(basePath);
-
-  //     setJsonData(basePath, { ...jsonData, [req.params.id]: data });
-
-  //     res.send({
-  //       code: 200,
-  //       message: 'Ok',
-  //     });
-  //   } catch (err) {
-  //     res.status(500).send({
-  //       code: 500,
-  //       message: 'Internal Server Error',
-  //     });
-  //   }
-  // });
-
   app.use('/api/v1/json/:id', (req, res) => {
     try {
       const { path, key, data } = req.body;
@@ -127,13 +104,16 @@ const json = ({ app }) => {
         case 'PATCH':
           setJsonData(basePath, {
             ...jsonData,
-            [id]: isDataTypeArray
-              ? [
-                  ...jsonData[id].slice(0, key),
-                  ...(req.method === 'POST' ? data : [data]),
-                  ...jsonData[id].slice(key + (req.method !== 'POST')),
-                ]
-              : { ...jsonData[id], [key]: data },
+            [id]: (() => {
+              if (!key) return JSON.parse(data);
+              return isDataTypeArray
+                ? [
+                    ...jsonData[id].slice(0, key),
+                    ...(req.method === 'POST' ? data : [data]),
+                    ...jsonData[id].slice(key + (req.method !== 'POST')),
+                  ]
+                : { ...jsonData[id], [key]: data };
+            })(),
           });
           break;
 

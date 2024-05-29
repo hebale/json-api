@@ -1,6 +1,7 @@
 const $fs = require('fs');
 const $path = require('path');
 const { glob } = require('glob');
+const { format } = require('date-fns');
 const root = $path.resolve(process.cwd(), './src/json');
 
 const statusMessage = {
@@ -19,7 +20,7 @@ const statusMessage = {
 const clients = [];
 
 const api = ({ app }) => {
-  app.get('/sse', (req, res) => {
+  app.get('/sse', (_, res) => {
     res.set({
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
@@ -68,7 +69,7 @@ const api = ({ app }) => {
           path: req.baseUrl,
           request: req.body,
           response: data ?? [],
-          timeStamp: new Date().toLocaleString(),
+          timeStamp: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
         };
 
         client.write(

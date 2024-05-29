@@ -1,6 +1,6 @@
 import React, { useContext, useCallback } from 'react';
 import MapInput, { MapData } from '~/features/MapInput';
-import { ApiContext } from '~/components/ListItem';
+import { ApiContext } from '~/components/ApiBox/ListItem';
 import { ApiData } from '~/types/components';
 import { postApiHeader, patchApiHeader, deleteApiHeader } from '~/api';
 import { debounce } from '~/utils';

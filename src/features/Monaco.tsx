@@ -69,6 +69,7 @@ const Monaco = ({
         py: children ? 0 : 3,
         borderRadius: '4px',
         overflow: 'hidden',
+        border: '1px solid #ddd',
       }}
     >
       {children && (

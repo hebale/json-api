@@ -17,10 +17,11 @@ const Log = ({ data }: { data: LogProps }) => {
   return (
     <Stack>
       <Stack direction="row" justifyContent="space-between">
-        <Button onClick={() => setOpen((prev) => !prev)}>more</Button>
         <Typography>
           [{method}] {path} {timeStamp}
         </Typography>
+
+        <Button onClick={() => setOpen((prev) => !prev)}>more</Button>
       </Stack>
       {open && (
         <Stack>
