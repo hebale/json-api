@@ -92,7 +92,8 @@ json-api
 ## 이슈사항
 
 - Optimistic Update 에러 확인 필요
-- Headers 자동 폼태그 삽입 로직 제작필요(ex. postman)
+- <!-- Headers 자동 폼태그 삽입 로직 제작필요(ex. postman) -->
+- MapInput default value 로직 제작
 
 ### test
 

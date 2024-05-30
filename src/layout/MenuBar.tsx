@@ -7,7 +7,7 @@ type MenuBarProps = {
 };
 
 const MenuBar = ({ datas = [], onChange }: MenuBarProps) => {
-  const [menus, setMenus] = useState([datas[0]]);
+  const [menus, setMenus] = useState(datas);
 
   useEffect(() => {
     onChange(menus);

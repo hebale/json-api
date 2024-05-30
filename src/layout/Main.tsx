@@ -4,24 +4,25 @@ import { Container, Divider, Typography } from '@mui/material';
 import Header from '~/layout/Header';
 import MenuBar from './MenuBar';
 import Contents from '~/layout/Contents';
-
 import SearchBar from '~/components/SearchBar';
+
 import ApiBox from '~/components/ApiBox';
+import CreateBox from '~/components/CreateBox';
 import LogBox from '~/components/LogBox';
 import CreateApiDialog from '~/dialog/CreateApiDialog';
 
 const itemsConfig = [
   { key: 'api', component: <ApiBox /> },
-  { key: 'create', component: <>create</> },
+  { key: 'create', component: <CreateBox /> },
   { key: 'pipeline', component: <>pipeline</> },
   { key: 'log', component: <LogBox /> },
 ];
 
 const Main = () => {
-  const [menus, setMenus] = useState([itemsConfig[0].key]);
+  const [menus, setMenus] = useState(['api', 'create']);
 
   const onSearchApi = (str: string) => {
-    console.log(str);
+    // console.log(str);
   };
 
   return (

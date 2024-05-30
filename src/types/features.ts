@@ -1,3 +1,4 @@
+import { isSameData } from '../utils/index';
 import type {
   TooltipProps,
   ButtonProps,
@@ -15,20 +16,27 @@ export type DownloadFileProps = {
 export type JSONData = {
   path: string;
   description?: string | number;
-  headers: {
-    [key: string]: string;
-  };
-  methods: {
-    [key in 'GET' | 'POST' | 'PATCH' | 'PULL' | 'DELETE']: {
-      delay: number;
-      status: number;
-      callback: {
-        isActive: boolean;
-        code: string | null;
-      };
-    };
-  };
+  headers: Header[];
+  methods:
+    | {
+        [key in 'GET' | 'POST' | 'PATCH' | 'PULL' | 'DELETE']: {
+          delay: number;
+          status: number;
+          callback: {
+            isActive: boolean;
+            code: string | null;
+          };
+        };
+      }
+    | {};
   response: any;
+};
+
+export type Header = {
+  uuid: string;
+  isActive: boolean;
+  key: string;
+  value: string;
 };
 
 /**

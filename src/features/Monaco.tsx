@@ -11,7 +11,7 @@ type MonacoProps = {
   value: string;
   schemas?: any[];
   options?: editor.IStandaloneEditorConstructionOptions;
-  onChange?: (value?: string) => void;
+  onChange?: (value: string) => void;
   onValidate?: (marker: editor.IMarker[], value?: string) => void;
   children?: any;
 };
@@ -66,6 +66,7 @@ const Monaco = ({
     <Box
       sx={{
         position: 'relative',
+        width: '100%',
         py: children ? 0 : 3,
         borderRadius: '4px',
         overflow: 'hidden',
