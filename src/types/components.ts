@@ -19,6 +19,13 @@ export type Methods = {
   };
 };
 
+export type Pipeline = {
+  [key in 'GET' | 'POST' | 'PATCH' | 'PULL' | 'DELETE']: {
+    isActive: boolean;
+    value: string;
+  };
+};
+
 export type ApiData = {
   path: string;
   headers: Header[];

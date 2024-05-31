@@ -40,7 +40,7 @@ const mergeShallowData = (a, b) => {
 };
 
 const json = ({ app }) => {
-  app.get('/api/v1/all', async (_, res) => {
+  app.get('/api/v1/json/all', async (_, res) => {
     try {
       const filePaths = $glob.sync(`${root}/**/*.json`, { nodir: true });
       const allJsons = [];
@@ -73,7 +73,29 @@ const json = ({ app }) => {
     }
   });
 
-  app.get('/api/v1/download', (req, res) => {
+  app.get('/api/v1/json/list', async (_, res) => {
+    try {
+      const filePath = $glob.sync(`${root}/**/*.json`, { nodir: true });
+      const data = filePath.map((path) => {
+        const splited = path.split($path.sep);
+        return `/${splited.slice(2, splited.length - 1).join('/')}`;
+      });
+
+      res.send({
+        code: 200,
+        message: 'Ok',
+        data,
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: 'Internal Server Error',
+        err,
+      });
+    }
+  });
+
+  app.get('/api/v1/json/download', (req, res) => {
     try {
       const { path } = req.query;
       const basePath = getBasePath(path);
@@ -112,8 +134,17 @@ const json = ({ app }) => {
                     ...(req.method === 'POST' ? data : [data]),
                     ...jsonData[id].slice(key + (req.method !== 'POST')),
                   ]
-                : { ...jsonData[id], [key]: data };
+                : {
+                    ...jsonData[id],
+                    [key]: data,
+                  };
             })(),
+            ...(!isDataTypeArray && {
+              pipeline: {
+                ...jsonData.pipeline,
+                [key]: { isActive: false, code: '' },
+              },
+            }),
           });
           break;
 
@@ -124,6 +155,7 @@ const json = ({ app }) => {
               ? [...jsonData[id].slice(0, key), ...jsonData[id].slice(key + 1)]
               : (() => {
                   delete jsonData[id][key];
+                  delete jsonData.pipeline[key];
                   return jsonData[id];
                 })(),
           });
@@ -157,13 +189,13 @@ const json = ({ app }) => {
 
       switch (req.method) {
         case 'GET':
-          const jsonData = getJsonData(basePath);
-          res.send({
+          const jsonData = getJsonData(getBasePath(req.query.path));
+
+          return res.send({
             code: 200,
             message: 'Ok',
             data: jsonData,
           });
-          break;
 
         case 'POST':
         case 'PUT':

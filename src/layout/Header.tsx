@@ -1,6 +1,11 @@
 import React from 'react';
 import { Stack, Box } from '@mui/material';
-import type { HeaderProps } from '~/types/layout';
+import type { ReactElement } from 'react';
+
+export type HeaderProps = {
+  left?: ReactElement;
+  right?: ReactElement;
+};
 
 const Header = ({ left, right }: HeaderProps) => {
   return (

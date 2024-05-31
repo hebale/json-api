@@ -36,5 +36,6 @@
       "portRoute": null,
       "createdTimeStamp": null
     }
-  ]
+  ],
+  "pipeline": {}
 }

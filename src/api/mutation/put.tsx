@@ -110,8 +110,10 @@ export const putApiMethod = () => {
         message: `오류가 발생했습니다. 다시 시도해 주세요.\nstatus: ${err.status}\nmessage: ${err.message}`,
       });
     },
-    onSettled: () => {
+    onSettled: (data, error, variables) => {
+      const { path } = variables;
       queryClient.invalidateQueries({ queryKey: queryKeys.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.api(path) });
     },
   });
 };

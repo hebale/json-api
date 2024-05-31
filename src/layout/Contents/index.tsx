@@ -1,12 +1,13 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { Grid, Stack, Box } from '@mui/material';
+import type { ReactElement } from 'react';
 
-type ContentsProps = {
+export type ContentsProps = {
   ribbon?: ReactElement;
   items?: item[];
 };
 
-type item = {
+export type item = {
   key: string;
   component: ReactElement;
 };

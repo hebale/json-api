@@ -8,14 +8,15 @@ import SearchBar from '~/components/SearchBar';
 
 import ApiBox from '~/components/ApiBox';
 import CreateBox from '~/components/CreateBox';
+import PipelineBox from '~/components/PipelineBox';
 import LogBox from '~/components/LogBox';
 import CreateApiDialog from '~/dialog/CreateApiDialog';
 
 const itemsConfig = [
   { key: 'api', component: <ApiBox /> },
   { key: 'create', component: <CreateBox /> },
-  { key: 'pipeline', component: <>pipeline</> },
-  { key: 'log', component: <LogBox /> },
+  { key: 'pipeline', component: <PipelineBox /> },
+  // { key: 'log', component: <LogBox /> },
 ];
 
 const Main = () => {

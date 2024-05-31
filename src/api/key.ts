@@ -1,6 +1,7 @@
 const queryKeys = {
   all: ['all'],
-  list: (path: string) => ['api', path],
+  list: ['list'],
+  api: (path: string) => ['api', path],
 };
 
 export default queryKeys;

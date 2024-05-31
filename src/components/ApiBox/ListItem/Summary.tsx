@@ -70,7 +70,7 @@ const Summary = ({
       <Stack flexDirection="row" sx={{ mr: 2 }}>
         <DownloadButton
           title="Down"
-          url={`/api/v1/download?path=${path}`}
+          url={`/api/v1/json/download?path=${path}`}
           fileName={`api${path.split('/').join('_')}`}
         />
         <EditApiDialog path={path} />

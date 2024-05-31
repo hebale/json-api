@@ -1,26 +1,37 @@
 import http from './http';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, QueriesOptions } from '@tanstack/react-query';
 import queryKeys from './key';
 
-import type { ApiListItemProps } from '~/types/components';
+import type { ApiData } from '~/types/components';
 
 export const getAllApis = () =>
   useQuery({
     queryKey: queryKeys.all,
     queryFn: async () => {
-      const response = await http.get('/api/v1/all');
-      if (response?.code === 200) return response.data as ApiListItemProps[];
+      const response = await http.get('/api/v1/json/all');
+      if (response?.code === 200) return response.data as ApiData[];
     },
   });
 
-export const getApi = (params: string) =>
+export const getApiList = () =>
   useQuery({
-    queryKey: queryKeys.list(params),
+    queryKey: queryKeys.list,
     queryFn: async () => {
-      const response = await http.get(`/api/v1/json?path=${params}`);
-      if (response?.code === 200) return response.data as ApiListItemProps;
+      const response = await http.get('/api/v1/json/list');
+      if (response?.code === 200) return response.data as string[];
     },
   });
+
+export const getApi = (path: string, options?: QueriesOptions) => {
+  return useQuery({
+    queryKey: queryKeys.api(path),
+    queryFn: async () => {
+      const response = await http.get(`/api/v1/json?path=${path}`);
+      if (response?.code === 200) return response.data as ApiData;
+    },
+    ...options,
+  });
+};
 
 export const getJsonMethos = async ({
   path,
