@@ -30,13 +30,16 @@ const CreateBox = () => {
       });
     } else {
       createApi({ data: formData });
+      evnetRef.current?.resetFormData();
     }
   };
 
   return (
     <Paper elevation={2} sx={{ p: 1 }}>
+      <Typography variant="subtitle1" component="p">
+        CREATE
+      </Typography>
       <Stack direction="row" alignItems="center">
-        <Typography sx={{ mr: 'auto' }}>Api 생성</Typography>
         <RefreshButton onClick={onRefreshForm} />
         <Button variant="contained" onClick={onCreateApi}>
           생성

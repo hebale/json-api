@@ -6,6 +6,7 @@ import {
   FormControl,
   Select,
   Checkbox,
+  Typography,
 } from '@mui/material';
 
 import Code from './Code';
@@ -16,7 +17,9 @@ const PipelineBox = () => {
 
   return (
     <Paper elevation={2} sx={{ p: 1 }}>
-      Pipeline
+      <Typography variant="subtitle1" component="p">
+        PIPELINE
+      </Typography>
       <Code />
       <Output />
     </Paper>
