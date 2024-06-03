@@ -1,0 +1,14 @@
+{
+  "path": "/test",
+  "headers": [],
+  "methods": {
+    "GET": {
+      "delay": 0,
+      "status": 200
+    }
+  },
+  "pipeline": {},
+  "response": [],
+  "createdDate": "2024-06-03T14:25:01.605Z",
+  "updatedDate": "2024-06-03T14:25:01.605Z"
+}

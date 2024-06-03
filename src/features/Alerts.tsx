@@ -16,8 +16,9 @@ const Alerts = () => {
       sx={{
         zIndex: 1600,
         position: 'fixed',
-        top: 0,
-        right: 0,
+        top: '16px',
+        left: '50%',
+        transform: 'translateX(-50%)',
       }}
     >
       <TransitionGroup>
@@ -33,7 +34,15 @@ const Alerts = () => {
               <Alert
                 severity={type ?? 'info'}
                 onClose={() => close(id)}
-                sx={{ whiteSpace: 'pre-wrap' }}
+                sx={{
+                  py: 2,
+                  px: 6,
+                  borderRadius: '8px',
+                  border: '1px solid #ddd',
+                  background: '#fff',
+                  whiteSpace: 'pre-wrap',
+                  // boxShadow: '6px 6px 0 -2px rgba(0, 0, 0, 0.08)',
+                }}
               >
                 {message}
               </Alert>

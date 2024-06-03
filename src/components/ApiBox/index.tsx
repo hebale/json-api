@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Paper } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import { getAllApis } from '~/api';
 import ListItem from './ListItem';
 
@@ -16,6 +16,9 @@ const ApiBox = () => {
 
   return (
     <Paper elevation={2} sx={{ p: 1 }}>
+      <Typography variant="subtitle1" component="p">
+        API
+      </Typography>
       {isPending ? (
         <>로딩중...</>
       ) : (
