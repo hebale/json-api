@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import queryKeys from '~/api/key';
 
 import useAlert from '~/hooks/useAlert';
-
+import { deepClone } from '~/utils';
 import type { ApiParam, ApiData, Error } from '~/api';
 
 export const deleteApi = () => {
@@ -89,8 +89,9 @@ export const deleteApiMethod = () => {
 
       queryClient.setQueryData(queryKeys.all, (origin: ApiData[]) => {
         const { path, key } = param;
-        return origin.map((api) => {
-          if (api.path !== path) {
+
+        return deepClone(origin).map((api: ApiData) => {
+          if (api.path === path) {
             delete api.methods[key as string];
           }
           return api;
@@ -106,8 +107,10 @@ export const deleteApiMethod = () => {
         message: `오류가 발생했습니다.\nstatus: ${err.status}\nmessage: ${err.message}`,
       });
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    onSettled: (data, error, variables) => {
+      const { path } = variables;
+      // queryClient.invalidateQueries({ queryKey: queryKeys.all });
+      // queryClient.invalidateQueries({ queryKey: queryKeys.api(path) });
     },
   });
 };

@@ -4,7 +4,7 @@ import Monaco from '~/features/Monaco';
 import CopyButton from '~/features/CopyButton';
 import SaveButton from '~/features/SaveButton';
 import RefreshButton from '~/features/RefreshButton';
-import { ApiContext } from '~/components/ListItem';
+import { ApiContext } from '~/components/ApiBox/ListItem';
 import { ApiData } from '~/types/components';
 import useAlert from '~/hooks/useAlert';
 import { patchApiResponse } from '~/api';
@@ -23,7 +23,11 @@ const Response = () => {
 
   useEffect(() => {
     setIsChanged(JSON.stringify(response, null, 2) === code);
-  }, [code, response]);
+  }, [code]);
+
+  useEffect(() => {
+    if (typeof response !== 'string') onRefreshCode();
+  }, [response]);
 
   const onRefreshCode = () => setCode(JSON.stringify(response, null, 2));
 
@@ -41,20 +45,7 @@ const Response = () => {
       });
     }
 
-    mutate(
-      { path, data: code },
-      {
-        onSuccess: () => {
-          openAlert({ type: 'success', message: '저장 되었습니다' });
-        },
-        onError: () => {
-          openAlert({
-            type: 'error',
-            message: '오류가 발생했습니다. 다시 시도해 주세요.',
-          });
-        },
-      }
-    );
+    mutate({ path, data: code });
   };
 
   const onValidateCode = (makers: editor.IMarker[]) => {

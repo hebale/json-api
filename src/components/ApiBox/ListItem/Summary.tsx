@@ -2,7 +2,7 @@ import React, { useContext, useCallback } from 'react';
 import { Stack, Box, AccordionSummary, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { highlightMarker } from '~/utils';
-import { ApiContext } from '~/components/ListItem';
+import { ApiContext } from '~/components/ApiBox/ListItem';
 import EditApiDialog from '~/dialog/EditApiDialog';
 import CopyButton from '~/features/CopyButton';
 import DownloadButton from '~/features/DownloadButton';
@@ -19,10 +19,9 @@ const Summary = ({
   const { path } = useContext(ApiContext) as ApiData;
   const { openAlert } = useAlert();
 
-  const onMarkedPath = useCallback(
-    () => highlightMarker(path, filter),
-    [filter]
-  );
+  const onMarkedPath = useCallback(() => {
+    return highlightMarker(path, filter);
+  }, [filter]);
 
   return (
     <AccordionSummary
@@ -70,7 +69,7 @@ const Summary = ({
       <Stack flexDirection="row" sx={{ mr: 2 }}>
         <DownloadButton
           title="Down"
-          url={`/api/v1/download?path=${path}`}
+          url={`/api/v1/json/download?path=${path}`}
           fileName={`api${path.split('/').join('_')}`}
         />
         <EditApiDialog path={path} />

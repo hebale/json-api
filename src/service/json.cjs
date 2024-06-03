@@ -40,7 +40,7 @@ const mergeShallowData = (a, b) => {
 };
 
 const json = ({ app }) => {
-  app.get('/api/v1/all', async (_, res) => {
+  app.get('/api/v1/json/all', async (_, res) => {
     try {
       const filePaths = $glob.sync(`${root}/**/*.json`, { nodir: true });
       const allJsons = [];
@@ -73,7 +73,29 @@ const json = ({ app }) => {
     }
   });
 
-  app.get('/api/v1/download', (req, res) => {
+  app.get('/api/v1/json/list', async (_, res) => {
+    try {
+      const filePath = $glob.sync(`${root}/**/*.json`, { nodir: true });
+      const data = filePath.map((path) => {
+        const splited = path.split($path.sep);
+        return `/${splited.slice(2, splited.length - 1).join('/')}`;
+      });
+
+      res.send({
+        code: 200,
+        message: 'Ok',
+        data,
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: 'Internal Server Error',
+        err,
+      });
+    }
+  });
+
+  app.get('/api/v1/json/download', (req, res) => {
     try {
       const { path } = req.query;
       const basePath = getBasePath(path);
@@ -90,29 +112,6 @@ const json = ({ app }) => {
   /**
    * JSON METHODS API
    */
-
-  // path 변경점 처리 방법 prev, next => prev copy to next => remove prev
-  // app.patch('/api/v1/json/:id', (req, res) => {
-  //   try {
-  //     const { path, data } = req.body;
-  //     console.log(basePath);
-  //     const basePath = getBasePath(path);
-  //     const jsonData = getJsonData(basePath);
-
-  //     setJsonData(basePath, { ...jsonData, [req.params.id]: data });
-
-  //     res.send({
-  //       code: 200,
-  //       message: 'Ok',
-  //     });
-  //   } catch (err) {
-  //     res.status(500).send({
-  //       code: 500,
-  //       message: 'Internal Server Error',
-  //     });
-  //   }
-  // });
-
   app.use('/api/v1/json/:id', (req, res) => {
     try {
       const { path, key, data } = req.body;
@@ -127,13 +126,30 @@ const json = ({ app }) => {
         case 'PATCH':
           setJsonData(basePath, {
             ...jsonData,
-            [id]: isDataTypeArray
-              ? [
-                  ...jsonData[id].slice(0, key),
-                  ...(req.method === 'POST' ? data : [data]),
-                  ...jsonData[id].slice(key + (req.method !== 'POST')),
-                ]
-              : { ...jsonData[id], [key]: data },
+            updatedDate: new Date().toISOString(),
+            [id]: (() => {
+              /* response */
+              if (key === undefined) return JSON.parse(data);
+
+              return isDataTypeArray
+                ? /* headers */
+                  [
+                    ...jsonData[id].slice(0, key),
+                    ...(req.method === 'POST' ? data : [data]),
+                    ...jsonData[id].slice(key + (req.method !== 'POST')),
+                  ]
+                : /* methods */
+                  {
+                    ...jsonData[id],
+                    [key]: data,
+                  };
+            })(),
+            ...(!isDataTypeArray && {
+              pipeline: {
+                ...jsonData.pipeline,
+                [key]: { isActive: false, code: '' },
+              },
+            }),
           });
           break;
 
@@ -141,9 +157,12 @@ const json = ({ app }) => {
           setJsonData(basePath, {
             ...jsonData,
             [id]: isDataTypeArray
-              ? [...jsonData[id].slice(0, key), ...jsonData[id].slice(key + 1)]
-              : (() => {
+              ? /* headers */
+                [...jsonData[id].slice(0, key), ...jsonData[id].slice(key + 1)]
+              : /* methods */
+                (() => {
                   delete jsonData[id][key];
+                  delete jsonData.pipeline[key];
                   return jsonData[id];
                 })(),
           });
@@ -173,20 +192,22 @@ const json = ({ app }) => {
   app.use('/api/v1/json', (req, res) => {
     try {
       const { path, data } = req.body;
-      const basePath = getBasePath(path);
+      const basePath = path ? getBasePath(path) : getBasePath(data.path);
 
       switch (req.method) {
         case 'GET':
-          const jsonData = getJsonData(basePath);
-          res.send({
+          const jsonData = getJsonData(getBasePath(req.query.path));
+
+          return res.send({
             code: 200,
             message: 'Ok',
             data: jsonData,
           });
-          break;
 
         case 'POST':
+          data.createdDate = new Date().toISOString();
         case 'PUT':
+          data.updatedDate = new Date().toISOString();
           if (!hasDir(basePath)) {
             $fs.mkdirSync(basePath, { recursive: true });
           }

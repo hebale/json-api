@@ -33,7 +33,7 @@ const createMapInput = () => ({
   value: '',
 });
 
-const MapInput = ({ datas, onChange }: MapInputProps) => {
+const MapInput = ({ datas = [], onChange }: MapInputProps) => {
   const [mapData, setMapData] = useState<MapData[]>([]);
   const focusInput = useRef<HTMLInputElement[]>([]);
   const focusIndex = useRef<number | null>(null);

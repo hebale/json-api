@@ -1,26 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Grid, Stack, Divider, Typography } from '@mui/material';
-import { getAllApis } from '~/api';
+import React, { useState } from 'react';
+import { Container, Divider, Typography } from '@mui/material';
 
 import Header from '~/layout/Header';
+import MenuBar from './MenuBar';
 import Contents from '~/layout/Contents';
-import Aside from '~/layout/Aside';
-
-import ListItem from '~/components/ListItem';
 import SearchBar from '~/components/SearchBar';
+
+import ApiBox from '~/components/ApiBox';
+import CreateBox from '~/components/CreateBox';
+import PipelineBox from '~/components/PipelineBox';
+import LogBox from '~/components/LogBox';
 import CreateApiDialog from '~/dialog/CreateApiDialog';
 
-const Main = () => {
-  const { data, isPending, dataUpdatedAt } = getAllApis();
-  const [apis, setApis] = useState(data);
-  const [keyword, setKeyword] = useState('');
+const itemsConfig = [
+  { key: 'api', component: <ApiBox /> },
+  { key: 'create', component: <CreateBox /> },
+  { key: 'pipeline', component: <PipelineBox /> },
+  // { key: 'log', component: <LogBox /> },
+];
 
-  useEffect(() => {
-    setApis(data);
-  }, [dataUpdatedAt]);
+const Main = () => {
+  const [menus, setMenus] = useState(['api', 'create']);
 
   const onSearchApi = (str: string) => {
-    setKeyword(str);
+    // console.log(str);
   };
 
   return (
@@ -37,32 +40,17 @@ const Main = () => {
         }
       />
       <Divider />
-      <Grid spacing={2} container>
-        <Grid xs={5} item>
-          <Aside />
-        </Grid>
-        <Grid xs={7} item>
-          {apis && (
-            <Contents
-              body={
-                isPending ? (
-                  <>Pending....</>
-                ) : (
-                  apis
-                    .filter((api) => api.path.indexOf(keyword) > -1)
-                    .map((api) => (
-                      <ListItem
-                        key={api.path}
-                        filter={keyword}
-                        data={api}
-                      ></ListItem>
-                    ))
-                )
-              }
-            />
-          )}
-        </Grid>
-      </Grid>
+      <Contents
+        ribbon={
+          <MenuBar
+            datas={itemsConfig.map((menu) => menu.key)}
+            onChange={setMenus}
+          />
+        }
+        items={menus.map((menu) => {
+          return itemsConfig.filter((item) => item.key === menu)[0];
+        })}
+      />
     </Container>
   );
 };
