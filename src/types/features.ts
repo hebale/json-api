@@ -1,4 +1,3 @@
-import { isSameData } from '../utils/index';
 import type {
   TooltipProps,
   ButtonProps,

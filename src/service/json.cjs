@@ -126,15 +126,20 @@ const json = ({ app }) => {
         case 'PATCH':
           setJsonData(basePath, {
             ...jsonData,
+            updatedDate: new Date().toISOString(),
             [id]: (() => {
-              if (!key) return JSON.parse(data);
+              /* response */
+              if (key === undefined) return JSON.parse(data);
+
               return isDataTypeArray
-                ? [
+                ? /* headers */
+                  [
                     ...jsonData[id].slice(0, key),
                     ...(req.method === 'POST' ? data : [data]),
                     ...jsonData[id].slice(key + (req.method !== 'POST')),
                   ]
-                : {
+                : /* methods */
+                  {
                     ...jsonData[id],
                     [key]: data,
                   };
@@ -152,8 +157,10 @@ const json = ({ app }) => {
           setJsonData(basePath, {
             ...jsonData,
             [id]: isDataTypeArray
-              ? [...jsonData[id].slice(0, key), ...jsonData[id].slice(key + 1)]
-              : (() => {
+              ? /* headers */
+                [...jsonData[id].slice(0, key), ...jsonData[id].slice(key + 1)]
+              : /* methods */
+                (() => {
                   delete jsonData[id][key];
                   delete jsonData.pipeline[key];
                   return jsonData[id];
@@ -185,7 +192,7 @@ const json = ({ app }) => {
   app.use('/api/v1/json', (req, res) => {
     try {
       const { path, data } = req.body;
-      const basePath = getBasePath(path);
+      const basePath = path ? getBasePath(path) : getBasePath(data.path);
 
       switch (req.method) {
         case 'GET':
@@ -198,7 +205,9 @@ const json = ({ app }) => {
           });
 
         case 'POST':
+          data.createdDate = new Date().toISOString();
         case 'PUT':
+          data.updatedDate = new Date().toISOString();
           if (!hasDir(basePath)) {
             $fs.mkdirSync(basePath, { recursive: true });
           }

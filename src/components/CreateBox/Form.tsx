@@ -18,40 +18,53 @@ import {
 import MapInput, { MapData } from '~/features/MapInput';
 import Monaco from '~/features/Monaco';
 import { deepClone, debounce } from '~/utils';
+import useAlert from '~/hooks/useAlert';
 import type { editor } from 'monaco-editor';
-import type { JSONData } from '~/types/features';
+import type { ApiData } from '~/api';
 
 export type EventRef = {
   resetFormData: () => void;
-  getFormData: () => JSONData;
+  getFormData: () => ApiData | void;
 };
 
 const defaultForm = {
   path: '',
   headers: [],
   methods: {},
-};
-
-const checkJson = (val: any) => {
-  try {
-    return JSON.parse(val);
-  } catch (err) {
-    return val.toString();
-  }
+  pipeline: {},
 };
 
 const Form = (_: null, ref: ForwardedRef<EventRef>) => {
-  const [formData, setFormData] = useState<JSONData>(deepClone(defaultForm));
+  const [formData, setFormData] =
+    useState<Omit<ApiData, 'response'>>(defaultForm);
+  const [response, setResponse] = useState<string>('[]');
+  const [markers, setMarkers] = useState<editor.IMarker[] | []>();
+  const { openAlert } = useAlert();
 
   useImperativeHandle(
     ref,
     () => ({
       resetFormData: () => {
         setFormData(deepClone(defaultForm));
+        setResponse('[]');
       },
-      getFormData: () => formData,
+      getFormData: () => {
+        if (!markers?.length) {
+          return { ...formData, response: JSON.parse(response) };
+        }
+
+        openAlert({
+          type: 'error',
+          message: markers
+            .map(
+              ({ endLineNumber, endColumn, message }) =>
+                `${endLineNumber}:${endColumn} ${message}`
+            )
+            .join('\n'),
+        });
+      },
     }),
-    [formData]
+    [formData, response, markers]
   );
 
   const onChangePath = (e: ChangeEvent<HTMLInputElement>) =>
@@ -67,8 +80,8 @@ const Form = (_: null, ref: ForwardedRef<EventRef>) => {
 
   const onChangeMethod = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, labels } = e.target;
-    if (!labels) return;
 
+    if (!labels) return;
     setFormData((prev) => {
       if (checked) {
         return {
@@ -81,25 +94,19 @@ const Form = (_: null, ref: ForwardedRef<EventRef>) => {
       }
 
       delete prev.methods[labels[0].innerText];
-      return prev;
+      return { ...prev };
     });
-  };
-  const onChangeResposne = (str: string) => {
-    setFormData((prev) => ({ ...prev, response: checkJson(str) }));
-  };
-
-  const onResponseValidate = (marker: editor.IMarker[], value?: string) => {
-    if (!marker.length) {
-      setFormData((prev) => {
-        return { ...prev, response: checkJson(value ?? '') };
-      });
-    }
   };
 
   return (
     <>
       <FormGroup>
-        <FormLabel>Path</FormLabel>
+        <FormLabel
+          required
+          sx={{ '& .MuiFormLabel-asterisk': { color: 'red' } }}
+        >
+          Path
+        </FormLabel>
         <Input type="text" value={formData.path} onChange={onChangePath} />
       </FormGroup>
       <FormGroup>
@@ -129,9 +136,9 @@ const Form = (_: null, ref: ForwardedRef<EventRef>) => {
       <FormGroup>
         <FormLabel>Response</FormLabel>
         <Monaco
-          value={JSON.stringify(formData.response, null, 2)}
-          onChange={onChangeResposne}
-          onValidate={onResponseValidate}
+          value={response}
+          onChange={setResponse}
+          onValidate={setMarkers}
         />
       </FormGroup>
     </>

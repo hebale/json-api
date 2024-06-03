@@ -17,7 +17,7 @@ const Headers = () => {
         params,
         mutate: typeof postMutate | typeof patchMutate | typeof deleteMutate
       ) => mutate(params),
-      1500
+      1000
     ),
     []
   );

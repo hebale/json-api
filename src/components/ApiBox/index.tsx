@@ -9,6 +9,8 @@ const ApiBox = () => {
   const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
+    console.log('>>>>>>>', data);
+
     setApis(data);
   }, [dataUpdatedAt]);
 
@@ -19,7 +21,7 @@ const ApiBox = () => {
       ) : (
         apis &&
         apis.map((api) => (
-          <ListItem key={api.path} filter={keyword} data={api}></ListItem>
+          <ListItem key={api.path} filter={keyword} data={api} />
         ))
       )}
     </Paper>

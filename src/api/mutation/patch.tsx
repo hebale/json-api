@@ -38,8 +38,6 @@ export const patchApiHeader = () => {
     onError: (err: Error, _, context) => {
       queryClient.setQueryData(queryKeys.all, context?.origin);
 
-      console.log('what!!!!!');
-
       openAlert({
         type: 'error',
         message: `오류가 발생했습니다.\nstatus: ${err.status}\nmessage: ${err.message}`,

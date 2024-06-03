@@ -1,3 +1,5 @@
+export type MethodTypes = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
+
 export type ApiParam<T = undefined> = {
   path: string;
   key?: string | number;
@@ -6,10 +8,9 @@ export type ApiParam<T = undefined> = {
 
 export type ApiData = {
   path: string;
-  headers: Header[];
-  methods: {
-    [key in 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE']: Method;
-  };
+  headers: Header[] | [];
+  methods: { [key in MethodTypes]: Method } | {};
+  pipeline: { [key in MethodTypes]: Pipeline } | {};
   response: any;
 };
 
@@ -25,12 +26,17 @@ export type Method = {
   status: number;
 };
 
+export type Pipeline = {
+  isActive: boolean;
+  code: string;
+};
+
+export type Response = any;
+
 export type Error = {
   status: number;
   message: string;
 };
-
-export type Response = any;
 
 export * from './queries';
 export * from './mutation';

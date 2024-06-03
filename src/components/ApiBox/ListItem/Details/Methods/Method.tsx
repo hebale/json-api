@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import {
   Stack,
   Checkbox,
@@ -7,20 +7,27 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import { deepClone } from '~/utils';
-import type { MethodProps, MethodData } from '.';
+import { deepClone, isSameData } from '~/utils';
 import type { SelectChangeEvent } from '@mui/material';
+import type { MethodProps, MethodData } from '.';
+
+export type MethodControl = {
+  isActive: boolean;
+  name: string;
+  delay: number;
+  status: number;
+};
 
 const statusCodes = [200, 304, 400, 401, 403, 405, 408, 500, 501, 505];
 
 const Method = ({ data, onChange }: MethodProps) => {
-  const [methodData, setMethodData] = useState(deepClone(data));
+  const [methodData, setMethodData] = useState<MethodData>();
 
   useEffect(() => {
     setMethodData(deepClone(data));
   }, [data]);
 
-  const exportData = (data: typeof methodData) => {
+  const exportData = (data: MethodData) => {
     setMethodData(() => {
       onChange(data);
       return data;
@@ -28,16 +35,17 @@ const Method = ({ data, onChange }: MethodProps) => {
   };
 
   const onChangeUsage = (e: React.ChangeEvent<HTMLInputElement>) =>
-    exportData({ ...methodData, isActive: e.target.checked });
+    methodData && exportData({ ...methodData, isActive: e.target.checked });
 
   const onChangeDelay = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => exportData({ ...methodData, delay: Number(e.target.value) });
+  ) =>
+    methodData && exportData({ ...methodData, delay: Number(e.target.value) });
 
   const onChangeStatus = (e: SelectChangeEvent<number>) =>
-    exportData({ ...methodData, status: Number(e.target.value) });
+    methodData && exportData({ ...methodData, status: Number(e.target.value) });
 
-  return (
+  return methodData ? (
     <Stack
       flexDirection="row"
       justifyContent="space-between"
@@ -80,7 +88,9 @@ const Method = ({ data, onChange }: MethodProps) => {
         </Select>
       </Stack>
     </Stack>
+  ) : (
+    <>로딩중...</>
   );
 };
 
-export default Method;
+export default memo(Method, isSameData);

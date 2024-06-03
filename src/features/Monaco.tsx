@@ -8,7 +8,8 @@ import type { Monaco, OnMount } from '@monaco-editor/react';
 type MonacoProps = {
   language?: string;
   height?: number | 'auto';
-  value: string;
+  defaultValue?: string;
+  value?: string;
   schemas?: any[];
   options?: editor.IStandaloneEditorConstructionOptions;
   onChange?: (value: string) => void;
@@ -19,6 +20,7 @@ type MonacoProps = {
 const Monaco = ({
   language = 'json',
   height = 'auto',
+  defaultValue,
   value,
   schemas,
   options,
@@ -86,6 +88,7 @@ const Monaco = ({
       <Editor
         loading={<CircularProgress thickness={5} />}
         defaultLanguage={language}
+        defaultValue={defaultValue}
         value={value}
         beforeMount={onBeforeMount}
         onMount={onMount}

@@ -19,10 +19,9 @@ const Summary = ({
   const { path } = useContext(ApiContext) as ApiData;
   const { openAlert } = useAlert();
 
-  const onMarkedPath = useCallback(
-    () => highlightMarker(path, filter),
-    [filter]
-  );
+  const onMarkedPath = useCallback(() => {
+    return highlightMarker(path, filter);
+  }, [filter]);
 
   return (
     <AccordionSummary

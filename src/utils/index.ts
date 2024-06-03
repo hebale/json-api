@@ -100,7 +100,8 @@ export const debounce = (cb: (...args: any) => void, delay: number) => {
 };
 
 export const deepClone = (data: any) => {
-  if (typeof data !== 'object' || data === null) return data;
+  if (typeof data !== 'object' || typeof data === 'function' || data === null)
+    return data;
 
   let base = Array.isArray(data) ? [] : {};
 
@@ -114,6 +115,12 @@ export const isSameData = (a: any, b: any) => {
   let status = true;
 
   const checkData = (a: any, b: any) => {
+    if (typeof a === 'function') {
+      if (a.toString() !== b.toString()) {
+        status = false;
+      }
+      return;
+    }
     if (typeof a !== 'object' || a === null) {
       if (a !== b) status = false;
       return;

@@ -23,8 +23,10 @@ const ListItems = ({ filter, data }: { filter: string; data: ApiData }) => {
   }, [data]);
 
   const dispatch = {
-    update: (key: string, value: any) =>
-      api && setApi((prev: ApiData) => ({ ...prev, [key]: value })),
+    update: (key: string, value: any) => {
+      console.log(key, value);
+      api && setApi((prev: ApiData) => ({ ...prev, [key]: value }));
+    },
   };
 
   const onToggleExpand = () => {

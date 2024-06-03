@@ -18,7 +18,7 @@ export const postApi = () => {
 
       queryClient.setQueryData(queryKeys.all, (origin: ApiData[]) => [
         ...origin,
-        param,
+        param.data,
       ]);
 
       return { origin };
@@ -58,7 +58,7 @@ export const postApiHeader = () => {
                 ...api.headers.slice(0, key as number),
                 ...data,
                 ...api.headers.slice(key as number),
-              ],
+              ] as Header[],
             };
           }
           return api;
