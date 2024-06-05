@@ -13,8 +13,12 @@ const MenuBar = ({ datas = [], onChange }: MenuBarProps) => {
     onChange(menus);
   }, [menus]);
 
-  const onChangeMenu = (e: React.MouseEvent<HTMLElement>, newMenus: string[]) =>
+  const onChangeMenu = (
+    e: React.MouseEvent<HTMLElement>,
+    newMenus: string[]
+  ) => {
     setMenus(newMenus);
+  };
 
   return (
     datas.length > 1 && (

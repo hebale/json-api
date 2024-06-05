@@ -27,7 +27,7 @@ export type MapData = {
 };
 
 const createMapInput = () => ({
-  uuid: crypto.randomUUID(),
+  uuid: new Date().getTime(),
   isActive: false,
   key: '',
   value: '',

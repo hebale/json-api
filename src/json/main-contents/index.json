@@ -1,0 +1,16 @@
+{
+  "path": "/main-contents",
+  "headers": [],
+  "methods": {
+    "GET": {
+      "delay": 0,
+      "status": 200
+    }
+  },
+  "pipeline": {},
+  "response": [
+    "test data"
+  ],
+  "createdDate": "2024-06-04T05:38:22.087Z",
+  "updatedDate": "2024-06-04T05:38:22.087Z"
+}

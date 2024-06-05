@@ -17,7 +17,7 @@ import type { ApiData } from '~/api';
 import type { SelectChangeEvent } from '@mui/material';
 import Monaco from '~/features/Monaco';
 
-const Code = () => {
+const Form = () => {
   const { data: apiList } = getApiList();
   const [selectedApi, setSelectedApi] = useState<string>('none');
   // cosnt [Method, ]
@@ -78,4 +78,4 @@ const Code = () => {
   );
 };
 
-export default Code;
+export default Form;

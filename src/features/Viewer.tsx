@@ -11,12 +11,6 @@ type ViewerProps = {
   value: string;
 };
 
-const viewerStyle = {
-  '& .monaco-editor .view-overlays .current-line': {
-    display: 'none',
-  },
-};
-
 const Viewer = ({ language = 'json', height = 'auto', value }: ViewerProps) => {
   const editorRef = useRef<null | editor.IStandaloneCodeEditor>(null);
   const monaco = useMonaco();
@@ -43,7 +37,14 @@ const Viewer = ({ language = 'json', height = 'auto', value }: ViewerProps) => {
   };
 
   return (
-    <Box sx={viewerStyle}>
+    <Box
+      sx={{
+        border: '1px solid #ddd',
+        '& .monaco-editor .view-overlays .current-line': {
+          display: 'none',
+        },
+      }}
+    >
       <Editor
         loading={<CircularProgress thickness={5} />}
         defaultLanguage={language}

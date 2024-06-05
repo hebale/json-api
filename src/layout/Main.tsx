@@ -20,7 +20,7 @@ const itemsConfig = [
 ];
 
 const Main = () => {
-  const [menus, setMenus] = useState(['api', 'create']);
+  const [menus, setMenus] = useState(['api', 'pipeline']);
 
   const onSearchApi = (str: string) => {
     // console.log(str);
@@ -47,9 +47,12 @@ const Main = () => {
             onChange={setMenus}
           />
         }
-        items={menus.map((menu) => {
-          return itemsConfig.filter((item) => item.key === menu)[0];
-        })}
+        items={menus.map(
+          (menu) =>
+            itemsConfig.filter((item) => {
+              return item.key === menu;
+            })[0]
+        )}
       />
     </Container>
   );

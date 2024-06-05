@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import StyleProvider from '~/theme';
 import QueryProvider from '~/contexts/QeuryContext';
 import LogProvider from './contexts/LogContext';
 import AlertProvider from '~/contexts/AlertContext';
@@ -11,15 +12,17 @@ import '~/assets/style.scss';
 if (document.querySelector('#app') !== null) {
   createRoot(document.querySelector('#app') as HTMLElement).render(
     <QueryProvider>
-      <LogProvider>
-        <AlertProvider>
-          <ModalProvider>
-            <DialogProvider>
-              <Layout />
-            </DialogProvider>
-          </ModalProvider>
-        </AlertProvider>
-      </LogProvider>
+      <StyleProvider>
+        <LogProvider>
+          <AlertProvider>
+            <ModalProvider>
+              <DialogProvider>
+                <Layout />
+              </DialogProvider>
+            </ModalProvider>
+          </AlertProvider>
+        </LogProvider>
+      </StyleProvider>
     </QueryProvider>
   );
 }
