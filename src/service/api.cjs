@@ -30,6 +30,18 @@ const api = ({ app }) => {
 
     clients.push(res);
   });
+
+  // LOGIN TEST CODE
+  app.use('/keycloak', (req, res) => {
+    res.type('html');
+    res.sendFile($path.resolve(__dirname, '../../auth.html'));
+  });
+
+  // app.use('/auth', (req, res) => {
+  //   res.type('html');
+  //   res.sendFile($path.resolve(__dirname, '../../auth.html'));
+  // });
+
   app.use('/*', (req, res) => {
     try {
       const filePath = glob.sync(`${$path.join(root, req.baseUrl)}/index.json`);

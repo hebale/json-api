@@ -13,7 +13,6 @@ export type item = {
 };
 
 const Contents = ({ ribbon, items }: ContentsProps) => {
-  console.log(items);
   return (
     <Stack id="contents" component="section">
       {ribbon && <Box>{ribbon}</Box>}

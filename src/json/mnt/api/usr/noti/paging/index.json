@@ -1,6 +1,13 @@
 {
   "path": "/mnt/api/usr/noti/paging",
-  "headers": [],
+  "headers": [
+    {
+      "uuid": 1718004061156,
+      "isActive": false,
+      "key": "Access-Control-Allow-Origin",
+      "value": "Authorization"
+    }
+  ],
   "methods": {
     "GET": {
       "delay": 0,
@@ -167,5 +174,5 @@
     ]
   },
   "createdDate": "2024-06-04T07:55:55.404Z",
-  "updatedDate": "2024-06-04T07:55:55.404Z"
+  "updatedDate": "2024-06-10T07:22:01.826Z"
 }

@@ -1,5 +1,5 @@
 {
-  "path": "/main-contents",
+  "path": "/main",
   "headers": [],
   "methods": {
     "GET": {
@@ -13,7 +13,9 @@
       "code": ""
     }
   },
-  "response": ["test data"],
+  "response": [
+    "test data"
+  ],
   "createdDate": "2024-06-04T05:38:22.087Z",
   "updatedDate": "2024-06-06T16:18:45.159Z"
 }

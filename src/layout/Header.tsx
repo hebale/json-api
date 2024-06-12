@@ -1,23 +1,16 @@
 import React from 'react';
-import { Stack, Box } from '@mui/material';
-import type { ReactElement } from 'react';
+import { Stack } from '@mui/material';
 
-export type HeaderProps = {
-  left?: ReactElement;
-  right?: ReactElement;
-};
-
-const Header = ({ left, right }: HeaderProps) => {
+const Header = ({ children }) => {
   return (
     <Stack
       id="header"
       component="header"
       flexDirection="row"
-      justifyContent="space-between"
+      justifyContent="center"
       alignItems="center"
     >
-      {left && <Box>{left}</Box>}
-      {right && <Box>{right}</Box>}
+      {children}
     </Stack>
   );
 };

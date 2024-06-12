@@ -20,25 +20,21 @@ const itemsConfig = [
 ];
 
 const Main = () => {
-  const [menus, setMenus] = useState(['api', 'pipeline']);
+  const [menus, setMenus] = useState(['api']);
 
   const onSearchApi = (str: string) => {
     // console.log(str);
   };
 
   return (
-    <Container maxWidth={false}>
-      <Header
-        left={
+    <Container className="container" maxWidth={false}>
+      <Header>
+        <>
           <Typography>{`http://localhost:${process.env.SERVER_PORT}/`}</Typography>
-        }
-        right={
-          <>
-            <SearchBar onSearch={onSearchApi} />
-            <CreateApiDialog title={'API 등록'} />
-          </>
-        }
-      />
+          <SearchBar onSearch={onSearchApi} />
+          {/* <CreateApiDialog title={'API 등록'} /> */}
+        </>
+      </Header>
       <Divider />
       <Contents
         ribbon={

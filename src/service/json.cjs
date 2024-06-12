@@ -34,8 +34,20 @@ const removeEmptyFolder = (path) => {
   const parentPath = $path.resolve(path, '..');
   removeEmptyFolder(parentPath);
 };
-const mergeShallowData = (a, b) => {
-  if (typeof a === 'object') {
+const createJson = (path, data) => {
+  if (hasDir(path)) return false;
+
+  $fs.mkdirSync(path, { recursive: true });
+  setJsonData(path, data);
+  return true;
+};
+const removeJson = (path) => {
+  try {
+    $fs.rmSync(`${path}/index.json`);
+    removeEmptyFolder(path);
+    return true;
+  } catch (err) {
+    return false;
   }
 };
 
@@ -124,25 +136,44 @@ const json = ({ app }) => {
         case 'POST':
         case 'PUT':
         case 'PATCH':
+          if (id === 'path') {
+            const filePath = $glob.sync(`${root}/**/*.json`, {
+              nodir: true,
+            });
+            const lists = filePath.map((path) => {
+              const splited = path.split($path.sep);
+              return `/${splited.slice(2, splited.length - 1).join('/')}`;
+            });
+
+            if (lists.indexOf(data) > -1) {
+              return res.status(400).send({
+                code: 400,
+                message: 'Bad Request',
+              });
+            }
+
+            createJson(getBasePath(data), { ...jsonData, path: data });
+            removeJson(basePath);
+            return;
+          }
           setJsonData(basePath, {
             ...jsonData,
             updatedDate: new Date().toISOString(),
             [id]: (() => {
-              /* response */
-              if (key === undefined) return JSON.parse(data);
-
-              return isDataTypeArray
-                ? /* headers */
-                  [
-                    ...jsonData[id].slice(0, key),
-                    ...(req.method === 'POST' ? data : [data]),
-                    ...jsonData[id].slice(key + (req.method !== 'POST')),
-                  ]
-                : /* methods */
-                  {
-                    ...jsonData[id],
-                    [key]: data,
-                  };
+              if (id === 'headers') {
+                return [
+                  ...jsonData[id].slice(0, key),
+                  ...(req.method === 'POST' ? data : [data]),
+                  ...jsonData[id].slice(key + (req.method !== 'POST')),
+                ];
+              } else if (id === 'methods') {
+                return {
+                  ...jsonData[id],
+                  [key]: data,
+                };
+              } else {
+                return JSON.parse(data);
+              }
             })(),
             ...(!isDataTypeArray && {
               pipeline: {
@@ -156,15 +187,18 @@ const json = ({ app }) => {
         case 'DELETE':
           setJsonData(basePath, {
             ...jsonData,
-            [id]: isDataTypeArray
-              ? /* headers */
-                [...jsonData[id].slice(0, key), ...jsonData[id].slice(key + 1)]
-              : /* methods */
-                (() => {
-                  delete jsonData[id][key];
-                  delete jsonData.pipeline[key];
-                  return jsonData[id];
-                })(),
+            [id]: (() => {
+              if (id === 'headers') {
+                return [
+                  ...jsonData[id].slice(0, key),
+                  ...jsonData[id].slice(key + 1),
+                ];
+              } else {
+                delete jsonData[id][key];
+                delete jsonData.pipeline[key];
+                return jsonData[id];
+              }
+            })(),
           });
           break;
         default:
@@ -208,15 +242,20 @@ const json = ({ app }) => {
           data.createdDate = new Date().toISOString();
         case 'PUT':
           data.updatedDate = new Date().toISOString();
-          if (!hasDir(basePath)) {
-            $fs.mkdirSync(basePath, { recursive: true });
-          }
-          setJsonData(basePath, data);
+          // if (!hasDir(basePath)) {
+          //   $fs.mkdirSync(basePath, { recursive: true });
+          // }
+          // setJsonData(basePath, data);
+
+          if (!createJson(basePath, data))
+            throw new Error('api create failed!');
           break;
 
         case 'DELETE':
-          $fs.rmSync(`${basePath}/index.json`);
-          removeEmptyFolder(basePath);
+          // $fs.rmSync(`${basePath}/index.json`);
+          // removeEmptyFolder(basePath);
+
+          if (!removeJson(basePath)) throw new Error('api remove failed');
           break;
       }
 
