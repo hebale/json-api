@@ -1,0 +1,29 @@
+{
+  "path": "/mnt/api/usr/noti/397",
+  "description": "[상세] 공지사항",
+  "headers": [],
+  "methods": {
+    "GET": {
+      "delay": 0,
+      "status": 200
+    }
+  },
+  "pipeline": {},
+  "response": {
+    "notiNo": 397,
+    "sysCd": null,
+    "notiTgtSeCd": "ALL",
+    "ttl": "dp_공지사항",
+    "cn": "일좀 그만했으면...",
+    "inqCo": 57,
+    "creatDt": 1680154775,
+    "crtrNo": 0,
+    "updmanNo": 0,
+    "fileGrpNo": 0,
+    "prevNotiNo": -1,
+    "nextNotiNo": 396,
+    "targetList": null
+  },
+  "createdDate": "2024-06-16T15:42:26.991Z",
+  "updatedDate": "2024-06-17T02:16:03.412Z"
+}

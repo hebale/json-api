@@ -15,7 +15,7 @@ import CreateApiDialog from '~/dialog/CreateApiDialog';
 const itemsConfig = [
   { key: 'api', component: <ApiBox /> },
   { key: 'create', component: <CreateBox /> },
-  { key: 'pipeline', component: <PipelineBox /> },
+  // { key: 'pipeline', component: <PipelineBox /> },
   // { key: 'log', component: <LogBox /> },
 ];
 

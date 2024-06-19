@@ -1,0 +1,41 @@
+{
+  "path": "/mnt/api/file/search",
+  "description": "[첨부파일-POST] 첨부파일 정보검색",
+  "headers": [],
+  "methods": {
+    "POST": {
+      "delay": 0,
+      "status": 200
+    }
+  },
+  "pipeline": {
+    "POST": {
+      "isActive": false,
+      "code": ""
+    },
+    "undefined": {
+      "isActive": false,
+      "code": ""
+    }
+  },
+  "response": [
+    {
+      "fileNo": 1594,
+      "orginlFileNm": "그림1",
+      "storeFileNm": "f77d8388-8ea1-46d8-b9ba-fe35f8b5e9a7",
+      "fileSz": 418479,
+      "fileTyCd": "image/jpeg",
+      "fileExtsn": "jpg",
+      "creatDt": 1680155313,
+      "crtrNo": 0,
+      "updDt": 1680155313,
+      "updmanNo": 0,
+      "fileGrpNo": 220,
+      "fileTyCdGrpId": null,
+      "boardCd": "qna",
+      "baseImg": null
+    }
+  ],
+  "createdDate": "2024-06-15T16:16:41.300Z",
+  "updatedDate": "2024-06-16T02:31:17.587Z"
+}

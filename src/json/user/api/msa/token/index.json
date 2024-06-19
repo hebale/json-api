@@ -1,0 +1,20 @@
+{
+  "path": "/user/api/msa/token",
+  "description": "[TEST] 토큰 유효성 체크",
+  "headers": [],
+  "methods": {
+    "POST": {
+      "delay": 0,
+      "status": 401
+    }
+  },
+  "pipeline": {
+    "POST": {
+      "isActive": false,
+      "code": ""
+    }
+  },
+  "response": "데이터 전송완료",
+  "createdDate": "2024-06-19T00:08:42.453Z",
+  "updatedDate": "2024-06-19T01:04:44.794Z"
+}

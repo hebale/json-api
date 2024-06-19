@@ -11,18 +11,20 @@ import '~/assets/style.scss';
 
 if (document.querySelector('#app') !== null) {
   createRoot(document.querySelector('#app') as HTMLElement).render(
-    <QueryProvider>
-      <StyleProvider>
-        <LogProvider>
-          <AlertProvider>
-            <ModalProvider>
-              <DialogProvider>
-                <Layout />
-              </DialogProvider>
-            </ModalProvider>
-          </AlertProvider>
-        </LogProvider>
-      </StyleProvider>
-    </QueryProvider>
+    <React.StrictMode>
+      <QueryProvider>
+        <StyleProvider>
+          <LogProvider>
+            <AlertProvider>
+              <ModalProvider>
+                <DialogProvider>
+                  <Layout />
+                </DialogProvider>
+              </ModalProvider>
+            </AlertProvider>
+          </LogProvider>
+        </StyleProvider>
+      </QueryProvider>
+    </React.StrictMode>
   );
 }

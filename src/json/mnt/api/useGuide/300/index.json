@@ -1,0 +1,43 @@
+{
+  "path": "/mnt/api/useGuide/300",
+  "description": "[상세-GET] 이용가이드",
+  "headers": [],
+  "methods": {
+    "GET": {
+      "delay": 0,
+      "status": 200
+    }
+  },
+  "pipeline": {
+    "undefined": {
+      "isActive": false,
+      "code": ""
+    }
+  },
+  "response": {
+    "useGuideNo": 300,
+    "bfTtl": "이용가이드 샘플(1)",
+    "afTtl": null,
+    "bfCn": "이용가이드 첫번째 샘플 입니다.",
+    "afCn": null,
+    "inqCo": 43,
+    "creatDt": 1680143514,
+    "crtrNo": 1,
+    "updDt": 0,
+    "updmanNo": 1,
+    "bfFileGrpNo": 0,
+    "afFileGrpNo": 0,
+    "stt": "\u0000",
+    "fixedAt": "\u0000",
+    "ordr": 0,
+    "editorTy": "markdown",
+    "creatUsrNm": null,
+    "updUsrNm": null,
+    "selected": null,
+    "pageVo": null,
+    "viewList": null,
+    "totalCount": null
+  },
+  "createdDate": "2024-06-16T09:07:05.769Z",
+  "updatedDate": "2024-06-16T10:09:36.293Z"
+}

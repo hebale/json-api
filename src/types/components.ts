@@ -28,6 +28,7 @@ export type Pipeline = {
 
 export type ApiData = {
   path: string;
+  description: string;
   headers: Header[];
   methods: Methods;
   response: any;

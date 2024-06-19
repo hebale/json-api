@@ -1,13 +1,7 @@
 {
-  "path": "/mnt/api/usr/noti/paging",
-  "headers": [
-    {
-      "uuid": 1718004061156,
-      "isActive": false,
-      "key": "Access-Control-Allow-Origin",
-      "value": "Authorization"
-    }
-  ],
+  "path": "/mnt/api/noti/paging",
+  "description": "[메인] 공지사항 리스트",
+  "headers": [],
   "methods": {
     "GET": {
       "delay": 0,
@@ -30,7 +24,7 @@
         "notiTgtSeCd": "ALL",
         "ttl": "dp_공지사항",
         "cn": "일좀 그만했으면...",
-        "inqCo": 16,
+        "inqCo": 60,
         "creatDt": 1680154775,
         "crtrNo": 1,
         "updDt": 1680154775,
@@ -51,7 +45,7 @@
         "notiTgtSeCd": "ALL",
         "ttl": "다섯번째 공지사항!!!",
         "cn": "test",
-        "inqCo": 7,
+        "inqCo": 17,
         "creatDt": 1680154438,
         "crtrNo": 1,
         "updDt": 1680154438,
@@ -72,7 +66,7 @@
         "notiTgtSeCd": "ALL",
         "ttl": "네번째 공지사항 완료!",
         "cn": "첨부테스트 완료",
-        "inqCo": 23,
+        "inqCo": 37,
         "creatDt": 1663726300,
         "crtrNo": 1,
         "updDt": 1664844121,
@@ -93,7 +87,7 @@
         "notiTgtSeCd": "ALL",
         "ttl": "세번째 공지사항",
         "cn": "33",
-        "inqCo": 8,
+        "inqCo": 11,
         "creatDt": 1663725951,
         "crtrNo": 1,
         "updDt": 1663725951,
@@ -114,7 +108,7 @@
         "notiTgtSeCd": "ALL",
         "ttl": "두번째 공지사항",
         "cn": "목데이터",
-        "inqCo": 8,
+        "inqCo": 9,
         "creatDt": 1663679924,
         "crtrNo": 1,
         "updDt": 1663679924,
@@ -135,7 +129,7 @@
         "notiTgtSeCd": "ALL",
         "ttl": "이미지 첨부 테스트",
         "cn": "이미지 첨부 테스트",
-        "inqCo": 39,
+        "inqCo": 42,
         "creatDt": 1663317525,
         "crtrNo": 1,
         "updDt": 1663680032,
@@ -156,7 +150,7 @@
         "notiTgtSeCd": "ALL",
         "ttl": "첫번째 공지사항",
         "cn": "공지입니다.",
-        "inqCo": 35,
+        "inqCo": 48,
         "creatDt": 1663235303,
         "crtrNo": 1,
         "updDt": 1670998677,
@@ -173,6 +167,6 @@
       }
     ]
   },
-  "createdDate": "2024-06-04T07:55:55.404Z",
-  "updatedDate": "2024-06-10T07:22:01.826Z"
+  "createdDate": "2024-06-19T05:36:19.135Z",
+  "updatedDate": "2024-06-19T05:36:19.135Z"
 }

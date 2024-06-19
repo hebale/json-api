@@ -1,5 +1,5 @@
 {
-  "path": "/mnt/api/usr/faq",
+  "path": "/mnt/api/faq",
   "description": "[리스트] 자주하는 질문",
   "headers": [],
   "methods": {

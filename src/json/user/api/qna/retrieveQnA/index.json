@@ -1,0 +1,36 @@
+{
+  "path": "/user/api/qna/retrieveQnA",
+  "description": "[수정-POST] 1:1문의 수정 데이터 검색",
+  "headers": [],
+  "methods": {
+    "POST": {
+      "delay": 0,
+      "status": 200
+    }
+  },
+  "pipeline": {},
+  "response": {
+    "qnaNo": 223,
+    "inqryTyCd": "IT00",
+    "inqryTyCdNm": null,
+    "ttl": "테스트 문의",
+    "inqryCn": "개발 테스트용\n다중 글\n다중\n다\n주",
+    "answerCn": null,
+    "addDt": 1718692973,
+    "answerDt": 0,
+    "atchFileGrpNo": 0,
+    "creatDt": 0,
+    "cdNm": "이용 문의",
+    "addUserId": null,
+    "answerStatus": null,
+    "sysCd": null,
+    "addUserEmail": "",
+    "qnaProcessSttCd": "AS00",
+    "delAt": "\u0000",
+    "pageVo": null,
+    "viewList": null,
+    "totalCount": null
+  },
+  "createdDate": "2024-06-19T01:16:27.355Z",
+  "updatedDate": "2024-06-19T01:16:27.355Z"
+}

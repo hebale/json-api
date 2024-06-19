@@ -1,0 +1,23 @@
+{
+  "path": "/user/api/msa/logout",
+  "description": "[사용자-POST] 로그아웃",
+  "headers": [],
+  "methods": {
+    "POST": {
+      "delay": 0,
+      "status": 200
+    }
+  },
+  "pipeline": {
+    "undefined": {
+      "isActive": false,
+      "code": ""
+    }
+  },
+  "response": {
+    "status": 200,
+    "message": "success"
+  },
+  "createdDate": "2024-06-14T08:25:19.363Z",
+  "updatedDate": "2024-06-14T08:39:34.799Z"
+}

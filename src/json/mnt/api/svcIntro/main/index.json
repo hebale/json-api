@@ -1,5 +1,6 @@
 {
   "path": "/mnt/api/svcIntro/main",
+  "description": "[메인-GET] 하단 콘텐츠",
   "headers": [],
   "methods": {
     "GET": {

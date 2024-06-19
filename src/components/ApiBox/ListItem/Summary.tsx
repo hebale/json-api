@@ -30,7 +30,7 @@ const Summary = ({
   onToggleExpand: () => void;
 }) => {
   const inputRef = useRef();
-  const { path } = useContext(ApiContext) as ApiData;
+  const { path, description } = useContext(ApiContext) as ApiData;
   const [editable, setEditable] = useState(false);
   const { mutate } = patchApiPath();
 
@@ -86,6 +86,7 @@ const Summary = ({
             />
           )}
         </ButtonGroup>
+        {description}
       </Stack>
       <Stack className="ctrl-stack">
         <DownloadButton

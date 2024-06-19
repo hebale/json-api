@@ -1,13 +1,23 @@
 {
   "path": "/user/api/msa/callback",
+  "description": "[TEST] 로그인 정보",
   "headers": [],
   "methods": {
     "POST": {
       "delay": 0,
       "status": 200
+    },
+    "GET": {
+      "delay": 0,
+      "status": 200
     }
   },
-  "pipeline": {},
+  "pipeline": {
+    "GET": {
+      "isActive": false,
+      "code": ""
+    }
+  },
   "response": {
     "userNo": 0,
     "userId": "okestro",
@@ -17,5 +27,5 @@
     "keycloakAccessToken": "keycloakAccessToken_value"
   },
   "createdDate": "2024-06-11T08:44:29.555Z",
-  "updatedDate": "2024-06-11T08:44:29.555Z"
+  "updatedDate": "2024-06-13T08:11:04.256Z"
 }

@@ -45,7 +45,6 @@ const api = ({ app }) => {
   app.use('/*', (req, res) => {
     try {
       const filePath = glob.sync(`${$path.join(root, req.baseUrl)}/index.json`);
-
       if (!filePath.length) throw { code: 404, message: statusMessage['404'] };
 
       const response = $fs.readFileSync(
@@ -92,11 +91,11 @@ const api = ({ app }) => {
       });
 
       setTimeout(() => {
-        res.status(status).send({
-          status,
-          message: statusMessage[status],
-          ...(status === 200 && { data: data ?? [] }),
-        });
+        res.status(status).send(
+          // status,
+          // message: statusMessage[status],
+          status === 200 ? data : []
+        );
       }, delay);
     } catch (err) {
       res.status(err.code).send(err);
