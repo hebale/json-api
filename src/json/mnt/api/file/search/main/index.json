@@ -1,0 +1,36 @@
+{
+  "path": "/mnt/api/file/search/main",
+  "headers": [],
+  "methods": {
+    "POST": {
+      "delay": 0,
+      "status": 200
+    }
+  },
+  "pipeline": {
+    "POST": {
+      "isActive": false,
+      "code": ""
+    }
+  },
+  "response": [
+    {
+      "fileNo": 1598,
+      "orginlFileNm": "main-guide03",
+      "storeFileNm": "2ef048cb-ef08-49cb-9838-4037381f0a71",
+      "fileSz": 2515,
+      "fileTyCd": "image/svg+xml",
+      "fileExtsn": "svg",
+      "creatDt": 1683684973,
+      "crtrNo": 0,
+      "updDt": 1683684973,
+      "updmanNo": 0,
+      "fileGrpNo": 301,
+      "fileTyCdGrpId": null,
+      "boardCd": "use",
+      "baseImg": null
+    }
+  ],
+  "createdDate": "2024-06-20T00:45:56.630Z",
+  "updatedDate": "2024-06-20T00:51:21.733Z"
+}
