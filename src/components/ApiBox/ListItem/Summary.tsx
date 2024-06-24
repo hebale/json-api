@@ -1,12 +1,12 @@
 import React, { useRef, useState, useContext, useCallback } from 'react';
 import {
   Stack,
-  Box,
   Input,
   AccordionSummary,
   Button,
   ButtonGroup,
   IconButton,
+  Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -62,6 +62,7 @@ const Summary = ({
       }
     >
       <Stack className="path-stack">
+        <Typography>{description}</Typography>
         <ButtonGroup size="medium">
           <CopyButton data={path} onSuccess={onCopiedClipboard} />
 
@@ -71,6 +72,7 @@ const Summary = ({
             </Button>
           ) : (
             <Input
+              className="edit-path"
               inputRef={inputRef}
               defaultValue={path}
               endAdornment={
@@ -86,7 +88,6 @@ const Summary = ({
             />
           )}
         </ButtonGroup>
-        {description}
       </Stack>
       <Stack className="ctrl-stack">
         <DownloadButton

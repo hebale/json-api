@@ -6,7 +6,7 @@ import type { ModalProps, ModalDispatchProps } from '~/types/features';
 
 export const ModalStatusContext = createContext<ModalProps[]>([]);
 export const ModalDispatchContext = createContext<ModalDispatchProps>({
-  open: () => {},
+  open: (modal: ModalProps) => {},
   close: () => {},
 });
 
@@ -14,13 +14,13 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [modals, setModals] = useState<ModalProps[]>([]);
 
   const dispatch: ModalDispatchProps = {
-    open: (alert) => {
+    open: (modal) => {
       return new Promise((resolve) =>
-        setModals((modals) => [...modals, { ...alert, resolve }])
+        setModals((modals) => [...modals, { ...modal, resolve }])
       );
     },
     close: (id) => {
-      setModals((modals) => modals.filter((alert) => alert.id !== id));
+      setModals((modals) => modals.filter((modal) => modal.id !== id));
     },
   };
 

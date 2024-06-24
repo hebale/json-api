@@ -23,6 +23,7 @@ const CopyButton = ({
 
   return (
     <IconButton
+      className="copy-button"
       disabled={disabled}
       disableRipple={true}
       onClick={() => data && onCopyClipboard(data)}
