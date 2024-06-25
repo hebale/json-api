@@ -12,6 +12,19 @@ export default {
       },
     },
   },
+  MuiChip: {
+    styleOverrides: {
+      root: {
+        padding: '0 4px',
+        height: '22px',
+        border: '1px solid #ddd',
+        borderRadius: '4px',
+      },
+      label: {
+        padding: 0,
+      },
+    },
+  },
   MuiButton: {
     styleOverrides: {
       root: {
@@ -33,6 +46,7 @@ export default {
         input: {
           padding: 0,
         },
+        background: '#fff',
       },
     },
   },

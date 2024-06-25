@@ -1,4 +1,14 @@
 #contents {
   padding: 0 32px;
-  background: #eee;
+  background: #f0f0f0;
+
+  .paper-box {
+    position: relative;
+    background: transparent;
+    box-shadow: none;
+    > .MuiTypography-subtitle1 {
+      font-weight: 600;
+      font-size: 3rem;
+    }
+  }
 }

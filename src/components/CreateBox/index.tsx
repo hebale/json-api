@@ -35,10 +35,7 @@ const CreateBox = () => {
   };
 
   return (
-    <Paper elevation={2} sx={{ p: 1 }}>
-      <Typography variant="subtitle1" component="p">
-        CREATE
-      </Typography>
+    <>
       <Stack direction="row" alignItems="center">
         <RefreshButton onClick={onRefreshForm} />
         <Button variant="contained" onClick={onCreateApi}>
@@ -47,7 +44,7 @@ const CreateBox = () => {
       </Stack>
 
       <Form ref={evnetRef} />
-    </Paper>
+    </>
   );
 };
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Stack, IconButton, Typography } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
+import CodeIcon from '@mui/icons-material/Code';
 import useAlert from '~/hooks/useAlert';
 import useModal from '~/hooks/useModal';
 import useDialog from '~/hooks/useDialog';
 import Contents from './Contents';
 import { deleteApi } from '~/api';
 
-const EditApiDialog = ({ path }: { path: string }) => {
+const EditApiDialog = ({ title, path }: { title: string; path: string }) => {
   const { openAlert } = useAlert();
   const { openModal } = useModal();
   const { openDialog } = useDialog();
@@ -69,8 +69,10 @@ const EditApiDialog = ({ path }: { path: string }) => {
   return (
     <IconButton onClick={open} disableRipple={true}>
       <Stack sx={{ alignItems: 'center' }}>
-        <SettingsIcon />
-        <Typography sx={{ fontSize: '0.6rem' }}>Edit</Typography>
+        <CodeIcon />
+        <Typography sx={{ fontSize: '0.6rem' }}>
+          {title ? title : 'Edit'}
+        </Typography>
       </Stack>
     </IconButton>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import { Accordion } from '@mui/material';
 import Summary from './Summary';
 import Details from './Details';
@@ -14,8 +14,8 @@ export const ApiDispatchContext = createContext<ApiDispatchProps>({
   update: () => {},
 });
 
-const ListItems = ({ filter, data }: { filter: string; data: ApiData }) => {
-  const [expand, setExpand] = useState(false);
+const ListItems = ({ data }: { data: ApiData }) => {
+  const [expand, setExpand] = useState(true);
   const [api, setApi] = useState(data);
 
   useEffect(() => {
@@ -24,7 +24,6 @@ const ListItems = ({ filter, data }: { filter: string; data: ApiData }) => {
 
   const dispatch = {
     update: (key: string, value: any) => {
-      console.log(key, value);
       api && setApi((prev: ApiData) => ({ ...prev, [key]: value }));
     },
   };
@@ -37,7 +36,7 @@ const ListItems = ({ filter, data }: { filter: string; data: ApiData }) => {
     <ApiContext.Provider value={api}>
       <ApiDispatchContext.Provider value={dispatch}>
         <Accordion expanded={expand}>
-          <Summary filter={filter} onToggleExpand={onToggleExpand} />
+          <Summary onToggleExpand={onToggleExpand} />
           <Details />
         </Accordion>
       </ApiDispatchContext.Provider>

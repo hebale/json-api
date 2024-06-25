@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Stack, Box } from '@mui/material';
+import { Grid, Paper, Stack, Box } from '@mui/material';
 import type { ReactElement } from 'react';
 
 export type ContentsProps = {
@@ -20,7 +20,9 @@ const Contents = ({ ribbon, items }: ContentsProps) => {
         {items && items.length > 0 ? (
           items.map(({ key, component }) => (
             <Grid key={key} lg={12 / items.length} item>
-              {component}
+              <Paper className="paper-box" elevation={2}>
+                {component}
+              </Paper>
             </Grid>
           ))
         ) : (

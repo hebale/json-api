@@ -1,33 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { Paper, Typography } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { getAllApis } from '~/api';
 import ListItem from './ListItem';
+import SearchBar from '~/components/SearchBar';
+import type { ApiData } from '~/types/components';
 
 const ApiBox = () => {
   const { data, isPending, dataUpdatedAt } = getAllApis();
-  const [apis, setApis] = useState(data);
-  const [keyword, setKeyword] = useState('');
+  const [searchParam] = useSearchParams();
+  const location = useLocation();
+  const [apis, setApis] = useState<ApiData[]>();
 
   useEffect(() => {
-    setApis(data);
-  }, [dataUpdatedAt]);
+    const keyword = searchParam.get('search') ?? '';
+    const filter = (
+      !!searchParam.get('methods') ? searchParam.get('methods')?.split(',') : []
+    ) as string[];
 
-  return (
-    <Paper elevation={2} sx={{ p: 1 }}>
-      <Typography variant="subtitle1" component="p">
-        API
-      </Typography>
-      {isPending ? (
-        <>로딩중...</>
-      ) : (
-        apis &&
-        apis.map((api) => (
-          <ListItem key={api.path} filter={keyword} data={api} />
-        ))
-      )}
-    </Paper>
+    setApis(
+      data?.filter((api) => {
+        const { path, methods, description } = api;
+        return (
+          (path.indexOf(keyword) > -1 || description?.indexOf(keyword) > -1) &&
+          Object.keys(methods).some((method) => filter.indexOf(method) > -1)
+        );
+      })
+    );
+  }, [dataUpdatedAt, location.search]);
+
+  return isPending ? (
+    <>로딩중...</>
+  ) : (
+    <>
+      <SearchBar />
+      {apis && apis.map((api) => <ListItem key={api.path} data={api} />)}
+    </>
   );
-  // .filter((api) => api.path.indexOf(keyword) > -1)
 };
 
 export default ApiBox;

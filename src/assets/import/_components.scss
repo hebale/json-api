@@ -1,55 +1,110 @@
-// apibox
-.MuiAccordionSummary-root {
-  .MuiAccordionSummary-content {
-    gap: 30px;
-    align-items: flex-end;
+/* ApiBox Component */
+.paper-box .MuiAccordion-root {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 4px;
+  box-shadow: none;
+  &:before {
+    display: none;
+  }
+  &.Mui-selected {
+    // ma
+  }
+  + .MuiAccordion-root {
+    margin-top: 8px;
+  }
+  .MuiAccordionSummary-root {
+    border: none;
+    .MuiAccordionSummary-content {
+      gap: 20px;
+      align-items: flex-end;
 
-    .path-stack {
-      width: 100%;
-      gap: 4px;
-      padding: 8px 0 8px 16px;
-      font-size: 0.8rem;
-      flex-direction: column;
-      align-items: flex-start;
-      .MuiButtonGroup-root {
+      .path-stack {
         width: 100%;
-        border: 1px solid #c8c8c8;
-        button {
-          border: none;
-          color: #000;
-        }
-        .copy-button {
-          padding: 4px 6px;
-          border-right: 1px solid #c8c8c8;
-          border-radius: 4px 0 0 4px;
-          background: #f1f1f1;
-
-          & + button {
-            padding: 0 8px;
-            width: 100%;
-            justify-content: flex-start;
-            font-size: 0.9rem;
-            font-weight: 500;
+        font-size: 0.8rem;
+        flex-direction: column;
+        align-items: flex-start;
+        .MuiBox-root {
+          display: flex;
+          margin-bottom: 6px;
+          .MuiTypography-root {
+            margin-left: 8px;
           }
-          & + .MuiInputBase-root {
-            padding: 0 8px;
-            width: 100%;
-            input {
-              font-size: 0.9rem;
+          .MuiChip-root {
+            + .MuiChip-root {
+              margin-left: 4px;
             }
-            &:before,
-            &:after {
-              display: none;
+          }
+        }
+        .MuiButtonGroup-root {
+          width: 100%;
+          border: 1px solid #c8c8c8;
+          button {
+            border: none;
+            color: #000;
+          }
+          .copy-button {
+            padding: 4px 6px;
+            border-right: 1px solid #c8c8c8;
+            border-radius: 4px 0 0 4px;
+            background: $sub-color;
+
+            & + button {
+              padding: 0 8px;
+              width: 100%;
+              justify-content: flex-start;
+              font-size: 0.9rem;
+              font-weight: 500;
+            }
+            & + .MuiInputBase-root {
+              padding: 0 8px;
+              width: 100%;
+              input {
+                font-size: 0.9rem;
+              }
+              &:before,
+              &:after {
+                display: none;
+              }
             }
           }
         }
       }
-    }
 
-    & .ctrl-stack {
-      width: 84px;
-      flex-direction: row;
-      justify-content: space-between;
+      & .ctrl-stack {
+        width: 84px;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+  }
+  .MuiAccordionDetails-root {
+    padding: 0;
+    .MuiTabs-root {
+      min-height: 48px;
+    }
+  }
+}
+
+/* SearchBar Component */
+.search-bar {
+  width: 100%;
+  .MuiStack-root {
+    margin-bottom: 12px;
+    flex-direction: row;
+    .MuiToggleButtonGroup-root {
+      margin-right: 8px;
+      background: #fff;
+      .Mui-selected {
+        background: $point-color;
+        font-weight: 500;
+        color: #fff;
+      }
+    }
+    .MuiInputBase-root {
+      width: 100%;
+      min-width: 360px;
+      align-items: center;
     }
   }
 }

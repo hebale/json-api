@@ -28,13 +28,12 @@ const Main = () => {
 
   return (
     <Container className="container" maxWidth={false}>
-      <Header>
+      {/* <Header>
         <>
           <Typography>{`http://localhost:${process.env.SERVER_PORT}/`}</Typography>
           <SearchBar onSearch={onSearchApi} />
-          {/* <CreateApiDialog title={'API 등록'} /> */}
         </>
-      </Header>
+      </Header> */}
       <Divider />
       <Contents
         ribbon={
