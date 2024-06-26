@@ -111,24 +111,53 @@
     }
     .MuiTabPanel-root {
       position: relative;
-      padding: 12px 8px;
+      padding: 0;
       border: 1px solid $secondary-color;
       border-radius: 4px;
     }
   }
 }
 
+/* ApiBox 내부 headers-box */
+.headers-box {
+  > .MuiStack-root {
+    &:first-child {
+      padding: 8px 55px 6px 0;
+      margin-bottom: 6px;
+      justify-content: flex-end;
+      border-bottom: 1px solid $secondary-color;
+      border-radius: 4px 4px 0 0;
+      background: $secondary-variant;
+      color: rgba(0, 0, 0, 0.54);
+      .MuiTypography-root {
+        width: 64px;
+        font-size: 0.8rem;
+        text-align: center;
+        &:last-child {
+          margin-left: 8px;
+        }
+        + .MuiTypography-root {
+          width: 50%;
+        }
+      }
+    }
+  }
+}
 /* ApiBox 내부 mothod-box */
 .method-box {
   .MuiStack-root {
     &:first-child {
+      padding: 8px 12px 6px 0;
       margin-bottom: 6px;
       gap: 8px;
       justify-content: flex-end;
+      border-bottom: 1px solid $secondary-color;
+      border-radius: 4px 4px 0 0;
+      background: $secondary-variant;
+      color: rgba(0, 0, 0, 0.54);
       .MuiTypography-root {
         width: 95px;
         font-size: 0.8rem;
-        font-weight: 600;
         text-align: center;
         + .MuiTypography-root {
           margin-left: 0;
@@ -143,6 +172,7 @@
     }
   }
   .MuiStack-root.method-stack {
+    padding-right: 12px;
     .MuiOutlinedInput-root {
       .MuiInputBase-input::-webkit-inner-spin-button {
         opacity: 1;

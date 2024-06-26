@@ -1,4 +1,5 @@
 import { useContext, useCallback } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import MapInput, { MapData } from '~/features/MapInput';
 import { ApiContext } from '~/components/ApiBox/ListItem';
 import { ApiData } from '~/types/components';
@@ -62,7 +63,16 @@ const Headers = () => {
     }
   };
 
-  return <MapInput datas={headers} onChange={onChange} />;
+  return (
+    <Box className="headers-box">
+      <Stack direction="row">
+        <Typography>active</Typography>
+        <Typography>key</Typography>
+        <Typography>value</Typography>
+      </Stack>
+      <MapInput datas={headers} onChange={onChange} />
+    </Box>
+  );
 };
 
 export default Headers;

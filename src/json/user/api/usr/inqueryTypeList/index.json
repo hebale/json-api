@@ -1,7 +1,14 @@
 {
   "path": "/user/api/usr/inqueryTypeList",
   "description": "[셀렉트-GET] 문의구분 코드 검색",
-  "headers": [],
+  "headers": [
+    {
+      "uuid": "1719420447453",
+      "isActive": false,
+      "key": "ther",
+      "value": ""
+    }
+  ],
   "methods": {
     "GET": {
       "delay": 0,
@@ -39,5 +46,5 @@
     ]
   },
   "createdDate": "2024-06-18T10:55:25.590Z",
-  "updatedDate": "2024-06-26T08:23:44.648Z"
+  "updatedDate": "2024-06-26T16:47:33.494Z"
 }

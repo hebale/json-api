@@ -1,5 +1,7 @@
 /* MapInput */
 .MuiTableContainer-root.map-input {
+  padding: 0 6px 8px;
+  box-sizing: border-box;
   .MuiTableCell-root {
     border: none;
     .MuiStack-root {
@@ -13,22 +15,23 @@
     }
   }
   .MuiTableCell-root:first-child {
-    width: 40px;
+    width: 50px;
+    text-align: center;
   }
 }
 
 /* Monaco */
 .monaco-box {
   position: relative;
-  margin: -12px -8px 0;
-  width: calc(100% + 16px);
+  width: 100%;
   overflow: hidden;
   .editor-ribbon {
     z-index: -1;
-    padding: 6px 24px 0;
+    padding: 4px 24px 0;
     justify-content: flex-end;
     align-items: center;
     border-bottom: 1px solid $secondary-color;
+    border-radius: 4px 4px 0 0;
     background: $secondary-variant;
     .MuiButtonGroup-root {
       gap: 10px;
