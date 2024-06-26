@@ -17,7 +17,6 @@ export default {
       root: {
         padding: '0 4px',
         height: '22px',
-        border: '1px solid #ddd',
         borderRadius: '4px',
       },
       label: {
@@ -42,11 +41,18 @@ export default {
   MuiInputBase: {
     styleOverrides: {
       root: {
-        padding: '4px 8px',
+        padding: '6px 8px',
         input: {
           padding: 0,
         },
         background: '#fff',
+      },
+    },
+  },
+  MuiSelectBase: {
+    styleOverrides: {
+      root: {
+        padding: 0,
       },
     },
   },

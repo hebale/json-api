@@ -65,23 +65,9 @@ const Monaco = ({
   };
 
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        width: '100%',
-        py: children ? 0 : 3,
-        borderRadius: '4px',
-        overflow: 'hidden',
-        border: '1px solid #ddd',
-      }}
-    >
+    <Box className="monaco-box">
       {children && (
-        <Stack
-          flexDirection="row"
-          justifyContent="flex-end"
-          alignItems="center"
-          sx={{ zIndex: -1, borderRadius: '4px 4px 0 0' }}
-        >
+        <Stack className="editor-ribbon" flexDirection="row">
           {children}
         </Stack>
       )}

@@ -1,0 +1,40 @@
+/* MapInput */
+.MuiTableContainer-root.map-input {
+  .MuiTableCell-root {
+    border: none;
+    .MuiStack-root {
+      gap: 8px;
+      .MuiInputBase-root {
+        width: calc(50% - 24px);
+      }
+      > div {
+        width: 40px;
+      }
+    }
+  }
+  .MuiTableCell-root:first-child {
+    width: 40px;
+  }
+}
+
+/* Monaco */
+.monaco-box {
+  position: relative;
+  margin: -12px -8px 0;
+  width: calc(100% + 16px);
+  overflow: hidden;
+  .editor-ribbon {
+    z-index: -1;
+    padding: 6px 24px 0;
+    justify-content: flex-end;
+    align-items: center;
+    border-bottom: 1px solid $secondary-color;
+    background: $secondary-variant;
+    .MuiButtonGroup-root {
+      gap: 10px;
+    }
+    + section {
+      margin-top: 12px;
+    }
+  }
+}

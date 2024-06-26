@@ -1,4 +1,5 @@
-import React, { useCallback, useContext } from 'react';
+import { useCallback, useContext } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import { debounce } from '~/utils';
 import { patchApiMethod, putApiMethod, deleteApiMethod } from '~/api';
 import { ApiContext } from '~/components/ApiBox/ListItem';
@@ -58,13 +59,21 @@ const Methods = () => {
         );
   };
 
-  return methodNames.map((name) => {
-    const methodData = methods[name]
-      ? { name, isActive: true, ...methods[name] }
-      : { name, isActive: false, delay: 0, status: 200 };
+  return (
+    <Box className="method-box">
+      <Stack direction="row">
+        <Typography>delay</Typography>
+        <Typography>status</Typography>
+      </Stack>
+      {methodNames.map((name) => {
+        const methodData = methods[name]
+          ? { name, isActive: true, ...methods[name] }
+          : { name, isActive: false, delay: 0, status: 200 };
 
-    return <Method key={name} data={methodData} onChange={onChange} />;
-  });
+        return <Method key={name} data={methodData} onChange={onChange} />;
+      })}
+    </Box>
+  );
 };
 
 export default Methods;

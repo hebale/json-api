@@ -27,7 +27,8 @@ export type MapData = {
 };
 
 const createMapInput = () => ({
-  uuid: new Date().getTime(),
+  // uuid: crypto.randomUUID(),
+  uuid: String(new Date().getTime()),
   isActive: false,
   key: '',
   value: '',
@@ -84,16 +85,13 @@ const MapInput = ({ datas = [], onChange }: MapInputProps) => {
         });
 
         return mapData.length - 1 === index
-          ? changedMapData.concat(createMapInput())
+          ? changedMapData.concat(createMapInput() as MapData)
           : changedMapData;
       })()
     );
   };
 
   /* Change Row */
-  const onAddRow = () => {
-    setMapData(() => [...mapData, createMapInput()]);
-  };
   const onRemoveRow = (uuid: string) => {
     exportData(mapData.filter((data) => data.uuid !== uuid));
   };
@@ -108,15 +106,12 @@ const MapInput = ({ datas = [], onChange }: MapInputProps) => {
 
   return (
     <>
-      <TableContainer>
-        <Table
-          padding="none"
-          sx={{ '& .MuiTableCell-root': { p: 1, border: '1px solid #ddd' } }}
-        >
+      <TableContainer className="map-input">
+        <Table padding="none">
           <TableBody>
             {mapData.map(({ uuid, isActive, key, value }, index) => (
               <TableRow key={uuid}>
-                <TableCell sx={{ width: '40px' }}>
+                <TableCell>
                   <Checkbox
                     tabIndex={-1}
                     checked={isActive}
@@ -138,7 +133,6 @@ const MapInput = ({ datas = [], onChange }: MapInputProps) => {
                       onFocus={() => onFocusData(index * 2)}
                       onChange={(e) => onChangeData(e, uuid, 'key')}
                       onBlur={onBlurData}
-                      sx={{ width: 'calc(50% - 24px)' }}
                     />
                     <OutlinedInput
                       inputRef={(element) => {
@@ -152,9 +146,8 @@ const MapInput = ({ datas = [], onChange }: MapInputProps) => {
                       onFocus={() => onFocusData(index * 2 + 1)}
                       onChange={(e) => onChangeData(e, uuid, 'value')}
                       onBlur={onBlurData}
-                      sx={{ ml: 1, width: 'calc(50% - 24px)' }}
                     />
-                    <div style={{ width: '40px' }}>
+                    <div>
                       {mapData.length !== 1 && mapData.length - 1 !== index && (
                         <IconButton
                           tabIndex={-1}

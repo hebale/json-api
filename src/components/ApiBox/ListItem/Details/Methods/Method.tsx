@@ -2,7 +2,7 @@ import React, { useState, useEffect, memo } from 'react';
 import {
   Stack,
   Checkbox,
-  Input,
+  OutlinedInput,
   Select,
   MenuItem,
   Typography,
@@ -45,51 +45,47 @@ const Method = ({ data, onChange }: MethodProps) => {
   const onChangeStatus = (e: SelectChangeEvent<number>) =>
     methodData && exportData({ ...methodData, status: Number(e.target.value) });
 
-  return methodData ? (
-    <Stack
-      flexDirection="row"
-      justifyContent="space-between"
-      alignItems="center"
-    >
-      <Checkbox
-        tabIndex={-1}
-        checked={methodData.isActive}
-        onChange={(e) => onChangeUsage(e)}
-      />
-      <Typography>{methodData.name}</Typography>
-
-      <Stack direction="row" sx={{ ml: 'auto' }}>
-        <Input
-          type="number"
-          disabled={!methodData.isActive}
-          value={methodData.delay ?? 0}
-          inputProps={{
-            min: 0,
-            step: 500,
-          }}
-          sx={{
-            '& .MuiInputBase-input::-webkit-inner-spin-button': {
-              opacity: 1,
-            },
-          }}
-          onKeyDown={(e) => e.preventDefault()}
-          onChange={(e) => onChangeDelay(e)}
+  return (
+    methodData && (
+      <Stack
+        className="method-stack"
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Checkbox
+          tabIndex={-1}
+          checked={methodData.isActive}
+          onChange={(e) => onChangeUsage(e)}
         />
-        <Select
-          disabled={!methodData.isActive}
-          value={methodData.status ?? 200}
-          onChange={(e) => onChangeStatus(e)}
-        >
-          {statusCodes.map((code) => (
-            <MenuItem key={code} value={code}>
-              {code}
-            </MenuItem>
-          ))}
-        </Select>
+        <Typography>{methodData.name}</Typography>
+
+        <Stack direction="row">
+          <OutlinedInput
+            type="number"
+            disabled={!methodData.isActive}
+            value={methodData.delay ?? 0}
+            inputProps={{
+              min: 0,
+              step: 500,
+            }}
+            onKeyDown={(e) => e.preventDefault()}
+            onChange={(e) => onChangeDelay(e)}
+          />
+          <Select
+            disabled={!methodData.isActive}
+            value={methodData.status ?? 200}
+            onChange={(e) => onChangeStatus(e)}
+          >
+            {statusCodes.map((code) => (
+              <MenuItem key={code} value={code}>
+                {code}
+              </MenuItem>
+            ))}
+          </Select>
+        </Stack>
       </Stack>
-    </Stack>
-  ) : (
-    <>로딩중...</>
+    )
   );
 };
 

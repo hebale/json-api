@@ -12,6 +12,10 @@
     "undefined": {
       "isActive": false,
       "code": ""
+    },
+    "GET": {
+      "isActive": false,
+      "code": ""
     }
   },
   "response": {
@@ -35,5 +39,5 @@
     ]
   },
   "createdDate": "2024-06-18T10:55:25.590Z",
-  "updatedDate": "2024-06-18T23:55:18.418Z"
+  "updatedDate": "2024-06-26T08:23:44.648Z"
 }

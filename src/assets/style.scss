@@ -1,5 +1,9 @@
-$point-color: #303030;
-$sub-color: #f0f0f0;
+$point-color: magenta;
+$primary-color: #262626;
+$primary-variant: #666666;
+$secondary-color: #cbcbcb;
+$secondary-variant: #f2f2f2;
+$background: #fff;
 
 html,
 body {
@@ -20,4 +24,5 @@ body {
 }
 
 @import './import/layout';
+@import './import/_features';
 @import './import/_components';

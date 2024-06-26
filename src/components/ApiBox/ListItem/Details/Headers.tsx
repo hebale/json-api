@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import { useContext, useCallback } from 'react';
 import MapInput, { MapData } from '~/features/MapInput';
 import { ApiContext } from '~/components/ApiBox/ListItem';
 import { ApiData } from '~/types/components';
