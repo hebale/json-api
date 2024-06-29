@@ -1,7 +1,9 @@
 import React, { useRef, useCallback } from 'react';
 import { Box } from '@mui/material';
+
 import Editor, { useMonaco } from '@monaco-editor/react';
 import CircularProgress from '@mui/material/CircularProgress';
+
 import type { editor } from 'monaco-editor';
 import type { OnMount } from '@monaco-editor/react';
 
@@ -9,6 +11,12 @@ type ViewerProps = {
   language?: string;
   height?: number | 'auto';
   value: string;
+};
+
+const viewerStyle = {
+  '& .monaco-editor .view-overlays .current-line': {
+    display: 'none',
+  },
 };
 
 const Viewer = ({ language = 'json', height = 'auto', value }: ViewerProps) => {
@@ -37,14 +45,7 @@ const Viewer = ({ language = 'json', height = 'auto', value }: ViewerProps) => {
   };
 
   return (
-    <Box
-      sx={{
-        border: '1px solid #ddd',
-        '& .monaco-editor .view-overlays .current-line': {
-          display: 'none',
-        },
-      }}
-    >
+    <Box sx={viewerStyle}>
       <Editor
         loading={<CircularProgress thickness={5} />}
         defaultLanguage={language}

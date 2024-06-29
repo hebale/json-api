@@ -1,5 +1,6 @@
 import React from 'react';
 import { Stack, IconButton, Typography } from '@mui/material';
+
 import CopyAllIcon from '@mui/icons-material/CopyAll';
 import type { CopyButtonProps } from '~/types/features';
 
@@ -23,7 +24,6 @@ const CopyButton = ({
 
   return (
     <IconButton
-      className="copy-button"
       disabled={disabled}
       disableRipple={true}
       onClick={() => data && onCopyClipboard(data)}

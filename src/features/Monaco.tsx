@@ -2,17 +2,17 @@ import React, { useRef, useCallback } from 'react';
 import { Stack, Box } from '@mui/material';
 import Editor, { useMonaco } from '@monaco-editor/react';
 import CircularProgress from '@mui/material/CircularProgress';
+
 import type { editor } from 'monaco-editor';
 import type { Monaco, OnMount } from '@monaco-editor/react';
 
 type MonacoProps = {
   language?: string;
   height?: number | 'auto';
-  defaultValue?: string;
-  value?: string;
+  value: string;
   schemas?: any[];
   options?: editor.IStandaloneEditorConstructionOptions;
-  onChange?: (value: string) => void;
+  onChange?: (value?: string) => void;
   onValidate?: (marker: editor.IMarker[], value?: string) => void;
   children?: any;
 };
@@ -20,7 +20,6 @@ type MonacoProps = {
 const Monaco = ({
   language = 'json',
   height = 'auto',
-  defaultValue,
   value,
   schemas,
   options,
@@ -61,20 +60,31 @@ const Monaco = ({
   };
 
   const onChangeCode = () => {
-    onChange && onChange(editorRef.current?.getValue() as string);
+    onChange && onChange(editorRef.current?.getValue());
   };
 
   return (
-    <Box className="monaco-box">
+    <Box
+      sx={{
+        position: 'relative',
+        py: children ? 0 : 3,
+        borderRadius: '4px',
+        overflow: 'hidden',
+      }}
+    >
       {children && (
-        <Stack className="editor-ribbon" flexDirection="row">
+        <Stack
+          flexDirection="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          sx={{ zIndex: -1, borderRadius: '4px 4px 0 0' }}
+        >
           {children}
         </Stack>
       )}
       <Editor
         loading={<CircularProgress thickness={5} />}
         defaultLanguage={language}
-        defaultValue={defaultValue}
         value={value}
         beforeMount={onBeforeMount}
         onMount={onMount}

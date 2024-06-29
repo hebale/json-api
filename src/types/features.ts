@@ -15,27 +15,19 @@ export type DownloadFileProps = {
 export type JSONData = {
   path: string;
   description?: string | number;
-  headers: Header[];
-  methods:
-    | {
-        [key in 'GET' | 'POST' | 'PATCH' | 'PULL' | 'DELETE']: {
-          delay: number;
-          status: number;
-          callback: {
-            isActive: boolean;
-            code: string | null;
-          };
-        };
-      }
-    | {};
+  headers: {
+    [key: string]: string;
+  };
+  methods: {
+    method: 'GET' | 'POST' | 'PULL' | 'PATCH' | 'DELETE';
+    delay: number;
+    status: number;
+    code: {
+      isActive: boolean;
+      value: string | null;
+    };
+  }[];
   response: any;
-};
-
-export type Header = {
-  uuid: string;
-  isActive: boolean;
-  key: string;
-  value: string;
 };
 
 /**

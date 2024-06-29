@@ -92,8 +92,7 @@ json-api
 ## 이슈사항
 
 - Optimistic Update 에러 확인 필요
-- <!-- Headers 자동 폼태그 삽입 로직 제작필요(ex. postman) -->
-- MapInput default value 로직 제작
+- Headers 자동 폼태그 삽입 로직 제작필요(ex. postman)
 
 ### test
 
@@ -127,10 +126,9 @@ json-api
 
 3. 상세 UI
 
-   - update 행위가 일어나도 focus된 항목은 유지 (header)
+   - update 행위가 일어나도 focus된 항목은 유지
    - 동일한 key가 입력될시 onChange(x) 오류 표시
-   - 반복적인 호출로 인한 optimistic update 값이 오염되지 않음 ((처리)
-   -
+   - 반복적인 호출로 인한 optimistic update 값이 오염되지 않음
 
 4. 이슈사항
    - 리스트의 key값을 유지해야하는지 따로 업데이트가 필요한 값으로 대체할지 선택(ex. cryto.randomUUID());

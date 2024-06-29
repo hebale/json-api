@@ -1,54 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Divider, Typography } from '@mui/material';
+import { getAllApis } from '~/api';
 
 import Header from '~/layout/Header';
-import MenuBar from './MenuBar';
 import Contents from '~/layout/Contents';
-import SearchBar from '~/components/SearchBar';
 
-import ApiBox from '~/components/ApiBox';
-import CreateBox from '~/components/CreateBox';
-import PipelineBox from '~/components/PipelineBox';
-import LogBox from '~/components/LogBox';
+import ListItem from '~/components/ListItem';
+import SearchBar from '~/components/SearchBar';
 import CreateApiDialog from '~/dialog/CreateApiDialog';
 
-const itemsConfig = [
-  { key: 'api', component: <ApiBox /> },
-  { key: 'create', component: <CreateBox /> },
-  // { key: 'pipeline', component: <PipelineBox /> },
-  // { key: 'log', component: <LogBox /> },
-];
-
 const Main = () => {
-  const [menus, setMenus] = useState(['api']);
+  const { data, isPending, dataUpdatedAt } = getAllApis();
+  const [apis, setApis] = useState(data);
+  const [keyword, setKeyword] = useState('');
+
+  useEffect(() => {
+    setApis(data);
+  }, [dataUpdatedAt]);
 
   const onSearchApi = (str: string) => {
-    // console.log(str);
+    setKeyword(str);
   };
 
   return (
-    <Container className="container" maxWidth={false}>
-      {/* <Header>
-        <>
-          <Typography>{`http://localhost:${process.env.SERVER_PORT}/`}</Typography>
-          <SearchBar onSearch={onSearchApi} />
-        </>
-      </Header> */}
-      <Divider />
-      <Contents
-        ribbon={
-          <MenuBar
-            datas={itemsConfig.map((menu) => menu.key)}
-            onChange={setMenus}
-          />
-        }
-        items={menus.map(
-          (menu) =>
-            itemsConfig.filter((item) => {
-              return item.key === menu;
-            })[0]
-        )}
+    <Container maxWidth="md">
+      <Header
+        left={<SearchBar onSearch={onSearchApi} />}
+        right={<CreateApiDialog title={'API 등록'} />}
       />
+      <Divider />
+
+      {apis && (
+        <Contents
+          head={
+            <Typography>{`Base URL: http://localhost:${process.env.SERVER_PORT}/`}</Typography>
+          }
+          body={
+            isPending ? (
+              <>Pending....</>
+            ) : (
+              apis
+                .filter((api) => api.path.indexOf(keyword) > -1)
+                .map((api) => (
+                  <ListItem
+                    key={api.path}
+                    filter={keyword}
+                    data={api}
+                  ></ListItem>
+                ))
+            )
+          }
+        />
+      )}
     </Container>
   );
 };

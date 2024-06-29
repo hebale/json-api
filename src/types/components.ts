@@ -1,36 +1,24 @@
 /**
  * ApiListItem
  */
+export type Method = {
+  method: string;
+  delay: number;
+  status: number;
+  code: string;
+};
+
 export type Header = {
-  uuid: string;
+  id: number;
   isActive: boolean;
   key: string;
   value: string;
 };
 
-export type Methods = {
-  [key in 'GET' | 'POST' | 'PATCH' | 'PULL' | 'DELETE']: {
-    delay: number;
-    status: number;
-    callback: {
-      isActive: boolean;
-      code: string | null;
-    };
-  };
-};
-
-export type Pipeline = {
-  [key in 'GET' | 'POST' | 'PATCH' | 'PULL' | 'DELETE']: {
-    isActive: boolean;
-    value: string;
-  };
-};
-
 export type ApiData = {
   path: string;
-  description: string;
   headers: Header[];
-  methods: Methods;
+  methods: Method[];
   response: any;
   searchText?: string;
 };

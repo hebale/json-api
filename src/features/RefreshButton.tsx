@@ -1,5 +1,6 @@
 import React from 'react';
 import { Stack, IconButton, Typography } from '@mui/material';
+
 import RefreshIcon from '@mui/icons-material/Refresh';
 import type { RefreshButtonProps } from '~/types/features';
 

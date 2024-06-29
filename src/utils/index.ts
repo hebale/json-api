@@ -83,7 +83,7 @@ export const highlightMarker = (
 
 export const throttle = (cb: () => void, delay: number) => {};
 
-export const debounce = (cb: (...args: any) => void, delay: number) => {
+export const debounce = (cb: (data: any) => void, delay: number) => {
   let timer: ReturnType<typeof setTimeout> | null = null;
 
   return function (...args: any) {
@@ -100,8 +100,7 @@ export const debounce = (cb: (...args: any) => void, delay: number) => {
 };
 
 export const deepClone = (data: any) => {
-  if (typeof data !== 'object' || typeof data === 'function' || data === null)
-    return data;
+  if (typeof data !== 'object') return data;
 
   let base = Array.isArray(data) ? [] : {};
 
@@ -109,31 +108,4 @@ export const deepClone = (data: any) => {
     base[key] = deepClone(data[key]);
   }
   return base;
-};
-
-export const isSameData = (a: any, b: any) => {
-  let status = true;
-
-  const checkData = (a: any, b: any) => {
-    if (typeof a === 'function') {
-      if (a.toString() !== b.toString()) {
-        status = false;
-      }
-      return;
-    }
-    if (typeof a !== 'object' || a === null) {
-      if (a !== b) status = false;
-      return;
-    }
-    for (let key of Object.keys(a)) {
-      if (!b.hasOwnProperty(key)) {
-        status = false;
-        return;
-      }
-      checkData(a[key], b[key]);
-    }
-  };
-
-  checkData(a, b);
-  return status;
 };

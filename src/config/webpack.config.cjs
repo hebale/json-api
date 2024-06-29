@@ -62,12 +62,12 @@ const webpackConfig = (() => {
       //     { from: "./src/server.js", to: "./" },
       //   ],
       // }),
-      // new BundleAnalyzerPlugin({
-      //   analyzerMode: 'static',
-      //   reportFilename: 'bundle-repost.html',
-      //   openAnalyzer: false,
-      //   excludeAssets: [/node_modules/],
-      // }),
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        reportFilename: 'bundle-repost.html',
+        openAnalyzer: false,
+        excludeAssets: [/node_modules/],
+      }),
     ],
   };
 })();

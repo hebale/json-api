@@ -7,13 +7,17 @@ import {
   Tooltip,
   IconButton,
 } from '@mui/material';
+
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SaveIcon from '@mui/icons-material/Save';
+
 import CopyButton from '~/features/CopyButton';
 import Monaco from '~/features/Monaco';
+
 import useAlert from '~/hooks/useAlert';
 import schemas from '~/schema';
 import { getApi, putJson } from '~/api';
+
 import type { editor } from 'monaco-editor';
 
 type EditorProps = {

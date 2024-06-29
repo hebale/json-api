@@ -1,13 +1,15 @@
 import React from 'react';
 import { Stack, IconButton, Typography } from '@mui/material';
-import CodeIcon from '@mui/icons-material/Code';
+import SettingsIcon from '@mui/icons-material/Settings';
+
 import useAlert from '~/hooks/useAlert';
 import useModal from '~/hooks/useModal';
 import useDialog from '~/hooks/useDialog';
+
 import Contents from './Contents';
 import { deleteApi } from '~/api';
 
-const EditApiDialog = ({ title, path }: { title: string; path: string }) => {
+const EditApiDialog = ({ path }: { path: string }) => {
   const { openAlert } = useAlert();
   const { openModal } = useModal();
   const { openDialog } = useDialog();
@@ -15,7 +17,7 @@ const EditApiDialog = ({ title, path }: { title: string; path: string }) => {
 
   const open = () => {
     openDialog({
-      title: 'JSON',
+      title: 'JSON 수정',
       content: <Contents path={path} />,
       actions: [
         {
@@ -48,16 +50,16 @@ const EditApiDialog = ({ title, path }: { title: string; path: string }) => {
             }
           },
         },
-        // {
-        //   text: '저장',
-        //   onAction: (closeFn, contents) => {
-        //     console.log(contents);
-        //   },
-        // },
-        // {
-        //   text: '새로고침',
-        //   onAction: (closeFn) => closeFn(),
-        // },
+        {
+          text: '저장',
+          onAction: (closeFn, contents) => {
+            console.log(contents);
+          },
+        },
+        {
+          text: '새로고침',
+          onAction: (closeFn) => closeFn(),
+        },
         {
           text: '닫기',
           onAction: (closeFn) => closeFn(),
@@ -69,10 +71,8 @@ const EditApiDialog = ({ title, path }: { title: string; path: string }) => {
   return (
     <IconButton onClick={open} disableRipple={true}>
       <Stack sx={{ alignItems: 'center' }}>
-        <CodeIcon />
-        <Typography sx={{ fontSize: '0.6rem' }}>
-          {title ? title : 'Edit'}
-        </Typography>
+        <SettingsIcon />
+        <Typography sx={{ fontSize: '0.6rem' }}>Edit</Typography>
       </Stack>
     </IconButton>
   );

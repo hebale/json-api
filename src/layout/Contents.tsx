@@ -1,36 +1,18 @@
 import React from 'react';
-import { Grid, Paper, Stack, Box } from '@mui/material';
-import type { ReactElement } from 'react';
+import { Stack, Box } from '@mui/material';
 
-export type ContentsProps = {
-  ribbon?: ReactElement;
-  items?: item[];
-};
+import { ReactElement } from 'react';
+import type { ContentsProps } from '~/types/layout';
 
-export type item = {
-  key: string;
-  component: ReactElement;
-};
-
-const Contents = ({ ribbon, items }: ContentsProps) => {
+const Contents = ({ head, body }: ContentsProps) => {
   return (
-    <Stack id="contents" component="section">
-      {ribbon && <Box>{ribbon}</Box>}
-      <Grid spacing={2} container>
-        {items && items.length > 0 ? (
-          items.map(({ key, component }) => (
-            <Grid key={key} lg={12 / items.length} item>
-              <Paper className="paper-box" elevation={2}>
-                {component}
-              </Paper>
-            </Grid>
-          ))
-        ) : (
-          <Grid lg={12} item>
-            메뉴를 선택해주세요.
-          </Grid>
-        )}
-      </Grid>
+    <Stack id="contents">
+      {head && <Box>{head}</Box>}
+      {(body as ReactElement[]).length > 0 ? (
+        <Box>{body}</Box>
+      ) : (
+        <Box>검색결과가 없습니다.</Box>
+      )}
     </Stack>
   );
 };

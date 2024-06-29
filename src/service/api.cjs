@@ -1,7 +1,7 @@
 const $fs = require('fs');
 const $path = require('path');
 const { glob } = require('glob');
-const { format } = require('date-fns');
+
 const root = $path.resolve(process.cwd(), './src/json');
 
 const statusMessage = {
@@ -17,34 +17,12 @@ const statusMessage = {
   501: 'Not Implemented',
   505: 'HTTP Version Not Supported',
 };
-const clients = [];
 
 const api = ({ app }) => {
-  app.get('/sse', (_, res) => {
-    res.set({
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      Connection: 'keep-alive',
-      'Access-Control-Allow-Origin': '*',
-    });
-
-    clients.push(res);
-  });
-
-  // LOGIN TEST CODE
-  app.use('/keycloak', (req, res) => {
-    res.type('html');
-    res.sendFile($path.resolve(__dirname, '../../auth.html'));
-  });
-
-  // app.use('/auth', (req, res) => {
-  //   res.type('html');
-  //   res.sendFile($path.resolve(__dirname, '../../auth.html'));
-  // });
-
   app.use('/*', (req, res) => {
     try {
       const filePath = glob.sync(`${$path.join(root, req.baseUrl)}/index.json`);
+
       if (!filePath.length) throw { code: 404, message: statusMessage['404'] };
 
       const response = $fs.readFileSync(
@@ -56,46 +34,30 @@ const api = ({ app }) => {
       );
 
       const json = JSON.parse(response);
-      const settings = json.methods[req.method];
+      const settings = json.methods.filter(
+        ({ method }) => method === req.method
+      )[0];
 
       if (!settings) throw { code: 405, message: statusMessage['405'] };
 
       const { headers } = json;
       const { delay, status, code } = settings;
-      const data = code?.isActive
+      const data = code.isActive
         ? eval(code.value)(req, json.response)
         : json.response;
 
-      for (let i = 0; i < headers.length; i++) {
-        if (headers[i].isActive) {
-          const { key, value } = headers[i];
-          res.append(key, value);
-        }
+      for (let i = 0; i < Object.keys(headers).length; i++) {
+        const key = Object.keys(headers)[i];
+
+        res.append(key, headers[key]);
       }
 
-      clients.forEach((client) => {
-        const logData = {
-          ip: req.ip,
-          method: req.method,
-          path: req.baseUrl,
-          request: req.body,
-          response: data ?? [],
-          timeStamp: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-        };
-
-        client.write(
-          `id: ${new Date().getTime()}\nevent: log\ndata: ${JSON.stringify(
-            logData
-          )}\n\n`
-        );
-      });
-
       setTimeout(() => {
-        res.status(status).send(
-          // status,
-          // message: statusMessage[status],
-          status === 200 ? data : []
-        );
+        res.status(status).send({
+          status,
+          message: statusMessage[status],
+          ...(status === 200 && { data: data ?? [] }),
+        });
       }, delay);
     } catch (err) {
       res.status(err.code).send(err);

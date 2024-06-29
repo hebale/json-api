@@ -11,54 +11,26 @@ const hasDir = (path) => {
 };
 
 const root = $path.resolve(process.cwd(), './src/json');
+
 const getBasePath = (path) => $path.resolve(process.cwd(), `./src/json${path}`);
-const getJsonData = (path) => {
-  const response = $fs.readFileSync(`${path}/index.json`, {
-    encoding: 'utf-8',
-    flag: 'r',
-  });
-  return JSON.parse(response);
-};
-const setJsonData = (path, json) => {
-  $fs.writeFileSync(
-    $path.join(path, '/index.json'),
-    JSON.stringify(json, null, 2)
-  );
-};
-const removeEmptyFolder = (path) => {
-  const files = $fs.readdirSync(path);
-
-  if (path === root || files.length > 0) return;
-  $fs.rmdirSync(path);
-
-  const parentPath = $path.resolve(path, '..');
-  removeEmptyFolder(parentPath);
-};
-const createJson = (path, data) => {
-  if (hasDir(path)) return false;
-
-  $fs.mkdirSync(path, { recursive: true });
-  setJsonData(path, data);
-  return true;
-};
-const removeJson = (path) => {
-  try {
-    $fs.rmSync(`${path}/index.json`);
-    removeEmptyFolder(path);
-    return true;
-  } catch (err) {
-    return false;
-  }
-};
 
 const json = ({ app }) => {
-  app.get('/api/v1/json/all', async (_, res) => {
+  /**
+   * 모든 JSON 데이터 검색
+   */
+  app.get('/api/v1/all', async (_, res) => {
     try {
-      const filePaths = $glob.sync(`${root}/**/*.json`, { nodir: true });
-      const allJsons = [];
+      const jsonFilesPath = $glob.sync(`${root}/**/*.json`);
+      const allJson = [];
 
-      filePaths.forEach((filePath) => {
-        // const basePath = $path.resolve(process.cwd(), `./src/json${path}`);
+      if (_?.body?.error) {
+        res.status(500).send({
+          code: 500,
+          message: 'error 다',
+        });
+      }
+
+      jsonFilesPath.forEach((filePath) => {
         const response = $fs.readFileSync(
           $path.resolve(process.cwd(), filePath),
           {
@@ -68,13 +40,13 @@ const json = ({ app }) => {
         );
         const data = JSON.parse(response);
 
-        allJsons.push(data);
+        allJson.push(data);
       });
 
       res.send({
         code: 200,
         message: 'Ok',
-        data: allJsons,
+        data: allJson,
       });
     } catch (err) {
       res.status(500).send({
@@ -85,13 +57,20 @@ const json = ({ app }) => {
     }
   });
 
-  app.get('/api/v1/json/list', async (_, res) => {
+  /**
+   * 단일 JSON 데이터 검색
+   */
+  app.get('/api/v1/json', async (req, res) => {
     try {
-      const filePath = $glob.sync(`${root}/**/*.json`, { nodir: true });
-      const data = filePath.map((path) => {
-        const splited = path.split($path.sep);
-        return `/${splited.slice(2, splited.length - 1).join('/')}`;
-      });
+      const { path } = req.query;
+      const response = $fs.readFileSync(
+        $path.resolve(process.cwd(), `src/json${path}/index.json`),
+        {
+          encoding: 'utf-8',
+          flag: 'r',
+        }
+      );
+      const data = JSON.parse(response);
 
       res.send({
         code: 200,
@@ -107,7 +86,10 @@ const json = ({ app }) => {
     }
   });
 
-  app.get('/api/v1/json/download', (req, res) => {
+  /**
+   * 단일 JSON파일 다운로드
+   */
+  app.get('/api/v1/download', (req, res) => {
     try {
       const { path } = req.query;
       const basePath = getBasePath(path);
@@ -122,39 +104,21 @@ const json = ({ app }) => {
   });
 
   /**
-   * JSON API
+   * 단일 JSON파일 등록
    */
-  app.use('/api/v1/json', (req, res) => {
+  app.post('/api/v1/json', (req, res) => {
     try {
-      const { path, data } = req.body;
+      const { data } = req.body;
+      const basePath = getBasePath(data.path);
 
-      const basePath = (() => {
-        if (req.method === 'GET') return req.query.path;
-        return path ? getBasePath(path) : getBasePath(data.path);
-      })();
-
-      switch (req.method) {
-        case 'GET':
-          const jsonData = getJsonData(getBasePath(basePath));
-
-          return res.send({
-            code: 200,
-            message: 'Ok',
-            data: jsonData,
-          });
-
-        case 'POST':
-          data.createdDate = new Date().toISOString();
-        case 'PUT':
-          data.updatedDate = new Date().toISOString();
-
-          if (!createJson(basePath, data))
-            throw new Error('api create failed!');
-          break;
-        case 'DELETE':
-          if (!removeJson(basePath)) throw new Error('api remove failed');
-          break;
+      if (!hasDir(basePath)) {
+        $fs.mkdirSync(basePath, { recursive: true });
       }
+
+      $fs.writeFileSync(
+        `${basePath}/index.json`,
+        JSON.stringify(data, null, 2)
+      );
 
       res.send({
         code: 200,
@@ -169,90 +133,166 @@ const json = ({ app }) => {
   });
 
   /**
-   * JSON METHODS API
+   *  단일 JSON파일 headers값 수정
    */
-  app.use('/api/v1/json/:id', (req, res) => {
+  app.patch('/api/v1/json/headers', (req, res) => {
     try {
-      const { path, key, data } = req.body;
+      const { path, headers } = req.body;
+      if (!headers) throw new Error('data is not defined');
+
       const basePath = getBasePath(path);
-      const jsonData = getJsonData(basePath);
-      const id = req.params.id;
-      const isDataTypeArray = Array.isArray(jsonData[id]);
+      const response = $fs.readFileSync(`${basePath}/index.json`, {
+        encoding: 'utf-8',
+        flag: 'r',
+      });
+      const jsonData = JSON.parse(response);
 
-      switch (req.method) {
-        case 'POST':
-        case 'PUT':
-        case 'PATCH':
-          if (id === 'path') {
-            const filePath = $glob.sync(`${root}/**/*.json`, {
-              nodir: true,
-            });
-            const lists = filePath.map((path) => {
-              const splited = path.split($path.sep);
-              return `/${splited.slice(2, splited.length - 1).join('/')}`;
-            });
+      jsonData.headers = headers;
 
-            if (lists.indexOf(data) > -1) {
-              return res.status(400).send({
-                code: 400,
-                message: 'Bad Request',
-              });
-            }
+      $fs.writeFileSync(
+        $path.join(basePath, '/index.json'),
+        JSON.stringify(jsonData, null, 2)
+      );
 
-            createJson(getBasePath(data), { ...jsonData, path: data });
-            removeJson(basePath);
-            return;
-          }
-          setJsonData(basePath, {
-            ...jsonData,
-            updatedDate: new Date().toISOString(),
-            [id]: (() => {
-              if (id === 'headers') {
-                return [
-                  ...jsonData[id].slice(0, key),
-                  ...(req.method === 'POST' ? data : [data]),
-                  ...jsonData[id].slice(key + (req.method !== 'POST')),
-                ];
-              } else if (id === 'methods') {
-                return {
-                  ...jsonData[id],
-                  [key]: data,
-                };
-              } else {
-                return JSON.parse(data);
-              }
-            })(),
-            ...(!isDataTypeArray && {
-              pipeline: {
-                ...jsonData.pipeline,
-                [key]: { isActive: false, code: '' },
-              },
-            }),
-          });
-          break;
+      res.send({
+        code: 200,
+        message: 'Ok',
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: 'Internal Server Error',
+      });
+    }
+  });
 
-        case 'DELETE':
-          setJsonData(basePath, {
-            ...jsonData,
-            [id]: (() => {
-              if (id === 'headers') {
-                return [
-                  ...jsonData[id].slice(0, key),
-                  ...jsonData[id].slice(key + 1),
-                ];
-              } else {
-                delete jsonData[id][key];
-                delete jsonData.pipeline[key];
-                return jsonData[id];
-              }
-            })(),
-          });
-          break;
-        default:
-          res.status(400).send({
-            code: 400,
-            message: 'Bad Request',
-          });
+  /**
+   *  단일 JSON파일 methods값 수정
+   */
+  app.patch('/api/v1/json/methods', (req, res) => {
+    try {
+      const { path, method, delay, status } = req.body;
+      if (!method && (!delay || !status)) throw new Error('Unvalid Parameters');
+
+      const basePath = getBasePath(path);
+      const response = $fs.readFileSync(`${basePath}/index.json`, {
+        encoding: 'utf-8',
+        flag: 'r',
+      });
+      const jsonData = JSON.parse(response);
+
+      if (delay === 0 || delay) {
+        jsonData.methods = jsonData.methods.map((_) => {
+          if (_.method === method) _.delay = delay;
+          return _;
+        });
+      }
+
+      if (status) {
+        jsonData.methods = jsonData.methods.map((_) => {
+          if (_.method === method) _.status = status;
+          return _;
+        });
+      }
+
+      $fs.writeFileSync(
+        $path.join(basePath, '/index.json'),
+        JSON.stringify(jsonData, null, 2)
+      );
+
+      res.send({
+        code: 200,
+        message: 'Ok',
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: 'Internal Server Error',
+      });
+    }
+  });
+
+  /**
+   *  단일 JSON파일 response값 수정
+   */
+  app.patch('/api/v1/json/response', (req, res) => {
+    try {
+      const { path, response } = req.body;
+      if (!response) throw new Error('data is not defined');
+
+      const basePath = getBasePath(path);
+      const data = $fs.readFileSync(`${basePath}/index.json`, {
+        encoding: 'utf-8',
+        flag: 'r',
+      });
+      const jsonData = JSON.parse(data);
+
+      jsonData.response = JSON.parse(response);
+
+      $fs.writeFileSync(
+        $path.join(basePath, '/index.json'),
+        JSON.stringify(jsonData, null, 2)
+      );
+
+      res.send({
+        code: 200,
+        message: 'Ok',
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: 'Internal Server Error',
+      });
+    }
+  });
+
+  /**
+   * 단일 JSON파일 전체수정
+   */
+  app.put('/api/v1/json', (req, res) => {
+    try {
+      const { path, response } = req.body;
+      const basePath = getBasePath(path);
+
+      if (!hasDir(basePath)) {
+        $fs.mkdirSync(basePath, { recursive: true });
+      }
+
+      $fs.writeFileSync(
+        $path.join(basePath, '/index.json'),
+        JSON.stringify(response, null, 2)
+      );
+
+      res.send({
+        code: 200,
+        message: 'Ok',
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  /**
+   * 단일 JSON파일 삭제
+   */
+  app.delete('/api/v1/json', (req, res) => {
+    try {
+      const { path } = req.body;
+      if (!path) throw new Error('Unvalid Parameters');
+
+      $fs.rmSync($path.join(root, path, '/index.json'));
+
+      const fullPath = $path.join(root, path);
+      cleanFolder(fullPath);
+
+      function cleanFolder(path) {
+        const files = $fs.readdirSync(path);
+
+        if (path === root || files.length > 0) return;
+        $fs.rmdirSync(path);
+
+        const parentPath = $path.resolve(path, '..');
+        cleanFolder(parentPath);
       }
 
       res.send({
