@@ -6,9 +6,18 @@
     "POST": {
       "delay": 0,
       "status": 200
+    },
+    "GET": {
+      "delay": 0,
+      "status": 200
     }
   },
-  "pipeline": {},
+  "pipeline": {
+    "GET": {
+      "isActive": false,
+      "code": ""
+    }
+  },
   "response": [
     {
       "qnaNo": 223,
@@ -100,5 +109,5 @@
     }
   ],
   "createdDate": "2024-06-19T05:05:57.711Z",
-  "updatedDate": "2024-06-19T05:05:57.711Z"
+  "updatedDate": "2024-06-27T01:08:26.057Z"
 }

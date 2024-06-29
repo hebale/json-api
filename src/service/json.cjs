@@ -122,6 +122,53 @@ const json = ({ app }) => {
   });
 
   /**
+   * JSON API
+   */
+  app.use('/api/v1/json', (req, res) => {
+    try {
+      const { path, data } = req.body;
+
+      const basePath = (() => {
+        if (req.method === 'GET') return req.query.path;
+        return path ? getBasePath(path) : getBasePath(data.path);
+      })();
+
+      switch (req.method) {
+        case 'GET':
+          const jsonData = getJsonData(getBasePath(basePath));
+
+          return res.send({
+            code: 200,
+            message: 'Ok',
+            data: jsonData,
+          });
+
+        case 'POST':
+          data.createdDate = new Date().toISOString();
+        case 'PUT':
+          data.updatedDate = new Date().toISOString();
+
+          if (!createJson(basePath, data))
+            throw new Error('api create failed!');
+          break;
+        case 'DELETE':
+          if (!removeJson(basePath)) throw new Error('api remove failed');
+          break;
+      }
+
+      res.send({
+        code: 200,
+        message: 'Ok',
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: 'Internal Server Error',
+      });
+    }
+  });
+
+  /**
    * JSON METHODS API
    */
   app.use('/api/v1/json/:id', (req, res) => {
@@ -206,57 +253,6 @@ const json = ({ app }) => {
             code: 400,
             message: 'Bad Request',
           });
-      }
-
-      res.send({
-        code: 200,
-        message: 'Ok',
-      });
-    } catch (err) {
-      res.status(500).send({
-        code: 500,
-        message: 'Internal Server Error',
-      });
-    }
-  });
-
-  /**
-   * JSON API
-   */
-  app.use('/api/v1/json', (req, res) => {
-    try {
-      const { path, data } = req.body;
-      const basePath = path ? getBasePath(path) : getBasePath(data.path);
-
-      switch (req.method) {
-        case 'GET':
-          const jsonData = getJsonData(getBasePath(req.query.path));
-
-          return res.send({
-            code: 200,
-            message: 'Ok',
-            data: jsonData,
-          });
-
-        case 'POST':
-          data.createdDate = new Date().toISOString();
-        case 'PUT':
-          data.updatedDate = new Date().toISOString();
-          // if (!hasDir(basePath)) {
-          //   $fs.mkdirSync(basePath, { recursive: true });
-          // }
-          // setJsonData(basePath, data);
-
-          if (!createJson(basePath, data))
-            throw new Error('api create failed!');
-          break;
-
-        case 'DELETE':
-          // $fs.rmSync(`${basePath}/index.json`);
-          // removeEmptyFolder(basePath);
-
-          if (!removeJson(basePath)) throw new Error('api remove failed');
-          break;
       }
 
       res.send({

@@ -22,7 +22,9 @@ const ApiBox = () => {
         const { path, methods, description } = api;
         return (
           (path.indexOf(keyword) > -1 || description?.indexOf(keyword) > -1) &&
+          // (filter.indexOf('ALL') > -1 ||
           Object.keys(methods).some((method) => filter.indexOf(method) > -1)
+          // )
         );
       })
     );

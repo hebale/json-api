@@ -5,10 +5,18 @@
     "POST": {
       "delay": 0,
       "status": 200
+    },
+    "GET": {
+      "delay": 0,
+      "status": 200
     }
   },
   "pipeline": {
     "POST": {
+      "isActive": false,
+      "code": ""
+    },
+    "GET": {
       "isActive": false,
       "code": ""
     }
@@ -32,5 +40,5 @@
     }
   ],
   "createdDate": "2024-06-20T00:45:56.630Z",
-  "updatedDate": "2024-06-20T00:51:21.733Z"
+  "updatedDate": "2024-06-27T01:08:28.452Z"
 }

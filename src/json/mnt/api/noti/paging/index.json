@@ -8,7 +8,12 @@
       "status": 200
     }
   },
-  "pipeline": {},
+  "pipeline": {
+    "GET": {
+      "isActive": false,
+      "code": ""
+    }
+  },
   "response": {
     "resultLevel": null,
     "result": null,
@@ -168,5 +173,5 @@
     ]
   },
   "createdDate": "2024-06-19T05:36:19.135Z",
-  "updatedDate": "2024-06-19T05:36:19.135Z"
+  "updatedDate": "2024-06-27T01:12:00.603Z"
 }

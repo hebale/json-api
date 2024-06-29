@@ -6,6 +6,10 @@
     "POST": {
       "delay": 0,
       "status": 200
+    },
+    "GET": {
+      "delay": 0,
+      "status": 200
     }
   },
   "pipeline": {
@@ -14,6 +18,10 @@
       "code": ""
     },
     "undefined": {
+      "isActive": false,
+      "code": ""
+    },
+    "GET": {
       "isActive": false,
       "code": ""
     }
@@ -37,5 +45,5 @@
     }
   ],
   "createdDate": "2024-06-15T16:16:41.300Z",
-  "updatedDate": "2024-06-16T02:31:17.587Z"
+  "updatedDate": "2024-06-27T01:08:27.576Z"
 }

@@ -23,6 +23,7 @@ body {
   background: #f9f9f9;
 }
 
-@import './import/layout';
+@import './import/_layout';
 @import './import/_features';
 @import './import/_components';
+@import './import/_dialog';

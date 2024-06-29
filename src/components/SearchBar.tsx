@@ -47,6 +47,10 @@ const SearchBar = ({
     e: React.MouseEvent<HTMLElement>,
     newMethods: string[]
   ) => {
+    // if ((e.target as HTMLButtonElement).value === 'ALL') {
+    //   console.log(e);
+    // }
+
     if (!methods.every((method) => newMethods.indexOf(method) > -1)) {
       searchParam.set('methods', newMethods.join(','));
       setSearchParam(searchParam);

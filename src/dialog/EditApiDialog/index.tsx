@@ -15,7 +15,7 @@ const EditApiDialog = ({ title, path }: { title: string; path: string }) => {
 
   const open = () => {
     openDialog({
-      title: 'JSON 수정',
+      title: 'JSON',
       content: <Contents path={path} />,
       actions: [
         {
@@ -48,16 +48,16 @@ const EditApiDialog = ({ title, path }: { title: string; path: string }) => {
             }
           },
         },
-        {
-          text: '저장',
-          onAction: (closeFn, contents) => {
-            console.log(contents);
-          },
-        },
-        {
-          text: '새로고침',
-          onAction: (closeFn) => closeFn(),
-        },
+        // {
+        //   text: '저장',
+        //   onAction: (closeFn, contents) => {
+        //     console.log(contents);
+        //   },
+        // },
+        // {
+        //   text: '새로고침',
+        //   onAction: (closeFn) => closeFn(),
+        // },
         {
           text: '닫기',
           onAction: (closeFn) => closeFn(),

@@ -15,7 +15,7 @@ export const ApiDispatchContext = createContext<ApiDispatchProps>({
 });
 
 const ListItems = ({ data }: { data: ApiData }) => {
-  const [expand, setExpand] = useState(true);
+  const [expand, setExpand] = useState(false);
   const [api, setApi] = useState(data);
 
   useEffect(() => {

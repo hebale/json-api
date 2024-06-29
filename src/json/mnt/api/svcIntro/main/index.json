@@ -8,7 +8,12 @@
       "status": 200
     }
   },
-  "pipeline": {},
+  "pipeline": {
+    "GET": {
+      "isActive": false,
+      "code": ""
+    }
+  },
   "response": {
     "svcIntroNo": 0,
     "bfTtl": null,
@@ -111,5 +116,5 @@
     "totalCount": null
   },
   "createdDate": "2024-06-04T07:59:27.473Z",
-  "updatedDate": "2024-06-04T07:59:27.473Z"
+  "updatedDate": "2024-06-27T01:11:58.145Z"
 }

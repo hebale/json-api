@@ -8,7 +8,12 @@
       "status": 200
     }
   },
-  "pipeline": {},
+  "pipeline": {
+    "GET": {
+      "isActive": false,
+      "code": ""
+    }
+  },
   "response": {
     "faqNo": 74,
     "sysCd": "PT01",
@@ -22,5 +27,5 @@
     "updmanNo": 1
   },
   "createdDate": "2024-06-12T11:40:12.837Z",
-  "updatedDate": "2024-06-12T11:40:12.837Z"
+  "updatedDate": "2024-06-27T01:11:43.509Z"
 }

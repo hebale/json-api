@@ -61,7 +61,7 @@ const Monaco = ({
   };
 
   const onChangeCode = () => {
-    onChange && onChange(editorRef.current?.getValue());
+    onChange && onChange(editorRef.current?.getValue() as string);
   };
 
   return (

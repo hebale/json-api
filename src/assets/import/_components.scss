@@ -10,6 +10,9 @@
   &.Mui-selected {
     margin: 0;
   }
+  &.Mui-expanded {
+    margin: 0;
+  }
   + .MuiAccordion-root {
     margin-top: 8px;
   }
@@ -216,4 +219,10 @@
       align-items: center;
     }
   }
+}
+
+/* Dialog Component */
+.json-dialog {
+  border: 1px solid $secondary-color;
+  border-radius: 4px;
 }

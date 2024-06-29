@@ -6,10 +6,18 @@
     "POST": {
       "delay": 0,
       "status": 200
+    },
+    "GET": {
+      "delay": 0,
+      "status": 200
     }
   },
   "pipeline": {
     "undefined": {
+      "isActive": false,
+      "code": ""
+    },
+    "GET": {
       "isActive": false,
       "code": ""
     }
@@ -19,5 +27,5 @@
     "message": "success"
   },
   "createdDate": "2024-06-14T08:25:19.363Z",
-  "updatedDate": "2024-06-14T08:39:34.799Z"
+  "updatedDate": "2024-06-27T01:08:23.410Z"
 }
