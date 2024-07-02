@@ -1,14 +1,11 @@
-import React from 'react';
 import { Stack, IconButton, Typography } from '@mui/material';
 import CodeIcon from '@mui/icons-material/Code';
-import useAlert from '~/hooks/useAlert';
 import useModal from '~/hooks/useModal';
 import useDialog from '~/hooks/useDialog';
 import Contents from './Contents';
 import { deleteApi } from '~/api';
 
 const EditApiDialog = ({ title, path }: { title: string; path: string }) => {
-  const { openAlert } = useAlert();
   const { openModal } = useModal();
   const { openDialog } = useDialog();
   const { mutate } = deleteApi();
@@ -20,7 +17,6 @@ const EditApiDialog = ({ title, path }: { title: string; path: string }) => {
       actions: [
         {
           text: '삭제',
-          color: 'error',
           variant: 'contained',
           onAction: async (closeFn) => {
             const flag = await openModal({
@@ -30,34 +26,10 @@ const EditApiDialog = ({ title, path }: { title: string; path: string }) => {
             });
 
             if (flag) {
-              mutate(path, {
-                onSuccess: () => {
-                  openAlert({
-                    type: 'success',
-                    message: '삭제 되었습니다.',
-                  });
-                  closeFn();
-                },
-                onError: () => {
-                  openAlert({
-                    type: 'error',
-                    message: '삭제중 오류가 발생했습니다.',
-                  });
-                },
-              });
+              mutate({ path, callback: closeFn });
             }
           },
         },
-        // {
-        //   text: '저장',
-        //   onAction: (closeFn, contents) => {
-        //     console.log(contents);
-        //   },
-        // },
-        // {
-        //   text: '새로고침',
-        //   onAction: (closeFn) => closeFn(),
-        // },
         {
           text: '닫기',
           onAction: (closeFn) => closeFn(),

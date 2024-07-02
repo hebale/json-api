@@ -19,7 +19,7 @@ class Http {
   };
 
   constructor() {
-    this.port = `${process.env.SERVER_PORT}`;
+    this.port = `${process.env.PORT}`;
     this.headers = {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',

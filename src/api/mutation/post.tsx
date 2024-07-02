@@ -1,9 +1,7 @@
 import http from '~/api/http';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import queryKeys from '~/api/key';
-
 import useAlert from '~/hooks/useAlert';
-
 import type { ApiParam, ApiData, Header, Error } from '~/api';
 
 export const postApi = () => {
@@ -32,6 +30,7 @@ export const postApi = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.list });
     },
   });
 };

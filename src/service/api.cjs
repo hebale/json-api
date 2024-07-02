@@ -78,8 +78,11 @@ const api = ({ app }) => {
           ip: req.ip,
           method: req.method,
           path: req.baseUrl,
-          request: req.body,
-          response: data ?? [],
+          query: Object.keys(req.query)
+            .map((value) => `${value}=${req.query[value]}`)
+            .join('&'),
+          request: req.body ?? '',
+          response: data ?? '',
           timeStamp: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
         };
 

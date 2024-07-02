@@ -9,7 +9,7 @@ const service = require('./service/index.cjs');
 $dotenv.config({ path: $path.join(__dirname, '../', '.env') });
 
 const app = $express();
-const port = process.env.SERVER_PORT;
+const port = process.env.PORT ?? 8080;
 
 loader({ app });
 service({ app });
@@ -17,7 +17,7 @@ service({ app });
 const onServer = () => {
   app
     .listen(port, () => {
-      console.info($figlet.textSync('API-MAKER', { font: 'Slant' }));
+      console.info($figlet.textSync('API-MAKER-APP', { font: 'Slant' }));
     })
     .on('error', (err) => {
       console.error(err);

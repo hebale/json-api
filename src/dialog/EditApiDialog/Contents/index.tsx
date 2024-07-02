@@ -4,13 +4,14 @@ import Monaco from '~/features/Monaco';
 import CopyButton from '~/features/CopyButton';
 import SaveButton from '~/features/SaveButton';
 import RefreshButton from '~/features/RefreshButton';
-import { getApi } from '~/api';
+import { getApi, putApi } from '~/api';
 import schemas from '~/schema';
 import useAlert from '~/hooks/useAlert';
 import type { editor } from 'monaco-editor';
 
 const Contents = ({ path }: { path: string }) => {
-  const { data, isPending } = getApi(path);
+  const { data } = getApi(path);
+  const { mutate } = putApi();
   const [code, setCode] = useState(JSON.stringify(data, null, 2));
   const [isChanged, setIsChanged] = useState(false);
   const { openAlert } = useAlert();
@@ -40,7 +41,13 @@ const Contents = ({ path }: { path: string }) => {
       });
     }
 
-    mutate({ path, data: code });
+    mutate({
+      path,
+      data: JSON.parse(code),
+      callback: () => {
+        // console.log('callback edit JSON');
+      },
+    });
   };
 
   const onValidateCode = (makers: editor.IMarker[]) => {

@@ -20,11 +20,8 @@ import Monaco from '~/features/Monaco';
 const Form = () => {
   const { data: apiList } = getApiList();
   const [selectedApi, setSelectedApi] = useState<string>('none');
-  // cosnt [Method, ]
   const [apiData, setApiData] = useState<ApiData>();
-
   const { data } = getApi(selectedApi, { enabled: selectedApi !== 'none' });
-  // console.log(selectedApi !== 'none');
 
   useEffect(() => {
     if (data) setApiData(data);

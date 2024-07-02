@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stack, IconButton, Typography } from '@mui/material';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
 import type { CopyButtonProps } from '~/types/features';

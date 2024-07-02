@@ -1,0 +1,15 @@
+{
+  "path": "/gogo",
+  "headers": [],
+  "description": "",
+  "methods": {
+    "PUT": {
+      "delay": 0,
+      "status": 200
+    }
+  },
+  "pipeline": {},
+  "response": [],
+  "createdDate": "2024-07-01T17:18:24.058Z",
+  "updatedDate": "2024-07-01T17:18:24.058Z"
+}

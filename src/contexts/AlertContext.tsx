@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import Alerts from '~/features/Alerts';
 
 import type { ReactNode } from 'react';

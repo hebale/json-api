@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import Dialogs from '~/features/Dialogs';
 
 import type { ReactNode } from 'react';

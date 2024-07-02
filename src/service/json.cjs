@@ -58,7 +58,6 @@ const json = ({ app }) => {
       const allJsons = [];
 
       filePaths.forEach((filePath) => {
-        // const basePath = $path.resolve(process.cwd(), `./src/json${path}`);
         const response = $fs.readFileSync(
           $path.resolve(process.cwd(), filePath),
           {
@@ -113,53 +112,6 @@ const json = ({ app }) => {
       const basePath = getBasePath(path);
 
       res.sendFile(`${basePath}/index.json`);
-    } catch (err) {
-      res.status(500).send({
-        code: 500,
-        message: 'Internal Server Error',
-      });
-    }
-  });
-
-  /**
-   * JSON API
-   */
-  app.use('/api/v1/json', (req, res) => {
-    try {
-      const { path, data } = req.body;
-
-      const basePath = (() => {
-        if (req.method === 'GET') return req.query.path;
-        return path ? getBasePath(path) : getBasePath(data.path);
-      })();
-
-      switch (req.method) {
-        case 'GET':
-          const jsonData = getJsonData(getBasePath(basePath));
-
-          return res.send({
-            code: 200,
-            message: 'Ok',
-            data: jsonData,
-          });
-
-        case 'POST':
-          data.createdDate = new Date().toISOString();
-        case 'PUT':
-          data.updatedDate = new Date().toISOString();
-
-          if (!createJson(basePath, data))
-            throw new Error('api create failed!');
-          break;
-        case 'DELETE':
-          if (!removeJson(basePath)) throw new Error('api remove failed');
-          break;
-      }
-
-      res.send({
-        code: 200,
-        message: 'Ok',
-      });
     } catch (err) {
       res.status(500).send({
         code: 500,
@@ -253,6 +205,62 @@ const json = ({ app }) => {
             code: 400,
             message: 'Bad Request',
           });
+      }
+
+      res.send({
+        code: 200,
+        message: 'Ok',
+      });
+    } catch (err) {
+      res.status(500).send({
+        code: 500,
+        message: 'Internal Server Error',
+      });
+    }
+  });
+
+  /**
+   * JSON API
+   */
+  app.use('/api/v1/json', (req, res) => {
+    try {
+      const { path, data } = req.body;
+
+      const basePath = (() => {
+        if (req.method === 'GET') return req.query.path;
+        return path ? getBasePath(path) : getBasePath(data.path);
+      })();
+
+      switch (req.method) {
+        case 'GET':
+          const jsonData = getJsonData(getBasePath(basePath));
+
+          return res.send({
+            code: 200,
+            message: 'Ok',
+            data: jsonData,
+          });
+
+        case 'POST':
+          data.createdDate = new Date().toISOString();
+
+        case 'PATCH':
+          data.updatedDate = new Date().toISOString();
+          if (!createJson(basePath, data))
+            throw new Error('api create failed!');
+          break;
+
+        case 'PUT':
+          removeJson(basePath);
+          createJson(getBasePath(data.path), {
+            ...data,
+            updatedDate: new Date().toISOString(),
+          });
+
+          break;
+        case 'DELETE':
+          if (!removeJson(basePath)) throw new Error('api remove failed');
+          break;
       }
 
       res.send({

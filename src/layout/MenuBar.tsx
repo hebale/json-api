@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { Box, Stack, ToggleButtonGroup, ToggleButton } from '@mui/material';
 
 type MenuBarProps = {
   datas: string[];
@@ -22,7 +22,7 @@ const MenuBar = ({ datas = [], onChange }: MenuBarProps) => {
 
   return (
     datas.length > 1 && (
-      <Stack alignItems="center">
+      <Box className="menubar-box">
         <ToggleButtonGroup
           color="primary"
           value={menus}
@@ -30,11 +30,24 @@ const MenuBar = ({ datas = [], onChange }: MenuBarProps) => {
         >
           {datas.map((data) => (
             <ToggleButton key={data} value={data}>
-              ({menus.indexOf(data) + 1}) {data} {/* 레이아웃 순서 표시 */}
+              {data}
+              <Stack component="span">
+                {Array(datas.length)
+                  .fill(0)
+                  .map((_, index) => (
+                    <Box
+                      key={index}
+                      component="span"
+                      className={menus.indexOf(data) === index ? 'active' : ''}
+                    >
+                      {index + 1}
+                    </Box>
+                  ))}
+              </Stack>
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
-      </Stack>
+      </Box>
     )
   );
 };

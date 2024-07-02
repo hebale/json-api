@@ -9,7 +9,7 @@ export type Header = {
 };
 
 export type Methods = {
-  [key in 'GET' | 'POST' | 'PATCH' | 'PULL' | 'DELETE']: {
+  [key in 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE']: {
     delay: number;
     status: number;
     callback: {
@@ -20,7 +20,7 @@ export type Methods = {
 };
 
 export type Pipeline = {
-  [key in 'GET' | 'POST' | 'PATCH' | 'PULL' | 'DELETE']: {
+  [key in 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE']: {
     isActive: boolean;
     value: string;
   };

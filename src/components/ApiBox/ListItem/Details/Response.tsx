@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Box, ButtonGroup } from '@mui/material';
 import Monaco from '~/features/Monaco';
 import CopyButton from '~/features/CopyButton';
@@ -7,8 +7,9 @@ import RefreshButton from '~/features/RefreshButton';
 import { ApiContext } from '~/components/ApiBox/ListItem';
 import { ApiData } from '~/types/components';
 import useAlert from '~/hooks/useAlert';
-import { patchApiResponse } from '~/api';
+import { putApi } from '~/api';
 import type { editor } from 'monaco-editor';
+import schemas from '~/schema/response';
 
 const Response = () => {
   const { path, response } = useContext(ApiContext) as ApiData;
@@ -18,7 +19,7 @@ const Response = () => {
     Pick<editor.IMarker, 'endColumn' | 'endLineNumber' | 'message'>[]
   >([]);
 
-  const { mutate } = patchApiResponse();
+  const { mutate } = putApi();
   const { openAlert } = useAlert();
 
   useEffect(() => {
@@ -57,6 +58,7 @@ const Response = () => {
       <Monaco
         value={code}
         height={450}
+        schemas={schemas}
         onChange={(data) => setCode(data ?? '')}
         onValidate={(makers) => onValidateCode(makers)}
       >

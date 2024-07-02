@@ -44,7 +44,7 @@ const Monaco = ({
 
     (container as HTMLElement).style.height = `${contentHeight}px`;
 
-    editor.layout({ width: contentWidth, height: contentHeight });
+    editor.layout({ width: contentWidth - 1, height: contentHeight });
   }, [height]);
 
   const onBeforeMount = (monaco: Monaco) => {

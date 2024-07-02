@@ -8,6 +8,7 @@ export type ApiParam<T = undefined> = {
 
 export type ApiData = {
   path: string;
+  description: string;
   headers: Header[] | [];
   methods: { [key in MethodTypes]: Method } | {};
   pipeline: { [key in MethodTypes]: Pipeline } | {};

@@ -1,29 +1,37 @@
 import http from '~/api/http';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import queryKeys from '~/api/key';
-
 import useAlert from '~/hooks/useAlert';
-
 import type { ApiParam, ApiData, Header, Method, Error } from '~/api';
+
+type putApiProp = {
+  path: string;
+  data: ApiData;
+  callback?: () => void;
+};
 
 export const putApi = () => {
   const queryClient = useQueryClient();
   const { openAlert } = useAlert();
 
   return useMutation({
-    mutationFn: (param: ApiData) => http.put('api/v1/json', { body: param }),
-    onMutate: async (param: ApiData) => {
+    mutationFn: (param: putApiProp) => http.put('api/v1/json', { body: param }),
+    onMutate: async (param: putApiProp) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.all });
       const origin = queryClient.getQueryData(queryKeys.all);
 
       queryClient.setQueryData(queryKeys.all, (origin: ApiData[]) =>
         origin.map((api) => {
-          if (api.path === param.path) return param;
+          if (api.path === param.path) return param.data;
           return api;
         })
       );
 
       return { origin };
+    },
+    onSettled: (...args) => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.api(args[2].path) });
     },
     onError: (err: Error, _, context) => {
       queryClient.setQueryData(queryKeys.all, context?.origin);
@@ -32,8 +40,14 @@ export const putApi = () => {
         message: `오류가 발생했습니다.\nstatus: ${err.status}\nmessage: ${err.message}`,
       });
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    onSuccess: (_, param) => {
+      const { callback } = param;
+      callback && callback();
+
+      openAlert({
+        type: 'success',
+        message: 'API가 수정 되었습니다.',
+      });
     },
   });
 };
@@ -66,7 +80,7 @@ export const putApiHeader = () => {
 
       return { origin };
     },
-    onError: (err: { status: number; message: string }, _, context) => {
+    onError: (err: Error, _, context) => {
       queryClient.setQueryData(queryKeys.all, context?.origin);
       openAlert({
         type: 'error',
@@ -103,7 +117,7 @@ export const putApiMethod = () => {
 
       return { origin };
     },
-    onError: (err: { status: number; message: string }, _, context) => {
+    onError: (err: Error, _, context) => {
       queryClient.setQueryData(queryKeys.all, context?.origin);
       openAlert({
         type: 'error',

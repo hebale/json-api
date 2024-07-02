@@ -1,4 +1,4 @@
-import react, { useContext } from 'react';
+import { useContext } from 'react';
 import { AlertDispatchContext } from '~/contexts/AlertContext';
 
 import type { AlertProps } from '~/types/features';

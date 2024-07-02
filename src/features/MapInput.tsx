@@ -151,7 +151,7 @@ const MapInput = ({ datas = [], onChange }: MapInputProps) => {
                       {mapData.length !== 1 && mapData.length - 1 !== index && (
                         <IconButton
                           tabIndex={-1}
-                          color="error"
+                          // color="error"
                           onClick={() => onRemoveRow(uuid)}
                         >
                           <RemoveCircleIcon />

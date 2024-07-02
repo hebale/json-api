@@ -1,0 +1,15 @@
+{
+  "path": "/testgo223213",
+  "headers": [],
+  "description": "디스크립션으 어떻게 쓴다고?",
+  "methods": {
+    "GET": {
+      "delay": 0,
+      "status": 200
+    }
+  },
+  "pipeline": {},
+  "response": [],
+  "createdDate": "2024-07-02T05:36:45.638Z",
+  "updatedDate": "2024-07-02T06:08:58.197Z"
+}

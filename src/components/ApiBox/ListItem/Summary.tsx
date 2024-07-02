@@ -104,7 +104,7 @@ const Summary = ({ onToggleExpand }: { onToggleExpand: () => void }) => {
         <DownloadButton
           title="Down"
           url={`/api/v1/json/download?path=${path}`}
-          fileName={`api${path.split('/').join('_')}`}
+          fileName={`${path.split('/').join('_')}`}
         />
         <EditApiDialog title="JSON" path={path} />
       </Stack>

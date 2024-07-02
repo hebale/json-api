@@ -1,4 +1,4 @@
-$point-color: magenta;
+$point-color: #ff684d;
 $primary-color: #262626;
 $primary-variant: #666666;
 $secondary-color: #cbcbcb;
@@ -19,8 +19,9 @@ body {
   padding: 6px 12px;
 }
 
-#contents {
-  background: #f9f9f9;
+mark {
+  color: $background;
+  background: $primary-color;
 }
 
 @import './import/_layout';

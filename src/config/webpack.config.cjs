@@ -1,14 +1,34 @@
-const webpack = require('webpack');
+const os = require('os');
 const path = require('path');
 const dotenv = require('dotenv');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const CopyPligin = require("copy-webpack-plugin");
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const webpackConfig = (() => {
   dotenv.config({ path: path.join(process.cwd(), '.env') });
+
+  process.env.HOST =
+    process.env.HOST ||
+    (() => {
+      const interfaces = os.networkInterfaces();
+
+      for (let devName in interfaces) {
+        let iface = interfaces[devName];
+        for (let i = 0; i < iface.length; i++) {
+          let alias = iface[i];
+          if (
+            alias.family === 'IPv4' &&
+            alias.address !== '127.0.0.1' &&
+            !alias.internal
+          )
+            return alias.address;
+        }
+      }
+      return '0.0.0.0';
+    })();
 
   return {
     mode: 'development',
@@ -56,18 +76,12 @@ const webpackConfig = (() => {
         minify: false,
       }),
       new MiniCssExtractPlugin({ filename: './assets/style.min.css' }),
-      // new CopyPligin({
-      //   patterns: [
-      //     { from: "./src/server", to: "./server" },
-      //     { from: "./src/server.js", to: "./" },
-      //   ],
-      // }),
-      // new BundleAnalyzerPlugin({
-      //   analyzerMode: 'static',
-      //   reportFilename: 'bundle-repost.html',
-      //   openAnalyzer: false,
-      //   excludeAssets: [/node_modules/],
-      // }),
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        reportFilename: 'bundle-repost.html',
+        openAnalyzer: false,
+        excludeAssets: [/node_modules/],
+      }),
     ],
   };
 })();

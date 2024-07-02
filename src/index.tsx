@@ -1,4 +1,3 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
 import StyleProvider from '~/theme';
 import QueryProvider from '~/contexts/QeuryContext';

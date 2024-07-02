@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Box, Alert, Collapse } from '@mui/material';
 import { TransitionGroup } from 'react-transition-group';
 import {
@@ -27,7 +27,7 @@ const Alerts = () => {
 
           setTimeout(() => {
             close(id);
-          }, timer ?? 2000);
+          }, timer ?? 3500);
 
           return (
             <Collapse key={id}>

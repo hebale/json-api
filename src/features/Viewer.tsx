@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 import { Box } from '@mui/material';
 import Editor, { useMonaco } from '@monaco-editor/react';
 import CircularProgress from '@mui/material/CircularProgress';

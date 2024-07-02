@@ -1,22 +1,34 @@
-import React, { useRef } from 'react';
-import { Paper, Stack, Button, Typography } from '@mui/material';
+import { useRef, useState } from 'react';
+import { Box, Stack, Button, Tab, Typography } from '@mui/material';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 import RefreshButton from '~/features/RefreshButton';
 import Form from './Form';
+import Upload from './Upload';
 import useAlert from '~/hooks/useAlert';
 import { getApiList, postApi } from '~/api';
-import type { EventRef } from './Form';
+import type { EventRef, RefType } from './Form';
+
+const tabConfig = [
+  {
+    label: 'input',
+    component: (ref: RefType) => ref && <Form {...{ ref }} />,
+  },
+  {
+    label: 'upload',
+    component: (ref: RefType) => ref && <Upload {...{ ref }} />,
+  },
+];
 
 const CreateBox = () => {
-  const evnetRef = useRef<EventRef>();
+  const eventRef = useRef<EventRef>();
+  const [tabValue, setTabValue] = useState('input');
   const { openAlert } = useAlert();
   const { mutate: createApi } = postApi();
   const { data: pathLists } = getApiList();
-
-  const onRefreshForm = () => evnetRef.current?.resetFormData();
+  const onRefreshForm = () => eventRef.current?.resetFormData();
 
   const onCreateApi = () => {
-    const formData = evnetRef.current?.getFormData();
-
+    const formData = eventRef.current?.getFormData();
     if (!formData) return;
     if (!formData.path) {
       openAlert({
@@ -30,21 +42,32 @@ const CreateBox = () => {
       });
     } else {
       createApi({ data: formData });
-      evnetRef.current?.resetFormData();
+      eventRef.current?.resetFormData();
     }
   };
 
   return (
-    <>
-      <Stack direction="row" alignItems="center">
-        <RefreshButton onClick={onRefreshForm} />
+    <Box className="create-box">
+      <Stack>
+        <Typography>API 생성</Typography>
+        <RefreshButton title="Reset" onClick={onRefreshForm} />
         <Button variant="contained" onClick={onCreateApi}>
-          생성
+          등록
         </Button>
       </Stack>
-
-      <Form ref={evnetRef} />
-    </>
+      <TabContext value={tabValue}>
+        <TabList onChange={(e, value) => setTabValue(value)}>
+          {tabConfig.map(({ label }) => (
+            <Tab key={label} label={label} value={label} />
+          ))}
+        </TabList>
+        {tabConfig.map(({ label, component }) => (
+          <TabPanel key={label} value={label}>
+            {component(eventRef)}
+          </TabPanel>
+        ))}
+      </TabContext>
+    </Box>
   );
 };
 

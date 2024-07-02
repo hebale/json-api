@@ -1,52 +1,110 @@
 const schemas = [
   {
-    title: 'JSON-API',
-    descriptiion: '',
-    fileMatch: ['*.json'],
+    fileMatch: ['*'],
     schema: {
       type: 'object',
       properties: {
-        title: {
-          type: 'string',
-        },
-        description: {
-          type: 'string',
-        },
         path: {
           type: 'string',
           pattern: '((/([a-z0-9_-])+)+)(?![A-Z].)*',
         },
-        headers: {
-          type: 'object',
+        description: {
+          type: 'string',
         },
-        methods: {
+        headers: {
           type: 'array',
           items: {
+            type: 'object',
             properties: {
-              type: {
+              uuid: {
                 type: 'string',
-                enum: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+                uniqueItems: true,
               },
-              delay: {
-                type: 'number',
-                exclusiveMinimum: 0,
+              isActive: {
+                type: 'boolean',
               },
-              status: {
-                type: 'number',
+              key: {
+                type: 'string',
               },
-              code: {
+              value: {
                 type: 'string',
               },
             },
-            requierd: ['type', 'delay', 'status'],
+            propertyNames: {
+              enum: ['uuid', 'isActive', 'key', 'value'],
+            },
+            required: ['uuid', 'isActive', 'key', 'value'],
           },
-          minItems: 1,
         },
-        response: {
+        methods: {
           type: 'object',
+          patternProperties: {
+            'GET|POST|PATCH|PUT|DELETE': {
+              type: 'object',
+              properties: {
+                delay: {
+                  type: 'number',
+                  minimum: 0,
+                },
+                status: {
+                  type: 'number',
+                  enum: [200, 304, 400, 401, 403, 405, 408, 500, 501, 505],
+                },
+              },
+              propertyNames: {
+                enum: ['delay', 'status'],
+              },
+              required: ['delay', 'status'],
+            },
+          },
+          propertyNames: {
+            enum: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+          },
+        },
+        pipeline: {
+          type: 'object',
+          patternProperties: {
+            'GET|POST|PATCH|PUT|DELETE': {
+              type: 'object',
+              properties: {
+                isActive: {
+                  type: 'boolean',
+                },
+                code: {
+                  type: 'string',
+                },
+              },
+              propertyNames: {
+                enum: ['isActive', 'code'],
+              },
+              required: ['isActive', 'code'],
+            },
+          },
+          propertyNames: {
+            enum: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+          },
+        },
+        response: {},
+        createdDate: {
+          type: 'string',
+        },
+        updatedDate: {
+          type: 'string',
         },
       },
-      required: ['title', 'path', 'headers', 'methods', 'body'],
+      propertyNames: {
+        enum: [
+          'path',
+          'description',
+          'headers',
+          'methods',
+          'pipeline',
+          'response',
+          'createdDate',
+          'updatedDate',
+        ],
+      },
+      required: ['path'],
     },
   },
 ];

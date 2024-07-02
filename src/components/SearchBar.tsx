@@ -19,7 +19,7 @@ type ApiSearchBarProps = {
   onSearch?: (str: string) => void;
 };
 
-const methods = ['GET', 'POST', 'PATCH', 'PULL', 'DELETE'];
+const methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'];
 
 const SearchBar = ({
   autoSearch = false,
@@ -34,7 +34,9 @@ const SearchBar = ({
   useEffect(() => {
     const keyword = searchParam.get('search') ?? '';
     const filter = (
-      !!searchParam.get('methods') ? searchParam.get('methods')?.split(',') : []
+      !!searchParam.get('methods')
+        ? searchParam.get('methods')?.split(',')
+        : methods
     ) as string[];
 
     setSearchText(keyword);
@@ -47,10 +49,6 @@ const SearchBar = ({
     e: React.MouseEvent<HTMLElement>,
     newMethods: string[]
   ) => {
-    // if ((e.target as HTMLButtonElement).value === 'ALL') {
-    //   console.log(e);
-    // }
-
     if (!methods.every((method) => newMethods.indexOf(method) > -1)) {
       searchParam.set('methods', newMethods.join(','));
       setSearchParam(searchParam);

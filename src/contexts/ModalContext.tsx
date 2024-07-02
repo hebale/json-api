@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import Modals from '~/features/Modals';
 
 import type { ReactNode } from 'react';

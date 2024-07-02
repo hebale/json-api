@@ -28,6 +28,10 @@ export default {
     styleOverrides: {
       root: {
         border: '1px solid #ddd',
+        boxShadow: 'none',
+        '&:hover': {
+          boxShadow: 'none',
+        },
       },
     },
   },
@@ -46,6 +50,13 @@ export default {
           padding: 0,
         },
         background: '#fff',
+      },
+    },
+  },
+  MuiOutlinedInput: {
+    styleOverrides: {
+      root: {
+        padding: '6px 8px',
       },
     },
   },
@@ -69,6 +80,15 @@ export default {
         '&.Mui-expanded': {
           margin: 0,
           minHeight: 0,
+        },
+      },
+    },
+  },
+  MuiDialog: {
+    styleOverrides: {
+      root: {
+        '.MuiDialogTitle-root': {
+          paddingBottom: 0,
         },
       },
     },

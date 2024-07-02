@@ -1,7 +1,6 @@
 import http from '~/api/http';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import queryKeys from '~/api/key';
-
 import useAlert from '~/hooks/useAlert';
 import { deepClone } from '~/utils';
 import type { ApiParam, ApiData, Error } from '~/api';
@@ -11,8 +10,8 @@ export const deleteApi = () => {
   const { openAlert } = useAlert();
 
   return useMutation({
-    mutationFn: (param: Pick<ApiParam, 'path'>) =>
-      http.delete('/api/v1/json', { body: param }),
+    mutationFn: (param: Pick<ApiParam, 'path'> & { callback?: () => void }) =>
+      http.delete('/api/v1/json', { body: { path: param.path } }),
     onMutate: async (param: Pick<ApiParam, 'path'>) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.all });
       const origin = queryClient.getQueryData(queryKeys.all);
@@ -24,6 +23,9 @@ export const deleteApi = () => {
 
       return { origin };
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    },
     onError: (err: Error, _, context) => {
       queryClient.setQueryData(queryKeys.all, context?.origin);
       openAlert({
@@ -31,8 +33,14 @@ export const deleteApi = () => {
         message: `오류가 발생했습니다.\nstatus: ${err.status}\nmessage: ${err.message}`,
       });
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    onSuccess: (_, param) => {
+      const { callback } = param;
+      callback && callback();
+
+      openAlert({
+        type: 'success',
+        message: 'API가 삭제 되었습니다.',
+      });
     },
   });
 };

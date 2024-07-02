@@ -18,7 +18,7 @@ export type JSONData = {
   headers: Header[];
   methods:
     | {
-        [key in 'GET' | 'POST' | 'PATCH' | 'PULL' | 'DELETE']: {
+        [key in 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE']: {
           delay: number;
           status: number;
           callback: {

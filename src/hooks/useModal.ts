@@ -1,4 +1,4 @@
-import react, { useContext } from 'react';
+import { useContext } from 'react';
 import { ModalDispatchContext } from '~/contexts/ModalContext';
 
 import type { ModalProps } from '~/types/features';

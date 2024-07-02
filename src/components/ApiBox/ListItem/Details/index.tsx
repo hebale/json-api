@@ -27,13 +27,13 @@ const Details = () => {
     <AccordionDetails>
       <TabContext value={tabValue}>
         <TabList onChange={(e, value) => setTabValue(value)}>
-          {tabConfig.map((config) => (
-            <Tab key={config.label} label={config.label} value={config.label} />
+          {tabConfig.map(({ label }) => (
+            <Tab key={label} label={label} value={label} />
           ))}
         </TabList>
-        {tabConfig.map((config) => (
-          <TabPanel key={config.label} value={config.label}>
-            {config.component}
+        {tabConfig.map(({ label, component }) => (
+          <TabPanel key={label} value={label}>
+            {component}
           </TabPanel>
         ))}
       </TabContext>

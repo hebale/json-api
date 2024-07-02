@@ -8,20 +8,25 @@ import React, {
 } from 'react';
 import {
   Stack,
+  Box,
   FormGroup,
   FormLabel,
   FormControl,
   FormControlLabel,
-  Input,
+  OutlinedInput,
   Checkbox,
 } from '@mui/material';
 import MapInput, { MapData } from '~/features/MapInput';
 import Monaco from '~/features/Monaco';
 import { deepClone, debounce } from '~/utils';
 import useAlert from '~/hooks/useAlert';
+import schemas from '~/schema/response';
 import type { editor } from 'monaco-editor';
 import type { ApiData } from '~/api';
 
+export type RefType = {
+  ref: ForwardedRef<EventRef>;
+};
 export type EventRef = {
   resetFormData: () => void;
   getFormData: () => ApiData | void;
@@ -30,11 +35,12 @@ export type EventRef = {
 const defaultForm = {
   path: '',
   headers: [],
+  description: '',
   methods: {},
   pipeline: {},
 };
 
-const Form = (_: null, ref: ForwardedRef<EventRef>) => {
+const Form = (_: null, ref: RefType) => {
   const [formData, setFormData] =
     useState<Omit<ApiData, 'response'>>(defaultForm);
   const [response, setResponse] = useState<string>('[]');
@@ -50,7 +56,10 @@ const Form = (_: null, ref: ForwardedRef<EventRef>) => {
       },
       getFormData: () => {
         if (!markers?.length) {
-          return { ...formData, response: JSON.parse(response) };
+          return {
+            ...formData,
+            response: response ? JSON.parse(response) : '',
+          };
         }
 
         openAlert({
@@ -58,7 +67,7 @@ const Form = (_: null, ref: ForwardedRef<EventRef>) => {
           message: markers
             .map(
               ({ endLineNumber, endColumn, message }) =>
-                `${endLineNumber}:${endColumn} ${message}`
+                `등록에 실패했습니다.\n${endLineNumber}:${endColumn} ${message}`
             )
             .join('\n'),
         });
@@ -69,6 +78,9 @@ const Form = (_: null, ref: ForwardedRef<EventRef>) => {
 
   const onChangePath = (e: ChangeEvent<HTMLInputElement>) =>
     setFormData((prev) => ({ ...prev, path: e.target.value }));
+
+  const onChangeDescription = (e: ChangeEvent<HTMLInputElement>) =>
+    setFormData((prev) => ({ ...prev, description: e.target.value }));
 
   const onChangeHeader = useCallback(
     debounce(
@@ -99,7 +111,7 @@ const Form = (_: null, ref: ForwardedRef<EventRef>) => {
   };
 
   return (
-    <>
+    <Box className="form-box">
       <FormGroup>
         <FormLabel
           required
@@ -107,15 +119,31 @@ const Form = (_: null, ref: ForwardedRef<EventRef>) => {
         >
           Path
         </FormLabel>
-        <Input type="text" value={formData.path} onChange={onChangePath} />
+        <OutlinedInput
+          type="text"
+          value={formData.path}
+          onChange={onChangePath}
+        />
+      </FormGroup>
+      <FormGroup>
+        <FormLabel>Description</FormLabel>
+        <OutlinedInput
+          type="text"
+          value={formData.description}
+          onChange={onChangeDescription}
+          multiline={true}
+          minRows={2}
+        />
       </FormGroup>
       <FormGroup>
         <FormLabel>Headers</FormLabel>
-        <MapInput datas={formData.headers} onChange={onChangeHeader} />
+        <Box>
+          <MapInput datas={formData.headers} onChange={onChangeHeader} />
+        </Box>
       </FormGroup>
       <FormGroup>
         <FormLabel>Methods</FormLabel>
-        <Stack direction="row">
+        <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
           {['GET', 'POST', 'PATCH', 'PUT', 'DELETE'].map((method) => (
             <FormControl key={method} size="small">
               <FormControlLabel
@@ -137,11 +165,13 @@ const Form = (_: null, ref: ForwardedRef<EventRef>) => {
         <FormLabel>Response</FormLabel>
         <Monaco
           value={response}
+          height={260}
+          schemas={schemas}
           onChange={setResponse}
           onValidate={setMarkers}
         />
       </FormGroup>
-    </>
+    </Box>
   );
 };
 

@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { Box } from '@mui/material';
-
 import router from '~/router';
 
 const Layout = () => (

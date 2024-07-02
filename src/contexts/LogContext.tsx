@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 
 type LogData = {
   ip: string;
@@ -17,11 +17,10 @@ const LogProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const eventSource = new EventSource(`/sse`, { withCredentials: true });
     eventSource.addEventListener('open', (event) => {
-      console.log('sse connected!!');
+      console.info('SSE Connected!!');
     });
 
     eventSource.addEventListener('log', (event) => {
-      // console.log(JSON.parse(event.data));
       setLogs((prev) => [...prev, JSON.parse(event.data)]);
     });
 
